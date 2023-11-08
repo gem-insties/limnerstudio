@@ -13,6 +13,7 @@ metadata: {
     meta_title: "AAA",
     page_title: "System Page",
     description: "",
+    layout_name: "Form",
     canonical_url: "null",
     sitemap_order: "",
     open_graph_url: "",
@@ -25,8 +26,7 @@ metadata: {
     open_graph_description: "bbbbbb",
     sitemap_change_frequency: "",
     is_hidden_from_search_engines: "true",
-    layout_name: "Form",
 }
 --- 
 
-<p>{%- include 'modules/insites_forms/form_scripts' -%}</p><p></p><p>{%- include_form 'modules/ins_forms/blog' -%}</p>
+{%- include_form 'modules/ins_forms/blog' -%}
