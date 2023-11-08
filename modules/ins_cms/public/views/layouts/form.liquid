@@ -6,32 +6,32 @@ metadata: {
 --- 
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Switch</title>
-
+    <title>Hello World</title>
     <!-- Jquerry -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
-
     <!-- Font Icons -->
     <link rel="stylesheet" href="https://components.insites.io/v2/latest/css/insites-font-icons.css">
-
     <!-- Components -->
     <link rel="stylesheet" href="https://components.insites.io/v2/latest/css/insites.css" />
     <script type="module" src="https://components.insites.io/v2/latest/insites.esm.js"></script>
     <script nomodule src="https://components.insites.io/v2/latest/insites.js"></script>
-
     <!-- Notyf Plugin -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-
-
+  
+  	<!-- Form -->
+  	<link href="https://components.insites.io/v2/latest/css/insites-font-icons.css" rel="stylesheet" />
+	<link href="https://components.insites.io/v2/latest/css/insites.css" rel="stylesheet" />
+	<script type="module" src="https://components.insites.io/v2/latest/insites.esm.js"></script>
+	<script nomodule src="https://components.insites.io/v2/latest/insites.js"></script>
+	{%- include 'modules/insites_forms/form_scripts' -%}
 </head>
 <body>
-
+  {{ content_for_layout }}
 </body>
 </html>
