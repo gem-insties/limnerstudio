@@ -1,6 +1,8 @@
 ---
 metadata: {
+    created_by: "QA Console",
     layout_name: "Default",
+    last_updated_by: "QA Console",
 }
 ---
 
@@ -9,7 +11,9 @@ metadata: {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  
+   {%- include 'modules/insites_cms/seo' -%}
+  
 </head>
 <body>
     {{ content_for_layout }}
