@@ -1,6 +1,6 @@
 ---
 metadata: {
-    slug: "{{ context.exports.data.id }}",
+    slug: "{{ context.exports.data.item.name }}",
     layout: "details",
     page_slug: "blogs",
     created_by: "QA Console",
@@ -11,9 +11,7 @@ metadata: {
     open_graph_type: "{{ context.exports.data.id }}",
     meta_description: "{{ context.exports.data.item.name }}",
     open_graph_image: "{{ context.exports.data.id }}",
-    open_graph_title: "{{ context.exports.data.item.name }}",
     open_graph_site_name: "{{ context.exports.data.id }}",
-    open_graph_description: "{{ context.exports.data.item.name }}",
 }
 ---
 
