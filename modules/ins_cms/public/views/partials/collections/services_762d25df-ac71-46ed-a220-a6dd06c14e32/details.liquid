@@ -1,0 +1,30 @@
+---
+metadata: {
+    schema_content: "  {
+    \"@context\": \"http://schema.org\",
+    \"@type\": \"Brand\",
+    \"logo\": \"https://static.jepto.com/image/logo.svg\",
+    \"description\": \"{{ context.exports.data.item.name }}\"
+  }",
+    open_graph_title: "{{ context.exports.data.item.name }}",
+    canonical_url: "https://gem-iia-console-ver-5p2p0.staging.oregon.platform-os.com/services/{{ context.exports.data.item.name }}",
+    meta_title: "{{ context.exports.data.item.name }}",
+    meta_description: "{{ context.exports.data.item.new_field }}",
+    open_graph_description: "{{ context.exports.data.item.new_field }}",
+    is_sitemap_enabled: "true",
+    sitemap_priority: "1",
+    sitemap_order: "2",
+    sitemap_change_frequency: "always",
+    slug: "{{ context.exports.data.item.name }}",
+    page_title: "{{ context.exports.data.item.name }}",
+    is_visible_to_search_engines: "true",
+    open_graph_image: "https://assets-global.website-files.com/5d074f688518921b7700284e/62df7968ba58432ea671f968_insites.png",
+    open_graph_url: "https://gem-iia-console-ver-5p2p0.staging.oregon.platform-os.com/services/{{ context.exports.data.item.name }}",
+    open_graph_site_name: "Website | Services | {{ context.exports.data.item.name }}",
+    open_graph_type: "Website",
+    page_slug: "services",
+    layout: "details",
+}
+---
+
+<h1>{{ context.exports.data.item.name }}</h1>
