@@ -1,14 +1,18 @@
 ---
 slug: services
 layout: modules/ins_cms/public/views/layouts/default.liquid
+redirect_to: {%- include "modules/insites_cms/databases_layouts/page_redirect_to" -%}
 redirect_code: MOVED_PERMANENTLY
+max_deep_level: 3
+authorization_policies:
 metadata: {
     page_name: "Services",
     database_id: "1438731",
     source_name: "modules/ins_databases/services",
+    last_updated_by: "Gem Villafuerte",
+    is_auth_policy_enabled: "true",
     is_list_layout_enabled: "true",
     is_details_layout_enabled: "true",
-    is_auth_policy_enabled: "true",
 }
 --- 
 
