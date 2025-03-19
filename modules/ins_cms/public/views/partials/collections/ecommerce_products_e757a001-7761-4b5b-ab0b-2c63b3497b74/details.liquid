@@ -1,0 +1,37 @@
+---
+metadata: {
+    slug: "{{ context.exports.data.item.slug }}",
+    layout: "details",
+    page_slug: "ecommerce-products",
+    created_by: "QA Console",
+    meta_title: "Website | {{ context.exports.data.item.product_name }}",
+    page_title: "Website | {{ context.exports.data.item.product_name }}",
+    canonical_url: "https://iia-uat.staging.oregon.platform-os.com/ecommerce-products/{{ context.exports.data.item.slug }}",
+    sitemap_order: "76",
+    open_graph_url: "https://iia-uat.staging.oregon.platform-os.com/ecommerce-products/{{ context.exports.data.item.slug }}",
+    schema_content: "<script type=\"application/ld+json\">
+	{
+      	\"@context\": \"http://schema.org\",
+        \"@type\": \"Brand\",
+        \"logo\": \"https://cdn.prod.website-files.com/5d074f688518921b7700284e/64d5a764100b80bd164f88aa_ins-logo-black.svg\",
+        \"description\": \"{{ context.exports.data.page.product_name }}\"
+    }
+</script>",
+    last_updated_by: "QA Insites",
+    open_graph_type: "website",
+    meta_description: "Explore detailed information about {{ context.exports.data.item.product_name }}. Find specifications, features, and user reviews to understand why this product is right for you. Enjoy high-quality images and an easy purchase process to enhance your shopping experience.",
+    open_graph_image: "{{ context.exports.data.item.open_graph_image }}",
+    open_graph_title: "Website | {{ context.exports.data.item.product_name }}",
+    sitemap_priority: ".76",
+    is_image_database: "true",
+    is_sitemap_enabled: "true",
+    open_graph_site_name: "Website | {{ context.exports.data.item.product_name }}",
+    open_graph_description: "Explore detailed information about {{ context.exports.data.item.product_name }}. Find specifications, features, and user reviews to understand why this product is right for you. Enjoy high-quality images and an easy purchase process to enhance your shopping experience.",
+    sitemap_change_frequency: "monthly",
+    is_visible_to_search_engines: "true",
+}
+---
+
+{%- include 'modules/insites_ecommerce/seo' -%}
+
+<p>Products details page {{ context.exports.data.item.product_name }}</p>
