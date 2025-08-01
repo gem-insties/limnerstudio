@@ -1,8 +1,53 @@
 ---
 slug: gallery-test
+max_deep_level: 3
+authorization_policies:
 metadata: {
     page_name: "gallery test",
+    created_by: "Ezekiel Mojica",
     page_title: "gallery test",
+    last_updated_by: "Ezekiel Mojica",
 }
 --- 
 
+<!doctype html>
+<html class="no-js" lang="en">
+    
+<head>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+    <!-- Font Icons -->
+    <link rel="stylesheet" href="https://components.insites.io/v2/latest/css/insites-font-icons.css">
+
+    <!-- Components -->
+     <link rel="stylesheet" href="{{ 'modules/insites_core/components/css/insites.css' | asset_url }}" />
+      <script type="module" src="{{ 'modules/insites_core/components/insites.esm.js' | asset_url }}"></script>
+      <script nomodule src="{{ 'modules/insites_core/components/insites.js' | asset_url }}"></script>
+</head>
+<body>
+    <ins-gallery 
+  thumbnail-layout="slider">
+
+   <ins-gallery-image
+    thumbnail="https://uploads.prod01.sydney.platformos.com/instances/630/property_uploads/modules/insites_assets/assets_upload/asset/e9da5e14-1172-4fef-9268-4142a55c90a7/t1.jpg?updated=1722590369"
+    image="https://uploads.prod01.sydney.platformos.com/instances/630/property_uploads/modules/insites_assets/assets_upload/asset/eda7d8ce-1e7d-4618-93ce-481fcdb8712b/1.jpg?updated=1722590364">
+  </ins-gallery-image>
+
+  <ins-gallery-image
+    thumbnail="https://uploads.prod01.sydney.platformos.com/instances/630/property_uploads/modules/insites_assets/assets_upload/asset/eddbcc27-8497-4d9c-aa32-982ce778ff9a/t2.jpg?updated=1722590370"
+    image="https://uploads.prod01.sydney.platformos.com/instances/630/property_uploads/modules/insites_assets/assets_upload/asset/391f34de-ff82-417f-ad0d-4a05f2ecb3ec/2.jpg?updated=1722590365">
+  </ins-gallery-image>
+
+  <ins-gallery-image
+    thumbnail="https://uploads.prod01.sydney.platformos.com/instances/630/property_uploads/modules/insites_assets/assets_upload/asset/3adab618-fc83-432b-8548-cbb6db4c115d/t3.jpg?updated=1722590372"
+    image="https://uploads.prod01.sydney.platformos.com/instances/630/property_uploads/modules/insites_assets/assets_upload/asset/95bc68c2-a6e6-4800-8489-bd04394f6c11/3.jpg?updated=1722590366">
+  </ins-gallery-image>
+
+  <ins-gallery-image
+    thumbnail="https://uploads.prod01.sydney.platformos.com/instances/630/property_uploads/modules/insites_assets/assets_upload/asset/d3cf37dd-de54-4397-814a-5ea45706405a/4.jpg?updated=1722590368"
+    image="https://uploads.prod01.sydney.platformos.com/instances/630/property_uploads/modules/insites_assets/assets_upload/asset/547a24d4-6ee7-4ddf-af89-5326bd867773/t4.jpg?updated=1722590373">
+  </ins-gallery-image>
+
+</ins-gallery>
+</body>
