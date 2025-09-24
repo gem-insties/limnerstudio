@@ -1,0 +1,91 @@
+---
+slug: api-test
+max_deep_level: 3
+authorization_policies:
+metadata: {
+    page_name: "API Testttttt",
+    created_by: "Ezekiel Mojica",
+    page_title: "test",
+    last_updated_by: "Ezekiel Mojica",
+}
+--- 
+
+{% parse_json params %}
+
+{ 
+	"prefix" :"Ms.",
+
+	"first_name" :"From Controller",
+
+	"last_name" :"Updated",
+
+	"gender" :"female",
+
+	"birth_date" :"1985-07-20",
+
+	"nationality" :"CA",
+
+	"job_title" :"Marketing Manager",
+
+	"company.uuid" :"abcdef12-3456-7890-abcd-ef1234567890",
+
+	"email" :"test.smith@example.com",
+
+	"email_2" :"jane.e.smith@example.com",
+
+	"work_phone_country_code" :"1",
+
+	"work_phone_number" :"555-1111",
+
+	"home_phone_country_code" :"1",
+
+	"home_phone_number" :"555-2222",
+
+	"mobile_phone_country_code" :"1",
+
+	"mobile_phone_number" :"555-3333",
+
+	"default_address.uuid" :"zxyw9876-vuts-5432-10rq-ponmlkjihedc",
+
+	"assigned_to.uuid" :"f0e1d2c3-b4a5-6789-0abc-def123456789",
+
+	"type.uuid" :"type-uuid-example",
+
+	"category.uuid" :"category-uuid-example",
+
+	"lead_source.uuid" :"lead-source-uuid-example",
+
+	"facebook_link" :"https://facebook.com/janesmith",
+
+	"twitter_link" :"https://twitter.com/janesmith",
+
+	"youtube_link" :"",
+
+	"linkedin_link" :"https://linkedin.com/in/janesmith",
+
+	"instagram_link" :"https://instagram.com/janesmith",
+
+	"snapchat_link" :"",
+
+	"social_1_link" :"",
+
+	"social_2_link" :"",
+
+	"has_alert_message_on_view" :true,
+
+	"alert_message_on_view" :"VIP Client",
+
+	"has_alert_message_on_edit" :false,
+
+	"alert_message_on_edit" :"",
+
+	"notes" :"Key contact for product launch.",
+
+	"stripe_id" :"cus_XYZ987654321",
+
+	"owner_company.uuid" :"ea7570fd-453c-4be8-a994-c2d0fde0205b"
+ }
+
+{% endparse_json %}
+
+ {% include "crm/contacts/create", params: params %}
