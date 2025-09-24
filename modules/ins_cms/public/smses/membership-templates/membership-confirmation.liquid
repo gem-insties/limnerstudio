@@ -1,0 +1,14 @@
+---
+to: +610000000000
+delay_by: {{ "now" | time_diff: "tomorrow 10am", "minutes" | round }}
+trigger_condition: {{ "now" | time_diff: "tomorrow 10am", "minutes" | round }}
+metadata: {
+    locale: "en",
+    sms_name: "Membership Confirmation",
+    test_data: "{\"key\":\"My Membership Platform\"}",
+    created_by: "QA Console",
+    last_updated_by: "Gem Villafuerte",
+}
+--- 
+
+Welcome to {{form.properties.key}}! Your membership registration is confirmed. For any support, feel free to reach out. We're excited to have you with us!"
