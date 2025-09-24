@@ -1,0 +1,16 @@
+---
+slug: ecommerce-orders
+layout: modules/ins_cms/home-page.liquid
+redirect_to: {%- include "modules/insites_cms/databases_layouts/page_redirect_to" -%}
+max_deep_level: 3
+authorization_policies:
+metadata: {
+    page_name: "Ecommerce Orders",
+    source_name: "modules/insites_ecommerce/order",
+    last_updated_by: "QA Console",
+    is_list_layout_enabled: "true",
+    is_details_layout_enabled: "true",
+}
+--- 
+
+{%- include 'modules/insites_cms/databases_layouts/page_content' -%}
