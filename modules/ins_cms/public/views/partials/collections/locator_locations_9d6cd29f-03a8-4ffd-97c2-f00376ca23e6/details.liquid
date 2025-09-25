@@ -1,0 +1,41 @@
+---
+metadata: {
+    slug: "{{ context.exports.data.item.slug }}",
+    layout: "details",
+    page_slug: "locator-locations",
+    created_by: "QA Console",
+    meta_title: "Website | {{ context.exports.data.item.location_name }} aa",
+    page_title: "Website | {{ context.exports.data.item.location_name }}",
+    canonical_url: "https://iia-uat.staging.oregon.platform-os.com/locator-locations{{ context.exports.data.item.slug }}",
+    sitemap_order: "8",
+    open_graph_url: "https://iia-uat.staging.oregon.platform-os.com/locator-locations{{ context.exports.data.item.slug }}",
+    schema_content: "<script type=\"application/ld+json\">
+	{
+      	\"@context\": \"http://schema.org\",
+        \"@type\": \"Brand\",
+        \"logo\": \"https://cdn.prod.website-files.com/5d074f688518921b7700284e/64d5a764100b80bd164f88aa_ins-logo-black.svg\",
+        \"description\": \"{{ context.exports.data.id }}\"
+    }
+</script>",
+    last_updated_by: "Ezekiel Mojica",
+    open_graph_type: "website",
+    meta_description: "Discover in-depth information about {{ context.exports.data.item.location_name }}, including its history, attractions, and visitor tips. Get all the details you need to make the most of your visit to this unique destination. aa",
+    open_graph_image: "{{ context.exports.data.id }}",
+    open_graph_title: "Website | {{ context.exports.data.item.location_name }} aa",
+    sitemap_priority: ".8",
+    is_image_database: "true",
+    is_sitemap_enabled: "true",
+    open_graph_site_name: "Website | {{ context.exports.data.item.location_name }}",
+    open_graph_description: "Discover in-depth information about {{ context.exports.data.item.location_name }}, including its history, attractions, and visitor tips. Get all the details you need to make the most of your visit to this unique destination. aa",
+    sitemap_change_frequency: "weekly",
+    is_visible_to_search_engines: "true",
+}
+---
+
+{%- include 'modules/insites_locator/seo', type: 'location'-%}
+<p>Location details page&nbsp;{{ context.exports.data.item.location_name }}</p>
+{{ context.exports.data.item.open_graph_image }}
+{% assign current_url = context.location.pathname %}
+{% if current_url == '/locator-locations/prism-tower' %}
+	{% redirect_to '/', status: 301 %}
+{% endif %}
