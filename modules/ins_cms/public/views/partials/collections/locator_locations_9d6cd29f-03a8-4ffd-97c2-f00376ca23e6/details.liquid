@@ -17,7 +17,7 @@ metadata: {
         \"description\": \"{{ context.exports.data.id }}\"
     }
 </script>",
-    last_updated_by: "Ezekiel Mojica",
+    last_updated_by: "Gem Villafuerte",
     open_graph_type: "website",
     meta_description: "Discover in-depth information about {{ context.exports.data.item.location_name }}, including its history, attractions, and visitor tips. Get all the details you need to make the most of your visit to this unique destination. aa",
     open_graph_image: "{{ context.exports.data.id }}",
@@ -32,9 +32,9 @@ metadata: {
 }
 ---
 
-{%- include 'modules/insites_locator/seo', type: 'location'-%}
-<p>Location details page&nbsp;{{ context.exports.data.item.location_name }}</p>
-{{ context.exports.data.item.open_graph_image }}
+<h1>Location details page</h1>
+<p>{{ context.exports.data.item.location_name }}</p>
+<img src="{{ context.exports.data.item.open_graph_image }}">
 {% assign current_url = context.location.pathname %}
 {% if current_url == '/locator-locations/prism-tower' %}
 	{% redirect_to '/', status: 301 %}
