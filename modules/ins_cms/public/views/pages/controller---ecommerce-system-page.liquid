@@ -122,7 +122,7 @@ metadata: {
     "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/ins_databases/image_versions/new_field/3a1f2ae8-3af8-4182-9d0a-4fe4e34f2e60/blur-sample.png"
     }
     {% endparse_json %}
-    {% function data4 = "ecommerce/controller/system_field/update", params: params4 %}
+    {% function data4 = "ecommerce/controller/system_field/update",uuid: data3.uuid, params: params4 %}
     <div class="data-container">
         <p>Update</p>
         {% if data4.errors %}
