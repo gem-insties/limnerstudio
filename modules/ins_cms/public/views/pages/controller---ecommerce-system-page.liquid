@@ -6,7 +6,7 @@ metadata: {
     page_name: "Controller - Ecommerce System Page",
     created_by: "Gem Villafuerte",
     page_title: "Controller - Ecommerce System Page",
-    last_updated_by: "Gem Villafuerte",
+    last_updated_by: "Steve Suyam",
 }
 --- 
 
@@ -83,7 +83,7 @@ metadata: {
     </div>
 
     <!-- Get -->
-    {% function data2 = "ecommerce/controller/system_fields/get", uuid: data.results[0].uuid %}
+    {% function data2 = "ecommerce/controller/system_field/get", uuid: data.results[0].uuid %}
     <div class="data-container">
         <p>Get</p>
         {% if data2.errors %}
