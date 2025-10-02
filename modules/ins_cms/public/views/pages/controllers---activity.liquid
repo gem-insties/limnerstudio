@@ -1,0 +1,236 @@
+---
+slug: controllers---activity
+max_deep_level: 3
+authorization_policies:
+metadata: {
+    page_name: "Controllers - Activity",
+    created_by: "Gem Villafuerte",
+    page_title: "Controllers - Activity",
+    last_updated_by: "Gem Villafuerte",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controllers - Activity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center p-6 bg-white shadow">
+        <h1 class="text-2xl font-bold text-blue-600">MyBrand</h1>
+        <div>
+            <a href="#features" class="px-4 text-gray-700 hover:text-blue-600">Features</a>
+            <a href="#about" class="px-4 text-gray-700 hover:text-blue-600">About</a>
+            <a href="#contact" class="px-4 text-gray-700 hover:text-blue-600">Contact</a>
+            <a href="#signup" class="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Get All With Pagination -->
+    {% parse_json params %}
+    {
+    "search_by": "type",
+    "keyword": "meeting",
+    "sort_by": "updated_at",
+    "sort_order": "DESC",
+    "size": 1,
+    "page": 1
+    }
+    {% endparse_json %}
+    {% function data = "crm/controller/activities/list", params: params %}
+    <div class="data-container">
+        <p>Get All With Pagination</p>
+        {% if data.errors %}
+        <p class="error"> {{ data }}</p>
+        {% else %}
+        <p>{{ data }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Get All Without Pagination -->
+    {% parse_json paramsnopagination %}
+    {
+    "search_by": "type",
+    "keyword": "meeting",
+    "sort_by": "updated_at",
+    "sort_order": "DESC",
+    "size": 1,
+    "page": 1,
+    "pagination": false
+    }
+    {% endparse_json %}
+    {% function data = "crm/controller/activities/list", params: paramsnopagination %}
+    <div class="data-container">
+        <p>Get All Without Pagination</p>
+        {% if data.errors %}
+        <p class="error"> {{ data }}</p>
+        {% else %}
+        <p>{{ data }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Get -->
+    {% function data2 = "crm/controller/activities/get", uuid: data.results[0].uuid %}
+    <div class="data-container">
+        <p>Get</p>
+        {% if data2.errors %}
+        <p class="error"> {{ data2 }} | Activity UUID: {{data.results[0].uuid}}</p>
+        {% else %}
+        <p>{{ data2 }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add -->
+    {% parse_json params3 %}
+    {
+    "type": "call",
+    "subject": "Follow up with prospect",
+    "last_updated_by.uuid": "4e42d7b7-0543-4996-b851-0297f71953f0",
+    "notes": "Discussed pricing and next steps.",
+    "message": "Hello World",
+    "start_date_time": "2025-05-02T11:00:00.000Z",
+    "end_date_time": "2025-05-02T11:30:00.000Z",
+    "attachments.uuids": "b5b78722-20ef-4bbe-ae78-2a4d6ad6a806",
+    "related_contact.uuids": ["3f9cc667-a8cf-481b-b92c-1d5c7a6e0d49", "6c27dae5-c64b-49d8-85a3-ed0dac906242"],
+    "feature.uuid": "4e42d7b7-0543-4996-b851-0297f71953f0",
+    "feature_type": "contact"
+    }
+    {% endparse_json %}
+    {% function data3 = "crm/controller/activities/create", params: params3 %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if data3.errors %}
+        <p class="error"> {{ data3 }}</p>
+        {% else %}
+        <p>{{ data3 }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Update -->
+    {% parse_json params4 %}
+    {
+    "type": "call",
+    "subject": "Follow up with prospect",
+    "last_updated_by.uuid": "4e42d7b7-0543-4996-b851-0297f71953f0",
+    "notes": "Discussed pricing and next steps.",
+    "message": "Hello World",
+    "start_date_time": "2025-05-02T11:00:00.000Z",
+    "end_date_time": "2025-05-02T11:30:00.000Z",
+    "attachments.uuids": "b5b78722-20ef-4bbe-ae78-2a4d6ad6a806",
+    "related_contact.uuids": ["3f9cc667-a8cf-481b-b92c-1d5c7a6e0d49", "6c27dae5-c64b-49d8-85a3-ed0dac906242"],
+    "feature.uuid": "4e42d7b7-0543-4996-b851-0297f71953f0",
+    "feature_type": "contact"
+    }
+    {% endparse_json %}
+    {% function data4 = "crm/controller/activities/update", uuid: data3.uuid, params: params4 %}
+    <div class="data-container">
+        <p>Update</p>
+        {% if data4.errors %}
+        <p class="error"> {{ data4 }} | Activity UUID: {{data3.uuid}}</p>
+        {% else %}
+        <p>{{ data4 }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Delete -->
+    {% function data5 = "crm/controller/activities/delete", uuid: data3.uuid %}
+    <div class="data-container">
+        <p>Delete</p>
+        {% if data5.errors %}
+        <p class="error"> {{ data5 }} | Activity UUID: {{ data3.uuid }}</p>
+        {% else %}
+        <p>{{ data5 }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Hero Section -->
+    <section
+        class="flex flex-col items-center text-center py-20 px-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">Welcome to MyBrand</h2>
+        <p class="max-w-2xl mb-8 text-lg">We help you build amazing experiences with a simple and modern platform that
+            scales effortlessly.</p>
+        <a href="#signup" class="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg shadow hover:bg-gray-100">Get
+            Started</a>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-16 px-6 bg-white">
+        <h3 class="text-3xl font-bold text-center mb-12">Features</h3>
+        <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Fast</h4>
+                <p>Experience lightning-fast performance with our optimized platform.</p>
+            </div>
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Secure</h4>
+                <p>Your data is protected with industry-leading security practices.</p>
+            </div>
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Scalable</h4>
+                <p>Grow without limits. Our system scales as your business expands.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-16 px-6 bg-gray-100">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-3xl font-bold mb-6">About Us</h3>
+            <p class="text-lg">We are passionate about building tools that empower businesses and individuals. Our
+                mission is to simplify technology while keeping it powerful and accessible for everyone.</p>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-16 px-6 bg-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-3xl font-bold mb-6">Contact Us</h3>
+            <p class="mb-4">Have questions? Reach out and we’ll get back to you shortly.</p>
+            <a href="mailto:info@mybrand.com"
+                class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Email Us</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center bg-gray-900 text-gray-400">
+        <p>© 2025 MyBrand. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>
