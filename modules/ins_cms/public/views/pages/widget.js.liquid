@@ -4,13 +4,24 @@ format: js
 metadata: {
     status: "published",
     file_name: "widget",
+    created_by: "Shane McGeorge",
+    last_updated_by: "Shane McGeorge",
 }
 --- 
 
 import { GoogleGenAI } from "@google/genai";
 
+const getApiKey = () => {
+  try {
+    return process.env.API_KEY;
+  } catch (e) {
+    console.warn("LinguaLink: process.env.API_KEY is not accessible in this environment.");
+    return "";
+  }
+};
+
 const CONFIG = {
-    apiKey: process.env.API_KEY,
+    apiKey: getApiKey(),
     targetSelector: "body",
     themeColor: "#4F46E5",
     position: "bottom-right"
@@ -165,50 +176,6 @@ const EMBED_CODE = `<!-- LinguaLink Embed Code -->
   new LinguaLink(CONFIG);
 <\/script>`;
 
-const MANUAL_TEXT = `# LinguaLink Widget - Client Installation Guide
-
-## Overview
-LinguaLink is an AI-powered translation widget that you can easily embed into your existing website. It uses Google's Gemini 2.5 Flash model to provide context-aware translations.
-
-## Prerequisites
-1. A **Google Gemini API Key**.
-2. Access to your website's HTML source code.
-
-## Installation Steps
-
-### 1. Copy the Snippet
-Copy the code snippet provided in the "Embed Code" tab.
-
-### 2. Paste into Your Website
-Open your website's main HTML file (e.g., index.html).
-Paste the code snippet just before the closing </body> tag.
-
-### 3. Configure
-Update the \`CONFIG\` object in the script with your settings:
-
-\`\`\`javascript
-const CONFIG = {
-  apiKey: "YOUR_GEMINI_API_KEY", // Required
-  targetSelector: "body",        // Optional
-  themeColor: "#4F46E5",         // Optional: Hex Color
-  position: "bottom-right",      // Optional: Corner position
-  // icon: '<svg>...</svg>'      // Optional: SVG String
-};
-\`\`\`
-
-## Configuration Options
-
-| Option | Description | Default |
-|--------|-------------|---------|
-| \`themeColor\` | Background color for the button. | \`#4F46E5\` (Indigo) |
-| \`position\` | Where the widget appears. Options: \`bottom-right\`, \`bottom-left\`, \`top-right\`, \`top-left\`. | \`bottom-right\` |
-| \`icon\` | A raw SVG string to replace the globe icon. | Globe Icon |
-
-## Troubleshooting
-- **Widget not appearing**: Ensure the code is placed before </body>.
-- **Translation fails**: Check your API Key quotas.
-`;
-
 // ==========================================
 // HOST WIDGET IMPLEMENTATION
 // ==========================================
@@ -219,13 +186,21 @@ class HostLinguaLink {
             position: "bottom-right",
             ...userConfig
         };
-        this.ai = new GoogleGenAI({ apiKey: this.config.apiKey });
+        // Safely initialize AI only if Key is present
+        if (this.config.apiKey) {
+            this.ai = new GoogleGenAI({ apiKey: this.config.apiKey });
+        } else {
+            console.warn("LinguaLink: No API Key provided. Translation features will be disabled.");
+        }
         this.originalMap = new Map();
+        this.manualContentCache = null;
         this.injectDomElements();
         this.injectWidget();
     }
 
     injectDomElements() {
+        if (document.getElementById('lingua-link-widget')) return;
+
         // Inject Modal HTML
         const modalHtml = `
         <div id="embed-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-gray-900/50 backdrop-blur-sm font-sans animate-fade-in">
@@ -294,7 +269,7 @@ class HostLinguaLink {
         const modalContent = document.getElementById('modal-content');
         const copyBtn = document.getElementById('copy-btn');
 
-        const setActiveTab = (tab) => {
+        const setActiveTab = async (tab) => {
             if (tab === 'code') {
                 tabCode.classList.replace('border-transparent', 'border-indigo-600');
                 tabCode.classList.replace('text-gray-500', 'text-indigo-600');
@@ -307,7 +282,20 @@ class HostLinguaLink {
                 tabManual.classList.replace('text-gray-500', 'text-indigo-600');
                 tabCode.classList.replace('border-indigo-600', 'border-transparent');
                 tabCode.classList.replace('text-indigo-600', 'text-gray-500');
-                modalContent.textContent = MANUAL_TEXT;
+                
+                if (!this.manualContentCache) {
+                    modalContent.textContent = "Loading manual...";
+                    try {
+                        const response = await fetch('CLIENT_MANUAL.md');
+                        if (!response.ok) throw new Error('Failed to load manual');
+                        this.manualContentCache = await response.text();
+                    } catch (e) {
+                        this.manualContentCache = "# Error\nCould not load the manual. Please check CLIENT_MANUAL.md in the project files.";
+                        console.error(e);
+                    }
+                }
+                
+                modalContent.textContent = this.manualContentCache;
                 modalContent.classList.add('font-sans');
             }
         }
@@ -378,31 +366,37 @@ class HostLinguaLink {
         const translateBtn = document.getElementById('host-translate-btn');
         let selectedLang = 'en';
 
-        trigger.onclick = () => {
-            const isHidden = menu.style.display === 'none';
-            menu.style.display = isHidden ? 'block' : 'none';
-            trigger.style.transform = isHidden ? 'rotate(90deg)' : 'rotate(0deg)';
-            if (isHidden) trigger.classList.add('bg-gray-800');
-            else trigger.classList.remove('bg-gray-800');
-        };
+        if (trigger) {
+            trigger.onclick = () => {
+                const isHidden = menu.style.display === 'none';
+                menu.style.display = isHidden ? 'block' : 'none';
+                trigger.style.transform = isHidden ? 'rotate(90deg)' : 'rotate(0deg)';
+                if (isHidden) trigger.classList.add('bg-gray-800');
+                else trigger.classList.remove('bg-gray-800');
+            };
+        }
 
-        closeMenu.onclick = () => {
-            menu.style.display = 'none';
-            trigger.style.transform = 'rotate(0deg)';
-            trigger.classList.remove('bg-gray-800');
-        };
+        if (closeMenu) {
+            closeMenu.onclick = () => {
+                menu.style.display = 'none';
+                trigger.style.transform = 'rotate(0deg)';
+                trigger.classList.remove('bg-gray-800');
+            };
+        }
 
-        openEmbed.onclick = () => {
-            const modal = document.getElementById('embed-modal');
-            const content = document.getElementById('modal-content');
-            const tabCode = document.getElementById('tab-code');
-            
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            
-            // Trigger tab switch to code
-            tabCode.click();
-        };
+        if (openEmbed) {
+            openEmbed.onclick = () => {
+                const modal = document.getElementById('embed-modal');
+                const tabCode = document.getElementById('tab-code');
+                
+                if (modal) {
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                    // Trigger tab switch to code
+                    if (tabCode) tabCode.click();
+                }
+            };
+        }
 
         const langBtns = document.querySelectorAll('.lang-btn');
         langBtns.forEach(btn => {
@@ -415,23 +409,29 @@ class HostLinguaLink {
             };
         });
 
-        translateBtn.onclick = async () => {
-            const originalText = translateBtn.innerHTML;
-            translateBtn.innerHTML = `<svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Processing...`;
-            translateBtn.disabled = true;
-            translateBtn.classList.add('opacity-75');
+        if (translateBtn) {
+            translateBtn.onclick = async () => {
+                if (!this.ai) {
+                    alert("Please configure your API Key to enable translations.");
+                    return;
+                }
+                const originalText = translateBtn.innerHTML;
+                translateBtn.innerHTML = `<svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Processing...`;
+                translateBtn.disabled = true;
+                translateBtn.classList.add('opacity-75');
 
-            try {
-                 await this.translatePage(selectedLang);
-            } catch(e) {
-                console.error(e);
-                alert("Translation failed. Please check console.");
-            }
+                try {
+                     await this.translatePage(selectedLang);
+                } catch(e) {
+                    console.error(e);
+                    alert("Translation failed. Please check console.");
+                }
 
-            translateBtn.innerHTML = originalText;
-            translateBtn.disabled = false;
-            translateBtn.classList.remove('opacity-75');
-        };
+                translateBtn.innerHTML = originalText;
+                translateBtn.disabled = false;
+                translateBtn.classList.remove('opacity-75');
+            };
+        }
     }
 
     async translatePage(lang) {
@@ -492,5 +492,9 @@ class HostLinguaLink {
     }
 }
 
-// Initialize
-new HostLinguaLink(CONFIG);
+// Initialize safely
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new HostLinguaLink(CONFIG));
+} else {
+    new HostLinguaLink(CONFIG);
+}
