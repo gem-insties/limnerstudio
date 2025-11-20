@@ -1,0 +1,496 @@
+---
+slug: widget
+format: js
+metadata: {
+    status: "published",
+    file_name: "widget",
+}
+--- 
+
+import { GoogleGenAI } from "@google/genai";
+
+const CONFIG = {
+    apiKey: process.env.API_KEY,
+    targetSelector: "body",
+    themeColor: "#4F46E5",
+    position: "bottom-right"
+};
+
+// Constants for Modal Content
+const EMBED_CODE = `<!-- LinguaLink Embed Code -->
+<div id="lingua-link-widget"></div>
+<script type="module">
+  import { GoogleGenAI } from "https://esm.run/@google/genai";
+
+  const CONFIG = {
+    apiKey: "YOUR_GEMINI_API_KEY_HERE",
+    targetSelector: "body",
+    themeColor: "#4F46E5", // Hex color for the button
+    position: "bottom-right", // 'bottom-right', 'bottom-left', 'top-right', 'top-left'
+    // icon: '<svg>...</svg>' // Optional: Paste SVG string here to override default
+  };
+
+  class LinguaLink {
+    constructor(userConfig) {
+      this.config = {
+        themeColor: "#4F46E5",
+        position: "bottom-right",
+        icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+        ...userConfig
+      };
+      this.ai = new GoogleGenAI({ apiKey: this.config.apiKey });
+      this.originalMap = new Map();
+      this.injectWidget();
+    }
+
+    injectWidget() {
+      const container = document.getElementById('lingua-link-widget');
+      if (!container) return;
+      
+      const { themeColor, position, icon } = this.config;
+      
+      const margin = "20px";
+      let posStyle = "";
+      let menuStyle = "";
+      
+      if (position.includes('bottom')) {
+        posStyle += \`bottom: \${margin};\`;
+        menuStyle += "bottom: 60px;";
+      } else {
+        posStyle += \`top: \${margin};\`;
+        menuStyle += "top: 60px;";
+      }
+
+      if (position.includes('right')) {
+        posStyle += \`right: \${margin};\`;
+        menuStyle += "right: 0;";
+      } else {
+        posStyle += \`left: \${margin};\`;
+        menuStyle += "left: 0;";
+      }
+
+      container.innerHTML = \`
+        <div style="position: fixed; \${posStyle} z-index: 9999; font-family: sans-serif;">
+          <button id="ll-trigger" style="background: \${themeColor}; color: white; width: 50px; height: 50px; border-radius: 50%; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; transition: transform 0.2s;">
+            \${icon}
+          </button>
+          <div id="ll-menu" style="display: none; position: absolute; \${menuStyle} background: white; padding: 10px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); width: 200px;">
+            <select id="ll-select" style="width: 100%; padding: 8px; border: 1px solid #eee; border-radius: 6px; margin-bottom: 8px; outline: none; font-size: 14px;">
+              <option value="en">English (Original)</option>
+              <option value="es">Spanish</option>
+              <option value="fr">French</option>
+              <option value="de">German</option>
+              <option value="ja">Japanese</option>
+              <option value="zh">Chinese</option>
+              <option value="ar">Arabic</option>
+              <option value="pt">Portuguese</option>
+            </select>
+            <button id="ll-btn" style="width: 100%; background: \${themeColor}; color: white; border: none; padding: 8px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; transition: opacity 0.2s;">Translate</button>
+          </div>
+        </div>
+      \`;
+
+      const trigger = document.getElementById('ll-trigger');
+      const menu = document.getElementById('ll-menu');
+      const btn = document.getElementById('ll-btn');
+      const select = document.getElementById('ll-select');
+
+      trigger.onclick = () => {
+        const isHidden = menu.style.display === 'none';
+        menu.style.display = isHidden ? 'block' : 'none';
+        trigger.style.transform = isHidden ? 'rotate(45deg)' : 'rotate(0deg)';
+      };
+      
+      btn.onclick = async () => {
+        const originalText = btn.textContent;
+        btn.textContent = 'Translating...';
+        btn.style.opacity = '0.7';
+        btn.disabled = true;
+        try {
+          await this.translatePage(select.value);
+        } catch(e) { console.error(e); }
+        btn.textContent = originalText;
+        btn.style.opacity = '1';
+        btn.disabled = false;
+      };
+    }
+
+    async translatePage(lang) {
+      if (lang === 'en') return this.restore();
+      
+      const walker = document.createTreeWalker(
+        document.querySelector(this.config.targetSelector),
+        NodeFilter.SHOW_TEXT,
+        { acceptNode: n => n.nodeValue.trim().length > 2 && !n.parentElement.closest('script, style') ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT }
+      );
+      
+      const nodes = [];
+      while(walker.nextNode()) nodes.push(walker.currentNode);
+      
+      const CHUNK_SIZE = 20; 
+      const chunks = [];
+      for (let i = 0; i < nodes.length; i += CHUNK_SIZE) {
+        chunks.push(nodes.slice(i, i + CHUNK_SIZE));
+      }
+
+      for (const chunk of chunks) {
+        const texts = chunk.map(n => {
+          if (!this.originalMap.has(n)) this.originalMap.set(n, n.nodeValue);
+          return n.nodeValue.trim();
+        });
+
+        const prompt = \`Translate the following JSON array of strings to \${lang}. Return strictly a JSON array of strings: \${JSON.stringify(texts)}\`;
+        
+        try {
+          const result = await this.ai.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: prompt,
+            config: { responseMimeType: "application/json" }
+          });
+          const translations = JSON.parse(result.text);
+          chunk.forEach((node, i) => {
+            if (translations[i]) node.nodeValue = translations[i];
+          });
+        } catch(err) {
+          console.warn("Translation chunk failed", err);
+        }
+      }
+    }
+
+    restore() {
+      this.originalMap.forEach((val, node) => node.nodeValue = val);
+    }
+  }
+
+  new LinguaLink(CONFIG);
+<\/script>`;
+
+const MANUAL_TEXT = `# LinguaLink Widget - Client Installation Guide
+
+## Overview
+LinguaLink is an AI-powered translation widget that you can easily embed into your existing website. It uses Google's Gemini 2.5 Flash model to provide context-aware translations.
+
+## Prerequisites
+1. A **Google Gemini API Key**.
+2. Access to your website's HTML source code.
+
+## Installation Steps
+
+### 1. Copy the Snippet
+Copy the code snippet provided in the "Embed Code" tab.
+
+### 2. Paste into Your Website
+Open your website's main HTML file (e.g., index.html).
+Paste the code snippet just before the closing </body> tag.
+
+### 3. Configure
+Update the \`CONFIG\` object in the script with your settings:
+
+\`\`\`javascript
+const CONFIG = {
+  apiKey: "YOUR_GEMINI_API_KEY", // Required
+  targetSelector: "body",        // Optional
+  themeColor: "#4F46E5",         // Optional: Hex Color
+  position: "bottom-right",      // Optional: Corner position
+  // icon: '<svg>...</svg>'      // Optional: SVG String
+};
+\`\`\`
+
+## Configuration Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| \`themeColor\` | Background color for the button. | \`#4F46E5\` (Indigo) |
+| \`position\` | Where the widget appears. Options: \`bottom-right\`, \`bottom-left\`, \`top-right\`, \`top-left\`. | \`bottom-right\` |
+| \`icon\` | A raw SVG string to replace the globe icon. | Globe Icon |
+
+## Troubleshooting
+- **Widget not appearing**: Ensure the code is placed before </body>.
+- **Translation fails**: Check your API Key quotas.
+`;
+
+// ==========================================
+// HOST WIDGET IMPLEMENTATION
+// ==========================================
+class HostLinguaLink {
+    constructor(userConfig) {
+        this.config = {
+            themeColor: "#4F46E5",
+            position: "bottom-right",
+            ...userConfig
+        };
+        this.ai = new GoogleGenAI({ apiKey: this.config.apiKey });
+        this.originalMap = new Map();
+        this.injectDomElements();
+        this.injectWidget();
+    }
+
+    injectDomElements() {
+        // Inject Modal HTML
+        const modalHtml = `
+        <div id="embed-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-gray-900/50 backdrop-blur-sm font-sans animate-fade-in">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden animate-slide-up">
+                <!-- Header -->
+                <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-900">Install LinguaLink</h2>
+                        <p class="text-sm text-gray-500 mt-1">Follow the guide below to integrate the widget.</p>
+                    </div>
+                    <button id="close-modal" class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                </div>
+
+                <!-- Tabs -->
+                <div class="flex border-b border-gray-200 bg-white px-6">
+                    <button id="tab-code" class="py-3 px-4 text-sm font-medium flex items-center space-x-2 border-b-2 border-indigo-600 text-indigo-600 transition-colors">
+                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                        <span>Embed Code</span>
+                    </button>
+                    <button id="tab-manual" class="py-3 px-4 text-sm font-medium flex items-center space-x-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors">
+                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                        <span>Client Manual</span>
+                    </button>
+                </div>
+
+                <!-- Content -->
+                <div class="flex-1 overflow-hidden flex flex-col relative group">
+                    <div class="absolute top-4 right-4 z-10">
+                        <button id="copy-btn" class="flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm border bg-white text-gray-700 border-gray-200 hover:border-gray-300 hover:bg-gray-50">
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            <span>Copy</span>
+                        </button>
+                    </div>
+                    
+                    <div class="flex-1 overflow-auto bg-[#1e1e1e] p-6 text-sm font-mono leading-relaxed">
+                        <pre id="modal-content" class="text-gray-300 whitespace-pre-wrap break-all"></pre>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-between items-center text-xs text-gray-500">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                        <span>Ready for production</span>
+                    </div>
+                    <span>v1.0.0 • Powered by Gemini</span>
+                </div>
+            </div>
+        </div>
+        <!-- Widget Container -->
+        <div id="lingua-link-widget"></div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        
+        // Initialize Modal Logic
+        this.initModal();
+    }
+
+    initModal() {
+        const modal = document.getElementById('embed-modal');
+        const closeModal = document.getElementById('close-modal');
+        const tabCode = document.getElementById('tab-code');
+        const tabManual = document.getElementById('tab-manual');
+        const modalContent = document.getElementById('modal-content');
+        const copyBtn = document.getElementById('copy-btn');
+
+        const setActiveTab = (tab) => {
+            if (tab === 'code') {
+                tabCode.classList.replace('border-transparent', 'border-indigo-600');
+                tabCode.classList.replace('text-gray-500', 'text-indigo-600');
+                tabManual.classList.replace('border-indigo-600', 'border-transparent');
+                tabManual.classList.replace('text-indigo-600', 'text-gray-500');
+                modalContent.textContent = EMBED_CODE;
+                modalContent.classList.remove('font-sans');
+            } else {
+                tabManual.classList.replace('border-transparent', 'border-indigo-600');
+                tabManual.classList.replace('text-gray-500', 'text-indigo-600');
+                tabCode.classList.replace('border-indigo-600', 'border-transparent');
+                tabCode.classList.replace('text-indigo-600', 'text-gray-500');
+                modalContent.textContent = MANUAL_TEXT;
+                modalContent.classList.add('font-sans');
+            }
+        }
+
+        closeModal.onclick = () => {
+             modal.classList.add('hidden');
+             modal.classList.remove('flex');
+        };
+
+        tabCode.onclick = () => setActiveTab('code');
+        tabManual.onclick = () => setActiveTab('manual');
+
+        copyBtn.onclick = () => {
+            navigator.clipboard.writeText(modalContent.textContent);
+            const originalHTML = copyBtn.innerHTML;
+            copyBtn.innerHTML = `<span class="text-green-600 flex items-center gap-1">Copied!</span>`;
+            setTimeout(() => copyBtn.innerHTML = originalHTML, 2000);
+        };
+        
+        // Initialize with code tab
+        setActiveTab('code');
+    }
+
+    injectWidget() {
+        const container = document.getElementById('lingua-link-widget');
+        if (!container) return;
+
+        const { themeColor, position } = this.config;
+
+        container.innerHTML = `
+            <div style="position: fixed; bottom: 20px; right: 20px; z-index: 9990; font-family: sans-serif;">
+                <button id="host-trigger" class="flex items-center justify-center w-14 h-14 rounded-full shadow-2xl transition-all duration-300 hover:scale-105" style="background: ${themeColor}; color: white; border: none;">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </button>
+                <div id="host-menu" style="display: none; position: absolute; bottom: 70px; right: 0; background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); width: 320px; overflow: hidden; border: 1px solid #f3f4f6;">
+                    <div class="bg-gradient-to-r from-indigo-600 to-violet-600 p-4 flex justify-between items-center text-white">
+                        <div class="flex items-center space-x-2">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            <h3 class="font-bold text-sm tracking-wide">Website Translator</h3>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                             <button id="open-embed" title="Get Embed Code" class="p-1 rounded hover:bg-white/20 transition-colors"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg></button>
+                             <button id="close-menu" class="p-1 rounded hover:bg-white/20 transition-colors"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Select Destination Language</label>
+                        <div class="grid grid-cols-2 gap-2 mb-4">
+                             <button class="lang-btn px-3 py-2 rounded-lg text-sm border border-gray-100 hover:bg-gray-50 text-left" data-lang="es">Spanish</button>
+                             <button class="lang-btn px-3 py-2 rounded-lg text-sm border border-gray-100 hover:bg-gray-50 text-left" data-lang="fr">French</button>
+                             <button class="lang-btn px-3 py-2 rounded-lg text-sm border border-gray-100 hover:bg-gray-50 text-left" data-lang="de">German</button>
+                             <button class="lang-btn px-3 py-2 rounded-lg text-sm border border-gray-100 hover:bg-gray-50 text-left" data-lang="ja">Japanese</button>
+                             <button class="lang-btn px-3 py-2 rounded-lg text-sm border border-gray-100 hover:bg-gray-50 text-left" data-lang="zh">Chinese</button>
+                             <button class="lang-btn px-3 py-2 rounded-lg text-sm border border-gray-100 hover:bg-gray-50 text-left" data-lang="en">English (Original)</button>
+                        </div>
+                        <button id="host-translate-btn" class="w-full py-3 rounded-xl bg-indigo-600 text-white font-bold text-sm shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all flex items-center justify-center gap-2">
+                           <span>Translate Now</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const trigger = document.getElementById('host-trigger');
+        const menu = document.getElementById('host-menu');
+        const closeMenu = document.getElementById('close-menu');
+        const openEmbed = document.getElementById('open-embed');
+        const translateBtn = document.getElementById('host-translate-btn');
+        let selectedLang = 'en';
+
+        trigger.onclick = () => {
+            const isHidden = menu.style.display === 'none';
+            menu.style.display = isHidden ? 'block' : 'none';
+            trigger.style.transform = isHidden ? 'rotate(90deg)' : 'rotate(0deg)';
+            if (isHidden) trigger.classList.add('bg-gray-800');
+            else trigger.classList.remove('bg-gray-800');
+        };
+
+        closeMenu.onclick = () => {
+            menu.style.display = 'none';
+            trigger.style.transform = 'rotate(0deg)';
+            trigger.classList.remove('bg-gray-800');
+        };
+
+        openEmbed.onclick = () => {
+            const modal = document.getElementById('embed-modal');
+            const content = document.getElementById('modal-content');
+            const tabCode = document.getElementById('tab-code');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Trigger tab switch to code
+            tabCode.click();
+        };
+
+        const langBtns = document.querySelectorAll('.lang-btn');
+        langBtns.forEach(btn => {
+            btn.onclick = () => {
+                langBtns.forEach(b => {
+                    b.classList.remove('bg-indigo-50', 'border-indigo-200', 'text-indigo-700', 'ring-1', 'ring-indigo-200');
+                });
+                btn.classList.add('bg-indigo-50', 'border-indigo-200', 'text-indigo-700', 'ring-1', 'ring-indigo-200');
+                selectedLang = btn.dataset.lang;
+            };
+        });
+
+        translateBtn.onclick = async () => {
+            const originalText = translateBtn.innerHTML;
+            translateBtn.innerHTML = `<svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Processing...`;
+            translateBtn.disabled = true;
+            translateBtn.classList.add('opacity-75');
+
+            try {
+                 await this.translatePage(selectedLang);
+            } catch(e) {
+                console.error(e);
+                alert("Translation failed. Please check console.");
+            }
+
+            translateBtn.innerHTML = originalText;
+            translateBtn.disabled = false;
+            translateBtn.classList.remove('opacity-75');
+        };
+    }
+
+    async translatePage(lang) {
+        if (lang === 'en') return this.restore();
+
+        const walker = document.createTreeWalker(
+            document.body,
+            NodeFilter.SHOW_TEXT,
+            {
+                acceptNode: n => {
+                    const parent = n.parentElement;
+                    if (parent.closest('script') || parent.closest('style') || parent.closest('#lingua-link-widget') || parent.closest('#embed-modal')) {
+                        return NodeFilter.FILTER_REJECT;
+                    }
+                    if (n.nodeValue.trim().length > 2) {
+                        return NodeFilter.FILTER_ACCEPT;
+                    }
+                    return NodeFilter.FILTER_REJECT;
+                }
+            }
+        );
+
+        const nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+
+        const CHUNK_SIZE = 15;
+        const chunks = [];
+        for (let i = 0; i < nodes.length; i += CHUNK_SIZE) {
+            chunks.push(nodes.slice(i, i + CHUNK_SIZE));
+        }
+
+        for (const chunk of chunks) {
+            const texts = chunk.map(n => {
+                if (!this.originalMap.has(n)) this.originalMap.set(n, n.nodeValue);
+                return this.originalMap.get(n).trim(); 
+            });
+
+            const prompt = `Translate the following JSON array of strings to ${lang}. Return strictly a JSON array of strings. Preserve whitespace if needed for UI but generally trim: ${JSON.stringify(texts)}`;
+
+            try {
+                const result = await this.ai.models.generateContent({
+                    model: "gemini-2.5-flash",
+                    contents: prompt,
+                    config: { responseMimeType: "application/json" }
+                });
+                const translations = JSON.parse(result.text);
+                chunk.forEach((node, i) => {
+                    if (translations[i]) node.nodeValue = translations[i];
+                });
+            } catch (err) {
+                console.warn("Translation chunk failed", err);
+            }
+        }
+    }
+
+    restore() {
+        this.originalMap.forEach((val, node) => node.nodeValue = val);
+    }
+}
+
+// Initialize
+new HostLinguaLink(CONFIG);
