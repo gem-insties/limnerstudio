@@ -1,0 +1,27 @@
+---
+metadata: {
+    layout_name: "Home Page",
+    last_updated_by: "Gem Villafuerte",
+}
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 	
+  	<!-- CMS SEO fields -->
+  	{%- include 'modules/insites_cms/seo' -%}
+  
+ 	 <!-- IMPORT GLOBALS -->
+  	{%- include "modules/insites_cms/globals" -%}
+  
+  	<!-- Foundation CDN -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/css/foundation.min.css" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/js/foundation.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  	{{ content_for_layout }}
+</body>
+</html>
