@@ -1,0 +1,388 @@
+---
+slug: controllers-contacts
+max_deep_level: 3
+authorization_policies:
+metadata: {
+    page_name: "Controllers Contacts",
+    created_by: "Gem Villafuerte",
+    page_title: "Controllers Contacts",
+    last_updated_by: "Gem Villafuerte",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller - Contacts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center p-6 bg-white shadow">
+        <h1 class="text-2xl font-bold text-blue-600">MyBrand</h1>
+        <div>
+            <a href="#features" class="px-4 text-gray-700 hover:text-blue-600">Features</a>
+            <a href="#about" class="px-4 text-gray-700 hover:text-blue-600">About</a>
+            <a href="#contact" class="px-4 text-gray-700 hover:text-blue-600">Contact</a>
+            <a href="#signup" class="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Get All -->
+    {% parse_json paramsgetall %}
+    {
+    "search_by": "email",
+    "keyword": "adamgray@example.com",
+    "sort_by": "updated_at",
+    "sort_order": "DESC",
+    "size": 1,
+    "page": 1
+    }
+    {% endparse_json %}
+    {% function datagetall = "crm/controller/contacts/list", params: paramsgetall %}
+    <div class="data-container">
+        <p>Get All</p>
+        {% if datagetall.errors %}
+        <p class="error"> {{ datagetall }}</p>
+        {% else %}
+        <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Get -->
+    {% function dataget = "crm/controller/contacts/get", uuid: datagetall.results[0].uuid %}
+    <div class="data-container">
+        <p>Get</p>
+        {% if dataget.errors %}
+        <p class="error"> {{ dataget }} | Contact UUID: {{datagetall.results[0].uuid}}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+    "prefix": "baron",
+    "first_name": "API",
+    "last_name": "Add",
+    "gender": "male",
+    "birth_date": "2025-03-04",
+    "nationality": "Afghanistan",
+    "job_title": "Marketing Coordinator",
+    "company.uuid": "ea7570fd-453c-4be8-a994-c2d0fde0205b",
+    "email": "controlleradd@example.com",
+    "email_2": "adamgray2@example.com",
+    "work_phone_country_code": "61",
+    "work_phone_number": "10001",
+    "home_phone_country_code": "61",
+    "home_phone_number": "20002",
+    "mobile_phone_country_code": "61",
+    "mobile_phone_number": "30003",
+    "default_address.uuid": "ce7abf11-62cc-476d-84b2-2c5b823ea135",
+    "assigned_to.uuid": "9d14869a-be8d-4986-b7ab-c6dccadcef30",
+    "type.uuid": "90bdcc28-4746-4b67-adc4-066c731e51a3",
+    "category.uuid": "a9d75855-f16c-44e7-9bf6-785e9c1740e3",
+    "lead_source.uuid": "5ce03138-4713-4086-97a1-2a98dac57848",
+    "facebook_link": "http://facebook.com",
+    "twitter_link": "http://twitter.com",
+    "youtube_link": "http://youtube.com",
+    "linkedin_link": "http://linkedin.com",
+    "instagram_link": "https://www.instagram.com",
+    "snapchat_link": "http://snapchat.com",
+    "social_1_link": "http://sociallink1.com",
+    "social_2_link": "http://sociallink2.com",
+    "has_alert_message_on_view": false,
+    "alert_message_on_view": "The quick brown fox\nJump over the lazy dog",
+    "has_alert_message_on_edit": false,
+    "alert_message_on_edit": "The quick brown fox\nJump over the lazy dog",
+    "notes": "The quick brown fox\nJump over the lazy dog",
+    "stripe_id": "stripe-1738",
+    "owner_company.uuid": "d54177fa-3f99-4293-a3cd-55eff65b53ed",
+    "owner_contact.uuid": "67dd6717-86ac-4e9b-b196-0e39db208d5b",
+    "custom_field.contacts": "3b0848b6-ee31-44dd-9453-c08c90c0ec7e",
+    "custom_field.companies": "d54177fa-3f99-4293-a3cd-55eff65b53ed",
+    "custom_field.date_date": "2025-03-27",
+    "custom_field.locations": "757645a5-ca5e-456c-8d40-e4ffb86e1d72",
+    "custom_field.time_time": "2000-01-01T12:00:00.000Z",
+    "custom_field.string_code": "{\n \"type\": \"Point\",\n \"coordinates\": [100.0, 0.0]\n}",
+    "custom_field.string_html": "<p>The following geometry types are supported:</p>\n",
+    "custom_field.string_link": "https://www.google.com/",
+    "custom_field.string_color": "#f0b7b7",
+    "custom_field.string_input": "The quick brown fox jumps over the lazy dog",
+    "custom_field.string_phone": "+61 9287746592",
+    "custom_field.string_radio": "Option 1",
+    "custom_field.float_decimal": 3.14,
+    "custom_field.string_select": "Option 1",
+    "custom_field.array_checkbox": [
+    "Option 1",
+    "Option 2"
+    ],
+    "custom_field.boolean_toggle": true,
+    "custom_field.integer_number": 15,
+    "custom_field.string_markdown": "**GeoJSON** is a geospatial data interchange format based on JSON for encoding a
+    variety of geographic data structures.",
+    "custom_field.data___databases": "10117",
+    "custom_field.string_multiline": "It defines several types of JSON objects and the manner in which they are combined
+    to represent data about geographic features, their properties, and their spatial extents",
+    "custom_field.data_source_select": "3f9cc667-a8cf-481b-b92c-1d5c7a6e0d49",
+    "custom_field.ecommerce___orders": "0b409325-51b5-400c-a70f-74ea333f10d6",
+    "custom_field.string_card_select": "Value 1",
+    "custom_field.array_file_multiple": [
+    "bcb9bb50-45cd-479c-bbee-0fd7922fb348",
+    "5f3e58ef-2284-4c74-b88c-8fccf3b9f865"
+    ],
+    "custom_field.array_input_multiple": [
+    "Input 1"
+    ],
+    "custom_field.ecommerce___products": "f09f76c2-da9b-43bc-a0a8-0fce9d718837",
+    "custom_field.array_select_multiple": [
+    "Option 1",
+    "Option 2"
+    ],
+    "custom_field.datetime_date_and_time": "2025-03-27T04:00:00.000Z",
+    "custom_field.ecommerce___categories": "eaa25823-2d0b-4694-87eb-85b1e5290f75",
+    "custom_field.array_card_select_multiple": [
+    "Value 1",
+    "Value 2"
+    ],
+    "custom_field.data_source_multiple_select_multiple": [
+    "3f9cc667-a8cf-481b-b92c-1d5c7a6e0d49",
+    "67dd6717-86ac-4e9b-b196-0e39db208d5b"
+    ]
+    }
+    {% endparse_json %}
+    {% function dataadd = "crm/controller/contacts/create", params: paramsadd %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if dataadd.errors %}
+        <p class="error"> {{ dataadd }}</p>
+        {% else %}
+        <p>{{ dataadd }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Update -->
+    {% parse_json paramsupdate %}
+    {
+    "prefix": "baron",
+    "first_name": "API",
+    "last_name": "Update",
+    "gender": "male",
+    "birth_date": "2025-03-04",
+    "nationality": "Afghanistan",
+    "job_title": "Marketing Coordinator",
+    "company.uuid": "ea7570fd-453c-4be8-a994-c2d0fde0205b",
+    "email": "controllerupdate@example.com",
+    "email_2": "adamgray2@example.com",
+    "work_phone_country_code": "61",
+    "work_phone_number": "10001",
+    "home_phone_country_code": "61",
+    "home_phone_number": "20002",
+    "mobile_phone_country_code": "61",
+    "mobile_phone_number": "30003",
+    "default_address.uuid": "ce7abf11-62cc-476d-84b2-2c5b823ea135",
+    "assigned_to.uuid": "9d14869a-be8d-4986-b7ab-c6dccadcef30",
+    "type.uuid": "90bdcc28-4746-4b67-adc4-066c731e51a3",
+    "category.uuid": "a9d75855-f16c-44e7-9bf6-785e9c1740e3",
+    "lead_source.uuid": "5ce03138-4713-4086-97a1-2a98dac57848",
+    "facebook_link": "http://facebook.com",
+    "twitter_link": "http://twitter.com",
+    "youtube_link": "http://youtube.com",
+    "linkedin_link": "http://linkedin.com",
+    "instagram_link": "https://www.instagram.com",
+    "snapchat_link": "http://snapchat.com",
+    "social_1_link": "http://sociallink1.com",
+    "social_2_link": "http://sociallink2.com",
+    "has_alert_message_on_view": false,
+    "alert_message_on_view": "The quick brown fox\nJump over the lazy dog",
+    "has_alert_message_on_edit": false,
+    "alert_message_on_edit": "The quick brown fox\nJump over the lazy dog",
+    "notes": "The quick brown fox\nJump over the lazy dog",
+    "stripe_id": "stripe-1738",
+    "owner_company.uuid": "d54177fa-3f99-4293-a3cd-55eff65b53ed",
+    "owner_contact.uuid": "67dd6717-86ac-4e9b-b196-0e39db208d5b",
+    "custom_field.contacts": "3b0848b6-ee31-44dd-9453-c08c90c0ec7e",
+    "custom_field.companies": "d54177fa-3f99-4293-a3cd-55eff65b53ed",
+    "custom_field.date_date": "2025-03-27",
+    "custom_field.locations": "757645a5-ca5e-456c-8d40-e4ffb86e1d72",
+    "custom_field.time_time": "2000-01-01T12:00:00.000Z",
+    "custom_field.string_code": "{\n \"type\": \"Point\",\n \"coordinates\": [100.0, 0.0]\n}",
+    "custom_field.string_html": "<p>The following geometry types are supported:</p>\n",
+    "custom_field.string_link": "https://www.google.com/",
+    "custom_field.string_color": "#f0b7b7",
+    "custom_field.string_input": "The quick brown fox jumps over the lazy dog",
+    "custom_field.string_phone": "+61 9287746592",
+    "custom_field.string_radio": "Option 1",
+    "custom_field.float_decimal": 3.14,
+    "custom_field.string_select": "Option 1",
+    "custom_field.array_checkbox": [
+    "Option 1",
+    "Option 2"
+    ],
+    "custom_field.boolean_toggle": true,
+    "custom_field.integer_number": 15,
+    "custom_field.string_markdown": "**GeoJSON** is a geospatial data interchange format based on JSON for encoding a
+    variety of geographic data structures.",
+    "custom_field.data___databases": "10117",
+    "custom_field.string_multiline": "It defines several types of JSON objects and the manner in which they are combined
+    to represent data about geographic features, their properties, and their spatial extents",
+    "custom_field.data_source_select": "3f9cc667-a8cf-481b-b92c-1d5c7a6e0d49",
+    "custom_field.ecommerce___orders": "0b409325-51b5-400c-a70f-74ea333f10d6",
+    "custom_field.string_card_select": "Value 1",
+    "custom_field.array_file_multiple": [
+    "bcb9bb50-45cd-479c-bbee-0fd7922fb348",
+    "5f3e58ef-2284-4c74-b88c-8fccf3b9f865"
+    ],
+    "custom_field.array_input_multiple": [
+    "Input 1"
+    ],
+    "custom_field.ecommerce___products": "f09f76c2-da9b-43bc-a0a8-0fce9d718837",
+    "custom_field.array_select_multiple": [
+    "Option 1",
+    "Option 2"
+    ],
+    "custom_field.datetime_date_and_time": "2025-03-27T04:00:00.000Z",
+    "custom_field.ecommerce___categories": "eaa25823-2d0b-4694-87eb-85b1e5290f75",
+    "custom_field.array_card_select_multiple": [
+    "Value 1",
+    "Value 2"
+    ],
+    "custom_field.data_source_multiple_select_multiple": [
+    "3f9cc667-a8cf-481b-b92c-1d5c7a6e0d49",
+    "67dd6717-86ac-4e9b-b196-0e39db208d5b"
+    ]
+    }
+    {% endparse_json %}
+    {% function dataupdate = "crm/controller/contacts/update", uuid: dataadd.uuid, params: paramsupdate %}
+    <div class="data-container">
+        <p>Update</p>
+        {% if dataupdate.errors %}
+        <p class="error"> {{ dataupdate }} | Contact UUID: {{dataadd.uuid}}</p>
+        {% else %}
+        <p>{{ dataupdate }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Archive -->
+    {% function dataarchive = "crm/controller/contacts/archive", uuid: dataadd.uuid %}
+    <div class="data-container">
+        <p>Archive</p>
+        {% if dataarchive.errors %}
+        <p class="error"> {{ dataarchive }} | Contact UUID: {{dataadd.uuid}}</p>
+        {% else %}
+        <p>{{ dataarchive }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Restore -->
+    {% function datarestore = "crm/controller/contacts/restore", uuid: dataadd.uuid %}
+    <div class="data-container">
+        <p>Restore</p>
+        {% if datarestore.errors %}
+        <p class="error"> {{ datarestore }} | Contact UUID: {{dataadd.uuid}}</p>
+        {% else %}
+        <p>{{ datarestore }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Delete -->
+    {% function datadelete = "crm/controller/contacts/delete", uuid: dataadd.uuid %}
+    <div class="data-container">
+        <p>Delete</p>
+        {% if datadelete.errors %}
+        <p class="error"> {{ datadelete }} | Contact UUID: {{dataadd.uuid}}</p>
+        {% else %}
+        <p>{{ datadelete }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Hero Section -->
+    <section
+        class="flex flex-col items-center text-center py-20 px-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">Welcome to MyBrand</h2>
+        <p class="max-w-2xl mb-8 text-lg">We help you build amazing experiences with a simple and modern platform that
+            scales effortlessly.</p>
+        <a href="#signup" class="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg shadow hover:bg-gray-100">Get
+            Started</a>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-16 px-6 bg-white">
+        <h3 class="text-3xl font-bold text-center mb-12">Features</h3>
+        <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Fast</h4>
+                <p>Experience lightning-fast performance with our optimized platform.</p>
+            </div>
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Secure</h4>
+                <p>Your data is protected with industry-leading security practices.</p>
+            </div>
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Scalable</h4>
+                <p>Grow without limits. Our system scales as your business expands.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-16 px-6 bg-gray-100">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-3xl font-bold mb-6">About Us</h3>
+            <p class="text-lg">We are passionate about building tools that empower businesses and individuals. Our
+                mission is to simplify technology while keeping it powerful and accessible for everyone.</p>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-16 px-6 bg-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-3xl font-bold mb-6">Contact Us</h3>
+            <p class="mb-4">Have questions? Reach out and we’ll get back to you shortly.</p>
+            <a href="mailto:info@mybrand.com"
+                class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Email Us</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center bg-gray-900 text-gray-400">
+        <p>© 2025 MyBrand. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>
