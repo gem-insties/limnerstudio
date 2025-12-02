@@ -94,11 +94,11 @@ metadata: {
     </div>
 
     <!-- Get by Discount Code -->
-    {% function datagetbydiscountcode = "ecommerce/controller/discount/get", discount_code: datagetall.results[0].uuid %}
+    {% function datagetbydiscountcode = "ecommerce/controller/discount/get", discount_code: datagetall.results[0].discount_code %}
     <div class="data-container">
         <p>Get by Discount Code</p>
         {% if datagetbydiscountcode.errors %}
-        <p class="error"> {{ datagetbydiscountcode }} | Discount UUID: {{datagetall.results[0].uuid}}</p>
+        <p class="error"> {{ datagetbydiscountcode }} | Discount Code: {{datagetall.results[0].discount_code}}</p>
         {% else %}
         <p>{{ datagetbydiscountcode }}</p>
         {% endif %}
