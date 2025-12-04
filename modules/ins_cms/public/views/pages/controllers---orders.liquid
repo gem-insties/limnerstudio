@@ -1,0 +1,440 @@
+---
+slug: controllers---orders
+max_deep_level: 3
+authorization_policies:
+metadata: {
+    page_name: "Controllers - Orders",
+    created_by: "Gem Villafuerte",
+    page_title: "Controllers - Orders",
+    last_updated_by: "Gem Villafuerte",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller - Ecommerce Orders</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+        overflow-wrap: anywhere;
+    }
+
+    .data-container+.data-container {
+
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center p-6 bg-white shadow">
+        <h1 class="text-2xl font-bold text-blue-600">MyBrand</h1>
+        <div>
+            <a href="#features" class="px-4 text-gray-700 hover:text-blue-600">Features</a>
+            <a href="#about" class="px-4 text-gray-700 hover:text-blue-600">About</a>
+            <a href="#contact" class="px-4 text-gray-700 hover:text-blue-600">Contact</a>
+            <a href="#signup" class="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Get All -->
+    {% parse_json paramsgetall %}
+    {
+    "search_by": "order_reference",
+    "keyword": "2026",
+    "sort_by": "updated_at",
+    "sort_order": "DESC",
+    "size": 1,
+    "page": 1
+    }
+    {% endparse_json %}
+    {% function datagetall = "ecommerce/controller/order/list", params: paramsgetall %}
+    <div class="data-container">
+        <p>Get All</p>
+        {% if datagetall.errors %}
+        <p class="error"> {{ datagetall }}</p>
+        {% else %}
+        <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Get -->
+    {% function dataget = "ecommerce/controller/order/get", uuid: datagetall.results[0].uuid %}
+    <div class="data-container">
+        <p>Get</p>
+        {% if dataget.errors %}
+        <p class="error"> {{ dataget }} | Order UUID: {{datagetall.results[0].uuid}}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+    "order_number": null,
+    "billing_address_label": "Billing Address",
+    "billing_address_1": "6811 Ayala Avenue",
+    "billing_address_2": "--",
+    "billing_address_3": "--",
+    "billing_city": "Makati",
+    "billing_county": "--",
+    "billing_district": "--",
+    "billing_suburb": "--",
+    "billing_state": "NCR",
+    "billing_country": "Philippines",
+    "billing_country_code": "CL",
+    "billing_postcode": "1226",
+    "billing_latitude": "14.5595879",
+    "billing_longitude": "121.017166",
+    "billing_geojson": "{\"type\": \"Point\", \"coordinates\": [100.0, 0.0]}",
+    "billing_company.uuid": "d54177fa-3f99-4293-a3cd-55eff65b53ed",
+    "billing_company_name": "",
+    "billing_company_email": "",
+    "billing_company_phone_country_code": "",
+    "billing_company_phone_number": "",
+    "billing_contact.uuid": "3f9cc667-a8cf-481b-b92c-1d5c7a6e0d49",
+    "billing_contact_first_name": "",
+    "billing_contact_last_name": "",
+    "billing_contact_email": "",
+    "billing_contact_phone_country_code": "",
+    "billing_contact_phone_number": "",
+    "shipping_address_label": "Shipping Address",
+    "shipping_address_1": "1400 Lubbock Street",
+    "shipping_address_2": "Washington Avenue Coalition / Memorial Park",
+    "shipping_address_3": "-",
+    "shipping_city": "Houston TX",
+    "shipping_county": "-",
+    "shipping_district": "-",
+    "shipping_suburb": "-",
+    "shipping_state": "Harris County",
+    "shipping_country": "United States",
+    "shipping_country_code": "SL",
+    "shipping_postcode": "77002",
+    "shipping_latitude": "29.7657774",
+    "shipping_longitude": "-95.3713004",
+    "shipping_geojson": "{\"type\": \"Point\", \"coordinates\": [100.0, 0.0]}",
+    "shipping_instructions": "Handle with care",
+    "shipping_company.uuid": "d54177fa-3f99-4293-a3cd-55eff65b53ed",
+    "shipping_company_name": "",
+    "shipping_company_email": "",
+    "shipping_company_phone_country_code": "",
+    "shipping_company_phone_number": "",
+    "shipping_contact.uuid": "3f9cc667-a8cf-481b-b92c-1d5c7a6e0d49",
+    "shipping_contact_first_name": "",
+    "shipping_contact_last_name": "",
+    "shipping_contact_email": "",
+    "shipping_contact_phone_country_code": "",
+    "shipping_contact_phone_number": "",
+    "freight_uuid": "01971ac1-c90b-78e9-ba1e-f07779040f9f",
+    "freight_supplier_name": "FreightCo",
+    "freight_method": "Air Freight",
+    "freight_option": [
+    "Option1",
+    "Option2"
+    ],
+    "freight_tracking_code": "5995-10495-fqU91Ap",
+    "freight_tracking_link": "https://freightco.com/tracking/5995-10495-fqU91Ap",
+    "freight_dispatched_date_time": "2000-01-01T00:00:00.000Z",
+    "freight_delivered_date_time": "2000-01-31T00:00:00.000Z",
+    "order_reference": "0004-5-6600612",
+    "order_status": "processing",
+    "order_payment_status": "paid",
+    "order_shipping_status": "packed",
+    "order_company.uuid": "d54177fa-3f99-4293-a3cd-55eff65b53ed",
+    "order_company_name": "",
+    "order_company_email": "",
+    "order_company_phone_country_code": "",
+    "order_company_phone_number": "",
+    "order_contact.uuid": "3f9cc667-a8cf-481b-b92c-1d5c7a6e0d49",
+    "order_contact_first_name": "",
+    "order_contact_last_name": "",
+    "order_contact_email": "",
+    "order_contact_phone_country_code": "",
+    "order_contact_phone_number": "",
+    "notes": "Leave by the box on the front door\n",
+    "date_time": "2040-01-01T10:30:00.000Z",
+    "currency": "AUD",
+    "subtotal_amount": 150.0,
+    "total_tax_amount": 15.0,
+    "total_amount": 170.0,
+    "total_shipping_amount": 10.0,
+    "total_amount_paid": 175.0,
+    "total_discount_amount": 5.0,
+    "tax_invoice_pdf":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_ecommerce/category/category_image/12c8247b-d6a1-4c71-a37f-15e66fe9498e/monitor-category.jpg",
+    "picking_slip_pdf":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_ecommerce/category/category_image/12c8247b-d6a1-4c71-a37f-15e66fe9498e/monitor-category.jpg",
+    "packaging_label_pdf":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_ecommerce/category/category_image/12c8247b-d6a1-4c71-a37f-15e66fe9498e/monitor-category.jpg",
+    "is_scheduled": true,
+    "is_recurring": true,
+    "recurring_group_id": "4405-000245",
+    "opportunity.uuid": "aa4f6a2c-4978-49d2-882b-d5e3a49b6862",
+    "quote.uuid": "616b1ab4-c6a5-4090-866a-65ab9807f107"
+    }
+    {% endparse_json %}
+    {% function dataadd = "ecommerce/controller/order/create", params: paramsadd %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if dataadd.errors %}
+        <p class="error"> {{ dataadd }}</p>
+        {% else %}
+        <p>{{ dataadd }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Update -->
+    {% parse_json paramsupdate %}
+    {
+    "order_number": null,
+    "billing_address_label": "Billing Address Updated",
+    "billing_address_1": "Billing Address 1",
+    "billing_address_2": "Billing Address 2",
+    "billing_address_3": "Billing Address 3",
+    "billing_city": "Billing City",
+    "billing_county": "Billing County",
+    "billing_district": "Billing District",
+    "billing_suburb": "Billing Suburb",
+    "billing_state": "Billing State",
+    "billing_country": "Billing Country",
+    "billing_country_code": "Billing Country Code",
+    "billing_postcode": "Billing Postcode",
+    "billing_latitude": "Billing Latitude",
+    "billing_longitude": "Billing Longitude",
+    "billing_geojson": "{ \"type\": \"LineString\", \"coordinates\": [ [100.0, 0.0], [10.0, 10.0] ]}",
+    "billing_company.uuid": "d54177fa-3f99-4293-a3cd-55eff65b53ed",
+    "billing_company_name": "Billing Company Name",
+    "billing_company_email": "billing.company@email.com",
+    "billing_company_phone_country_code": "+91",
+    "billing_company_phone_number": "11",
+    "billing_contact.uuid": "3f9cc667-a8cf-481b-b92c-1d5c7a6e0d49",
+    "billing_contact_first_name": "Billing Contact First Name",
+    "billing_contact_last_name": "Billing Contact Last Name",
+    "billing_contact_email": "billing.contact@email.com",
+    "billing_contact_phone_country_code": "+91",
+    "billing_contact_phone_number": "22",
+    "shipping_address_label": "Shipping Address Updated",
+    "shipping_address_1": "Shipping Address 1",
+    "shipping_address_2": "Shipping Address 2",
+    "shipping_address_3": "Shipping Address 3",
+    "shipping_city": "Shipping City",
+    "shipping_county": "Shipping County",
+    "shipping_district": "Shipping District",
+    "shipping_suburb": "Shipping Suburb",
+    "shipping_state": "Shipping State",
+    "shipping_country": "Shipping Country",
+    "shipping_country_code": "Shipping Country Code",
+    "shipping_postcode": "Shipping Postcode",
+    "shipping_latitude": "Shipping Latitude",
+    "shipping_longitude": "Shipping Longitude",
+    "shipping_geojson": "{ \"type\": \"LineString\", \"coordinates\": [ [100.0, 0.0], [10.0, 10.0] ]}",
+    "shipping_instructions": "Shipping Instructions",
+    "shipping_company.uuid": "d54177fa-3f99-4293-a3cd-55eff65b53ed",
+    "shipping_company_name": "Shipping Company Name",
+    "shipping_company_email": "shipping.company@email.com",
+    "shipping_company_phone_country_code": "+91",
+    "shipping_company_phone_number": "33",
+    "shipping_contact.uuid": "3f9cc667-a8cf-481b-b92c-1d5c7a6e0d49",
+    "shipping_contact_first_name": "Shipping Contact First Name",
+    "shipping_contact_last_name": "Shipping Contact Last Name",
+    "shipping_contact_email": "shipping.contact@email.com",
+    "shipping_contact_phone_country_code": "+91",
+    "shipping_contact_phone_number": "33",
+    "freight_uuid": "01971ac1-c90b-78e9-ba1e-f07779040f9f",
+    "freight_supplier_name": "Freight Supplier Name",
+    "freight_method": "Freight Method",
+    "freight_option": [
+    "Option3",
+    "Option4"
+    ],
+    "freight_tracking_code": "Freight Tracking Code",
+    "freight_tracking_link": "Freight Tracking Link",
+    "freight_dispatched_date_time": "2000-01-01T00:00:00.000Z",
+    "freight_delivered_date_time": "2000-01-01T00:00:00.000Z",
+    "order_reference": "Order Reference",
+    "order_status": "cancelled",
+    "order_payment_status": "unpaid",
+    "order_shipping_status": "delivered",
+    "order_company.uuid": "d54177fa-3f99-4293-a3cd-55eff65b53ed",
+    "order_company_name": "Order Company Name",
+    "order_company_email": "order.company@email.com",
+    "order_company_phone_country_code": "+91",
+    "order_company_phone_number": "44",
+    "order_contact.uuid": "3f9cc667-a8cf-481b-b92c-1d5c7a6e0d49",
+    "order_contact_first_name": "Order Contact First Name",
+    "order_contact_email": "order.contact@email.com",
+    "order_contact_last_name": "Order Contact Last Name",
+    "order_contact_phone_country_code": "+91",
+    "order_contact_phone_number": "55",
+    "notes": "Notes",
+    "date_time": "2040-01-01T00:00:00.000Z",
+    "currency": "ARS",
+    "subtotal_amount": 1,
+    "total_tax_amount": 2,
+    "total_amount": 3,
+    "total_shipping_amount": 4,
+    "total_amount_paid": 5,
+    "total_discount_amount": 6,
+    "tax_invoice_pdf":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/ins_databases/image_versions/new_field/3a1f2ae8-3af8-4182-9d0a-4fe4e34f2e60/blur-sample.png",
+    "picking_slip_pdf":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/ins_databases/image_versions/new_field/3a1f2ae8-3af8-4182-9d0a-4fe4e34f2e60/blur-sample.png",
+    "packaging_label_pdf":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/ins_databases/image_versions/new_field/3a1f2ae8-3af8-4182-9d0a-4fe4e34f2e60/blur-sample.png",
+    "is_scheduled": false,
+    "is_recurring": false,
+    "recurring_group_id": "Recurring Group Id",
+    "opportunity.uuid": "aa4f6a2c-4978-49d2-882b-d5e3a49b6862",
+    "quote.uuid": "616b1ab4-c6a5-4090-866a-65ab9807f107",
+    "custom_field.delete_me": null,
+    "custom_field.date___date": "2025-06-18",
+    "custom_field.time___time": "2000-01-01T12:00:00.000Z",
+    "custom_field.media___file":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/ins_databases/image_versions/new_field/3a1f2ae8-3af8-4182-9d0a-4fe4e34f2e60/blur-sample.png",
+    "custom_field.media___image":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/ins_databases/image_versions/new_field/3a1f2ae8-3af8-4182-9d0a-4fe4e34f2e60/blur-sample.png",
+    "custom_field.string___code": "<h1>Using the GeoJSON format for Geolocation</h1>",
+    "custom_field.string___html": "<h1>The quick brown fox</h1>
+    <p>Jumps over the lazy dog</p>\n",
+    "custom_field.string___link":
+    "https://gem-alignment-instance.staging.oregon.platform-os.com/admin/insites#/pipeline/opportunities/add",
+    "custom_field.string___color": "#c21e1e",
+    "custom_field.string___input": "Morbi ac ullamcorper mauris, cursus rhoncus augue. Duis ut convallis ante. Mauris
+    tempus nulla sodales purus convallis, id aliquam orci tempus. Integer pretium, sem at tincidunt condimentum, lacus
+    nisl sagittis ipsum, eu venenatis dolor diam vel diam.",
+    "custom_field.string___phone": "+61 9882759241",
+    "custom_field.string___radio": "Option 1",
+    "custom_field.float___decimal": 3.14,
+    "custom_field.gei_json___code": "{\"type\": \"Point\", \"coordinates\": [100, 0]}",
+    "custom_field.string___select": "Option 1",
+    "custom_field.array___checkbox": [
+    "Option 1"
+    ],
+    "custom_field.boolean___toggle": true,
+    "custom_field.integer___number": 8,
+    "custom_field.string___markdown": "###### The quick brown fox\nJumps over the lazy dog",
+    "custom_field.string___multiline": "The quick brown fox\nJumps over the lazy dog",
+    "custom_field.data_source___select": "3f9cc667-a8cf-481b-b92c-1d5c7a6e0d49",
+    "custom_field.string___card_select": "Value 1",
+    "custom_field.array___file_multiple": [
+    "cd7dfe28-1f54-4569-904b-7b0d96b2489b"
+    ],
+    "custom_field.array___input_multiple": [
+    "Input 1"
+    ],
+    "custom_field.array___select_multiple": [
+    "Option 1"
+    ],
+    "custom_field.datetime___date_and_time": "2025-06-18T04:00:00.000Z",
+    "custom_field.array___card_select_multiple": [
+    "Value 1"
+    ],
+    "custom_field.data_source___select_multiple": [
+    "d54177fa-3f99-4293-a3cd-55eff65b53ed",
+    "ea7570fd-453c-4be8-a994-c2d0fde0205b"
+    ]
+    }
+    {% endparse_json %}
+    {% function dataupdate = "ecommerce/controller/order/update", uuid: dataadd.uuid, params:paramsupdate %}
+    <div class="data-container">
+        <p>Update</p>
+        {% if dataupdate.errors %}
+        <p class="error"> {{ dataupdate }} | Order UUID: {{dataadd.uuid}}</p>
+        {% else %}
+        <p>{{ dataupdate }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Delete -->
+    {% function datadelete = "ecommerce/controller/order/delete", uuid: dataadd.uuid %}
+    <div class="data-container">
+        <p>Delete</p>
+        {% if datadelete.errors %}
+        <p class="error"> {{ datadelete }} | Order UUID: {{dataadd.uuid}}</p>
+        {% else %}
+        <p>{{ datadelete }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Hero Section -->
+    <section
+        class="flex flex-col items-center text-center py-20 px-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">Welcome to MyBrand</h2>
+        <p class="max-w-2xl mb-8 text-lg">We help you build amazing experiences with a simple and modern platform that
+            scales effortlessly.</p>
+        <a href="#signup" class="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg shadow hover:bg-gray-100">Get
+            Started</a>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-16 px-6 bg-white">
+        <h3 class="text-3xl font-bold text-center mb-12">Features</h3>
+        <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Fast</h4>
+                <p>Experience lightning-fast performance with our optimized platform.</p>
+            </div>
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Secure</h4>
+                <p>Your data is protected with industry-leading security practices.</p>
+            </div>
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Scalable</h4>
+                <p>Grow without limits. Our system scales as your business expands.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-16 px-6 bg-gray-100">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-3xl font-bold mb-6">About Us</h3>
+            <p class="text-lg">We are passionate about building tools that empower businesses and individuals. Our
+                mission is to simplify technology while keeping it powerful and accessible for everyone.</p>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-16 px-6 bg-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-3xl font-bold mb-6">Contact Us</h3>
+            <p class="mb-4">Have questions? Reach out and we’ll get back to you shortly.</p>
+            <a href="mailto:info@mybrand.com"
+                class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Email Us</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center bg-gray-900 text-gray-400">
+        <p>© 2025 MyBrand. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>
