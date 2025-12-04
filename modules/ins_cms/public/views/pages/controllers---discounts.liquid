@@ -6,7 +6,7 @@ metadata: {
     page_name: "Controllers - Discounts",
     created_by: "Gem Villafuerte",
     page_title: "Controllers - Discounts",
-    last_updated_by: "Gem Villafuerte",
+    last_updated_by: "Steve Suyam",
 }
 --- 
 
@@ -95,7 +95,7 @@ metadata: {
     </div>
 
     <!-- Get by Discount Code -->
-  {% function data = "ecommerce/controller/discount/get_by_code", discount_code: datagetall.results[0].discount_code %}
+  {% function datagetbydiscountcode = "ecommerce/controller/discount/get_by_code", discount_code: datagetall.results[0].discount_code %}
     <div class="data-container">
         <p>Get by Discount Code</p>
         {% if datagetbydiscountcode.errors %}
