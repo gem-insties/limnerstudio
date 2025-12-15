@@ -1,0 +1,293 @@
+---
+slug: controllers---quote-items
+max_deep_level: 3
+authorization_policies:
+metadata: {
+    page_name: "Controllers - Quote Items",
+    created_by: "Gem Villafuerte",
+    page_title: "Controllers - Quote Items",
+    last_updated_by: "Gem Villafuerte",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller - Ecommerce Quote Items</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+        width: fit-content;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center p-6 bg-white shadow">
+        <h1 class="text-2xl font-bold text-blue-600">MyBrand</h1>
+        <div>
+            <a href="#features" class="px-4 text-gray-700 hover:text-blue-600">Features</a>
+            <a href="#about" class="px-4 text-gray-700 hover:text-blue-600">About</a>
+            <a href="#contact" class="px-4 text-gray-700 hover:text-blue-600">Contact</a>
+            <a href="#signup" class="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Get All -->
+    {% parse_json paramsgetall %}
+    {
+    "search_by": "quote_item_name",
+    "keyword": "Amazon",
+    "sort_by": "updated_at",
+    "sort_order": "DESC",
+    "size": 1,
+    "page": 1
+    }
+    {% endparse_json %}
+    {% function datagetall = "ecommerce/controller/quote_items/list", params: paramsgetall %}
+    <div class="data-container">
+        <p>Get All</p>
+        {% if datagetall.errors %}
+        <p class="error"> {{ datagetall }}</p>
+        {% else %}
+        <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Get -->
+    {% function dataget = "ecommerce/controller/quote_items/get", uuid: datagetall.results[0].uuid %}
+    <div class="data-container">
+        <p>Get</p>
+        {% if dataget.errors %}
+        <p class="error"> {{ dataget }} | Quote Item UUID: {{datagetall.results[0].uuid}}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+    "quote.uuid": "616b1ab4-c6a5-4090-866a-65ab9807f107",
+    "product.uuid": "b43300ed-9be3-46e8-9342-ef2e0907dd5e",
+    "product_variant.uuid": "2024813d-3826-4b58-8f68-3d6488eb5c77",
+    "quote_item_image":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_ecommerce/product/product_image/175334d3-8051-4680-af2f-9646da463b18/product_2.jpg",
+    "quote_item_name": "API Added Quote Item",
+    "sku": "API-ADDED-SKU",
+    "quantity": 10,
+    "unit_price": 20,
+    "unit_price_includes_tax": false,
+    "tax_amount": 30,
+    "is_fixed_tax_amount": true,
+    "item_price": 50,
+    "item_tax": 30,
+    "line_item_total": 500,
+    "line_item_tax": 300
+    }
+    {% endparse_json %}
+    {% function dataadd = "ecommerce/controller/quote_items/create", params: paramsadd %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if dataadd.errors %}
+        <p class="error"> {{ dataadd }}</p>
+        {% else %}
+        <p>{{ dataadd }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add Multiple -->
+    {% parse_json paramsaddmultiple %}
+    [
+    {
+    "quote.uuid": "616b1ab4-c6a5-4090-866a-65ab9807f107",
+    "product.uuid": "b43300ed-9be3-46e8-9342-ef2e0907dd5e",
+    "product_variant.uuid": "2024813d-3826-4b58-8f68-3d6488eb5c77",
+    "quote_item_image":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_ecommerce/product/product_image/175334d3-8051-4680-af2f-9646da463b18/product_2.jpg",
+    "quote_item_name": "API Added Quote Item - 1",
+    "sku": "API-ADDED-SKU",
+    "quantity": 10,
+    "unit_price": 20,
+    "unit_price_includes_tax": false,
+    "tax_amount": 30,
+    "is_fixed_tax_amount": true,
+    "item_price": 50,
+    "item_tax": 30,
+    "line_item_total": 500,
+    "line_item_tax": 300
+    },
+    {
+    "quote.uuid": "616b1ab4-c6a5-4090-866a-65ab9807f107",
+    "product.uuid": null,
+    "product_variant.uuid": null,
+    "quote_item_image":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_ecommerce/product/product_image/175334d3-8051-4680-af2f-9646da463b18/product_2.jpg",
+    "quote_item_name": "API Added - 2",
+    "sku": "API-ADDED-SKU-CUSTOM-ITEM",
+    "quantity": 10,
+    "unit_price": 20,
+    "unit_price_includes_tax": true,
+    "tax_amount": 30,
+    "is_fixed_tax_amount": false,
+    "item_price": 15.38462,
+    "item_tax": 4.61539,
+    "line_item_total": 200.0001,
+    "line_item_tax": 46.15
+    }
+    ]
+    {% endparse_json %}
+    {% function dataaddmultiple = "ecommerce/controller/quote_items/add_bulk", params: paramsaddmultiple %}
+    <div class="data-container">
+        <p>Add Multiple</p>
+        {% if dataaddmultiple.errors %}
+        <p class="error"> {{ dataaddmultiple }}</p>
+        {% else %}
+        <p>{{ dataaddmultiple }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Update -->
+    {% parse_json paramsupdate %}
+    {
+    "product.uuid": "073074fb-a1a9-4321-a5e1-ab0b0b8cfbf2",
+    "product_variant.uuid": null,
+    "quote_item_image":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_ecommerce/quote_item/quote_item_image/720190c3-2a34-4492-a2ef-1b2e510cde6c/product_3.jpg",
+    "quote_item_name": "API Updated Quote Item",
+    "sku": "API-Updated-QUOTE-ITEM",
+    "quantity": 100,
+    "unit_price": 200,
+    "is_use_sale_price": null,
+    "is_fixed_tax_amount": true,
+    "tax_amount": 300,
+    "item_tax": 300,
+    "item_price": 50000,
+    "line_item_tax": 30000,
+    "line_item_total": 500
+    }
+    {% endparse_json %}
+    {% function dataupdate = "ecommerce/controller/quote_items/update", uuid: dataadd.uuid, params:paramsupdate %}
+    <div class="data-container">
+        <p>Update</p>
+        {% if dataupdate.errors %}
+        <p class="error"> {{ dataupdate }} | Quote Item UUID: {{dataadd.uuid}}</p>
+        {% else %}
+        <p>{{ dataupdate }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Delete -->
+    {% function datadelete = "ecommerce/controller/quote_items/delete", uuid: dataadd.uuid %}
+    {% function datadelete = "ecommerce/controller/quote_items/delete", uuid: dataaddmultiple[0].uuid %}
+    {% function datadelete = "ecommerce/controller/quote_items/delete", uuid: dataaddmultiple[1].uuid %}
+    <div class="data-container">
+        <p>Delete 1</p>
+        {% if datadelete1.errors %}
+        <p class="error"> {{ datadelete1 }} | Quote Item UUID: {{dataadd.uuid}}</p>
+        {% else %}
+        <p>{{ datadelete1 }}</p>
+        {% endif %}
+    </div>
+    <div class="data-container">
+        <p>Delete 2</p>
+        {% if datadelete2.errors %}
+        <p class="error"> {{ datadelete2 }} | Quote Item UUID: {{dataadd.uuid}}</p>
+        {% else %}
+        <p>{{ datadelete2 }}</p>
+        {% endif %}
+    </div>
+    <div class="data-container">
+        <p>Delete 3</p>
+        {% if datadelete3.errors %}
+        <p class="error"> {{ datadelete3 }} | Quote Item UUID: {{dataadd.uuid}}</p>
+        {% else %}
+        <p>{{ datadelete3 }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Hero Section -->
+    <section
+        class="flex flex-col items-center text-center py-20 px-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">Welcome to MyBrand</h2>
+        <p class="max-w-2xl mb-8 text-lg">We help you build amazing experiences with a simple and modern platform that
+            scales effortlessly.</p>
+        <a href="#signup" class="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg shadow hover:bg-gray-100">Get
+            Started</a>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-16 px-6 bg-white">
+        <h3 class="text-3xl font-bold text-center mb-12">Features</h3>
+        <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Fast</h4>
+                <p>Experience lightning-fast performance with our optimized platform.</p>
+            </div>
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Secure</h4>
+                <p>Your data is protected with industry-leading security practices.</p>
+            </div>
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Scalable</h4>
+                <p>Grow without limits. Our system scales as your business expands.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-16 px-6 bg-gray-100">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-3xl font-bold mb-6">About Us</h3>
+            <p class="text-lg">We are passionate about building tools that empower businesses and individuals. Our
+                mission is to simplify technology while keeping it powerful and accessible for everyone.</p>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-16 px-6 bg-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-3xl font-bold mb-6">Contact Us</h3>
+            <p class="mb-4">Have questions? Reach out and we’ll get back to you shortly.</p>
+            <a href="mailto:info@mybrand.com"
+                class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Email Us</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center bg-gray-900 text-gray-400">
+        <p>© 2025 MyBrand. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>
