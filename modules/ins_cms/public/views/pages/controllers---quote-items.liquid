@@ -6,7 +6,7 @@ metadata: {
     page_name: "Controllers - Quote Items",
     created_by: "Gem Villafuerte",
     page_title: "Controllers - Quote Items",
-    last_updated_by: "Gem Villafuerte",
+    last_updated_by: "QA Insites",
 }
 --- 
 
@@ -207,9 +207,9 @@ metadata: {
     </div>
 
     <!-- Delete -->
-    {% function datadelete = "ecommerce/controller/quote_items/delete", uuid: dataadd.uuid %}
-    {% function datadelete = "ecommerce/controller/quote_items/delete", uuid: dataaddmultiple[0].uuid %}
-    {% function datadelete = "ecommerce/controller/quote_items/delete", uuid: dataaddmultiple[1].uuid %}
+    {% function datadelete1 = "ecommerce/controller/quote_items/delete", uuid: dataadd.uuid %}
+    {% function datadelete2 = "ecommerce/controller/quote_items/delete", uuid: dataaddmultiple[0].uuid %}
+    {% function datadelete3 = "ecommerce/controller/quote_items/delete", uuid: dataaddmultiple[1].uuid %}
     <div class="data-container">
         <p>Delete 1</p>
         {% if datadelete1.errors %}
