@@ -6,7 +6,7 @@ metadata: {
     page_name: "Controllers - Order Items",
     created_by: "Gem Villafuerte",
     page_title: "Controllers - Order Items",
-    last_updated_by: "Gem Villafuerte",
+    last_updated_by: "QA Insites",
 }
 --- 
 
@@ -152,7 +152,7 @@ metadata: {
     "product_variant.uuid": null,
     "order_item_image":
     "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_ecommerce/product/product_image/175334d3-8051-4680-af2f-9646da463b18/product_2.jpg",
-    "order_item_name": "API Added Custom Item",
+    "order_item_name": "API Added 2",
     "sku": "API-ADDED-SKU-CUSTOM-ITEM",
     "quantity": 10,
     "unit_price": 20,
@@ -207,15 +207,31 @@ metadata: {
     </div>
 
     <!-- Delete -->
-    {% function datadelete = "ecommerce/controller/order_items/delete", uuid: dataadd.uuid %}
-    {% function datadelete = "ecommerce/controller/order_items/delete", uuid: dataaddmultiple[0].uuid %}
-    {% function datadelete = "ecommerce/controller/order_items/delete", uuid: dataaddmultiple[1].uuid %}
+    {% function datadelete1 = "ecommerce/controller/order_items/delete", uuid: dataadd.uuid %}
+    {% function datadelete2 = "ecommerce/controller/order_items/delete", uuid: dataaddmultiple[0].uuid %}
+    {% function datadelete3 = "ecommerce/controller/order_items/delete", uuid: dataaddmultiple[1].uuid %}
     <div class="data-container">
-        <p>Delete</p>
-        {% if datadelete.errors %}
-        <p class="error"> {{ datadelete }} | Order Item UUID: {{dataadd.uuid}}</p>
+        <p>Delete 1</p>
+        {% if datadelete1.errors %}
+        <p class="error"> {{ datadelete1 }} | Order Item UUID: {{dataadd.uuid}}</p>
         {% else %}
-        <p>{{ datadelete }}</p>
+        <p>{{ datadelete1 }}</p>
+        {% endif %}
+    </div>
+    <div class="data-container">
+        <p>Delete 2</p>
+        {% if datadelete2.errors %}
+        <p class="error"> {{ datadelete2 }} | Order Item UUID: {{dataadd.uuid}}</p>
+        {% else %}
+        <p>{{ datadelete2 }}</p>
+        {% endif %}
+    </div>
+    <div class="data-container">
+        <p>Delete 3</p>
+        {% if datadelete3.errors %}
+        <p class="error"> {{ datadelete3 }} | Order Item UUID: {{dataadd.uuid}}</p>
+        {% else %}
+        <p>{{ datadelete3 }}</p>
         {% endif %}
     </div>
 
