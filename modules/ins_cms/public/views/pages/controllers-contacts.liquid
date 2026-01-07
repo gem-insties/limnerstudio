@@ -34,7 +34,7 @@ metadata: {
         font-weight: 600;
         margin-bottom: 8px;
         width: fit-content;
-      line-break: anywhere;
+        line-break: anywhere;
     }
 
     .data-container p~p {
@@ -66,8 +66,10 @@ metadata: {
     <!-- Get All -->
     {% parse_json paramsgetall %}
     {
+    "search_by": "email",
+    "keyword": "adamgray@example.com",
     "sort_by": "updated_at",
-    "sort_order": "ASC",
+    "sort_order": "DESC",
     "size": 1,
     "page": 1
     }
@@ -287,7 +289,7 @@ metadata: {
     ]
     }
     {% endparse_json %}
-    {% function dataupdate = "crm/controller/contacts/update", uuid: datagetall.results[0].uuid, params: paramsupdate %}
+    {% function dataupdate = "crm/controller/contacts/update", uuid: dataadd.uuid, params: paramsupdate %}
     <div class="data-container">
         <p>Update</p>
         {% if dataupdate.errors %}
@@ -298,7 +300,7 @@ metadata: {
     </div>
 
     <!-- Archive -->
-    {% function dataarchive = "crm/controller/contacts/archive", uuid: datagetall.results[0].uuid %}
+    {% function dataarchive = "crm/controller/contacts/archive", uuid: dataadd.uuid %}
     <div class="data-container">
         <p>Archive</p>
         {% if dataarchive.errors %}
@@ -309,7 +311,7 @@ metadata: {
     </div>
 
     <!-- Restore -->
-    {% function datarestore = "crm/controller/contacts/restore", uuid: datagetall.results[0].uuid %}
+    {% function datarestore = "crm/controller/contacts/restore", uuid: dataadd.uuid %}
     <div class="data-container">
         <p>Restore</p>
         {% if datarestore.errors %}
@@ -320,7 +322,7 @@ metadata: {
     </div>
 
     <!-- Delete -->
-    {% function datadelete = "crm/controller/contacts/delete", uuid: datagetall.results[0].uuid %}
+    {% function datadelete = "crm/controller/contacts/delete", uuid: dataadd.uuid %}
     <div class="data-container">
         <p>Delete</p>
         {% if datadelete.errors %}
