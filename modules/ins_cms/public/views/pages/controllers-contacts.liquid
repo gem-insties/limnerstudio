@@ -287,7 +287,7 @@ metadata: {
     ]
     }
     {% endparse_json %}
-    {% function dataupdate = "crm/controller/contacts/update", uuid: "4d474839-0f24-4914-9988-b2520854c01e", params: paramsupdate %}
+    {% function dataupdate = "crm/controller/contacts/update", uuid: datagetall.results[0], params: paramsupdate %}
     <div class="data-container">
         <p>Update</p>
         {% if dataupdate.errors %}
@@ -298,7 +298,7 @@ metadata: {
     </div>
 
     <!-- Archive -->
-    {% function dataarchive = "crm/controller/contacts/archive", uuid: "4d474839-0f24-4914-9988-b2520854c01e" %}
+    {% function dataarchive = "crm/controller/contacts/archive", uuid: datagetall.results[0] %}
     <div class="data-container">
         <p>Archive</p>
         {% if dataarchive.errors %}
@@ -309,7 +309,7 @@ metadata: {
     </div>
 
     <!-- Restore -->
-    {% function datarestore = "crm/controller/contacts/restore", uuid: "4d474839-0f24-4914-9988-b2520854c01e" %}
+    {% function datarestore = "crm/controller/contacts/restore", uuid: datagetall.results[0] %}
     <div class="data-container">
         <p>Restore</p>
         {% if datarestore.errors %}
@@ -320,7 +320,7 @@ metadata: {
     </div>
 
     <!-- Delete -->
-    {% function datadelete = "crm/controller/contacts/delete", uuid: "4d474839-0f24-4914-9988-b2520854c01e" %}
+    {% function datadelete = "crm/controller/contacts/delete", uuid: datagetall.results[0] %}
     <div class="data-container">
         <p>Delete</p>
         {% if datadelete.errors %}
