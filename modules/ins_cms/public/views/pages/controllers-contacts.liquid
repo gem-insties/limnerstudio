@@ -287,7 +287,8 @@ metadata: {
     ]
     }
     {% endparse_json %}
-  {% assign uuid = "0896cc32-0461-4fce-b2a0-1bd3500d5f2a" %}
+  {% assign uuid = '0896cc32-0461-4fce-b2a0-1bd3500d5f2a' %}
+  <h1>{{uuid}}<h1>
     {% function dataupdate = "crm/controller/contacts/update", uuid: uuid, params: paramsupdate %}
     <div class="data-container">
         <p>Update</p>
