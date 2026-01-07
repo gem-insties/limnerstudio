@@ -6,7 +6,7 @@ metadata: {
     page_name: "Controllers Contacts",
     created_by: "Gem Villafuerte",
     page_title: "Controllers Contacts",
-    last_updated_by: "QA Insites",
+    last_updated_by: "Ezekiel Mojica",
 }
 --- 
 
@@ -287,7 +287,8 @@ metadata: {
     ]
     }
     {% endparse_json %}
-    {% function dataupdate = "crm/controller/contacts/update", uuid: "0896cc32-0461-4fce-b2a0-1bd3500d5f2a", params: paramsupdate %}
+  {% assign uuid = "0896cc32-0461-4fce-b2a0-1bd3500d5f2a" %}
+    {% function dataupdate = "crm/controller/contacts/update", uuid: uuid, params: paramsupdate %}
     <div class="data-container">
         <p>Update</p>
         {% if dataupdate.errors %}
@@ -298,7 +299,7 @@ metadata: {
     </div>
 
     <!-- Archive -->
-    {% function dataarchive = "crm/controller/contacts/archive", uuid: "0896cc32-0461-4fce-b2a0-1bd3500d5f2a" %}
+    {% function dataarchive = "crm/controller/contacts/archive", uuid: uuid %}
     <div class="data-container">
         <p>Archive</p>
         {% if dataarchive.errors %}
@@ -309,7 +310,7 @@ metadata: {
     </div>
 
     <!-- Restore -->
-    {% function datarestore = "crm/controller/contacts/restore", uuid: "0896cc32-0461-4fce-b2a0-1bd3500d5f2a" %}
+    {% function datarestore = "crm/controller/contacts/restore", uuid: uuid %}
     <div class="data-container">
         <p>Restore</p>
         {% if datarestore.errors %}
@@ -320,7 +321,7 @@ metadata: {
     </div>
 
     <!-- Delete -->
-    {% function datadelete = "crm/controller/contacts/delete", uuid: "0896cc32-0461-4fce-b2a0-1bd3500d5f2a" %}
+    {% function datadelete = "crm/controller/contacts/delete", uuid: uuid %}
     <div class="data-container">
         <p>Delete</p>
         {% if datadelete.errors %}
