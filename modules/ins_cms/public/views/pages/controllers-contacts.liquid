@@ -287,7 +287,7 @@ metadata: {
     ]
     }
     {% endparse_json %}
-  {% assign uuid = '3fbc1d2c-bc40-4a1b-a4fc-2091d4c1c86c' %}
+  {% assign uuid = '2ab240c5-2a53-4bac-890e-a039d6ad48eb' %}
   <h1>{{uuid}}<h1>
     {% function dataupdate = "crm/controller/contacts/update", uuid: uuid, params: paramsupdate %}
     <div class="data-container">
@@ -322,7 +322,7 @@ metadata: {
     </div>
 
     <!-- Delete -->
-    {% function datadelete = "crm/controller/contacts/delete", uuid: uuid %}
+    {% function datadelete = "crm/controller/contacts/delete", uuid: "sdsds" %}
     <div class="data-container">
         <p>Delete</p>
         {% if datadelete.errors %}
