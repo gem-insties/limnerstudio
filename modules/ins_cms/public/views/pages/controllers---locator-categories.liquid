@@ -1,7 +1,11 @@
 ---
 slug: controllers---locator-categories
+max_deep_level: 3
+authorization_policies:
 metadata: {
     page_name: "Controllers - Locator Categories",
+    created_by: "QA Insites",
+    last_updated_by: "QA Insites",
 }
 --- 
 
@@ -80,7 +84,7 @@ metadata: {
     </div>
 
     <!-- Get -->
-    {% function dataget = "crm/controller/contacts/get", uuid: datagetall.results[0].uuid %}
+    {% function dataget = "locator/controller/categories/get", uuid: datagetall.results[0].uuid %}
     <div class="data-container">
         <p>Get</p>
         {% if dataget.errors %}
