@@ -1,0 +1,255 @@
+---
+slug: controllers---locator-categories
+metadata: {
+    page_name: "Controllers - Locator Categories",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller - Locator Categories</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+        width: fit-content;
+        line-break: anywhere;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center p-6 bg-white shadow">
+        <h1 class="text-2xl font-bold text-blue-600">MyBrand</h1>
+        <div>
+            <a href="#features" class="px-4 text-gray-700 hover:text-blue-600">Features</a>
+            <a href="#about" class="px-4 text-gray-700 hover:text-blue-600">About</a>
+            <a href="#contact" class="px-4 text-gray-700 hover:text-blue-600">Contact</a>
+            <a href="#signup" class="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Get All -->
+    {% parse_json paramsgetall %}
+    {
+    "search_by": "category_name",
+    "keyword": "national",
+    "sort_by": "updated_at",
+    "sort_order": "DESC",
+    "size": 1,
+    "page": 1
+    }
+    {% endparse_json %}
+    {% function datagetall = "locator/controller/categories/list", params: paramsgetall %}
+    <div class="data-container">
+        <p>Get All</p>
+        {% if datagetall.errors %}
+        <p class="error"> {{ datagetall }}</p>
+        {% else %}
+        <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Get -->
+    {% function dataget = "crm/controller/contacts/get", uuid: datagetall.results[0].uuid %}
+    <div class="data-container">
+        <p>Get</p>
+        {% if dataget.errors %}
+        <p class="error"> {{ dataget }} | Locator Category UUID: {{datagetall.results[0].uuid}}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+    "status": "enabled",
+    "category_name": "API Added Category",
+    "slug": "api-added-category",
+    "short_description": "A designated natural area protected for conservation, recreation, and public enjoyment,
+    featuring diverse landscapes, wildlife, and outdoor activities.\n",
+    "long_description": "<p>A National Park is a protected area set aside by a government to preserve its natural
+        beauty, wildlife, and cultural significance. These parks offer a wide range of outdoor activities, such as
+        hiking, camping, and wildlife observation, while promoting conservation efforts and sustainable tourism. With
+        diverse landscapes, from mountains and forests to lakes and deserts, National Parks provide a refuge for
+        biodiversity and a place for visitors to connect with nature.</p>\n",
+    "category_image":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/ins_databases/image_versions/new_field/de8a8c0e-86e8-4ad8-b012-9728b73dcdb6/amazon-ketchup.jpg",
+    "is_sitemap_enabled": true,
+    "sitemap_priority": 1.0,
+    "sitemap_order": 1,
+    "sitemap_change_frequency": "always",
+    "is_visible_to_search_engines": true,
+    "canonical_url": "https://website.com/national-park",
+    "meta_title": "National Park – Explore Nature’s Beauty and Wildlife",
+    "meta_description": "Discover breathtaking landscapes, diverse wildlife, and outdoor adventures in protected
+    National Parks. Experience nature through hiking, camping, and conservation efforts.",
+    "open_graph_title": "National Park – Explore Nature’s Beauty and Wildlife",
+    "open_graph_description": "Discover breathtaking landscapes, diverse wildlife, and outdoor adventures in protected
+    National Parks. Experience nature through hiking, camping, and conservation efforts.",
+    "open_graph_url": "https://website.com/national-park",
+    "open_graph_site_name": "Website | Location Categories",
+    "open_graph_type": "website",
+    "open_graph_image":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/category/open_graph_image/de0ae92d-a098-47ac-9567-df560f1b555f/national-park-OG.jpg",
+    "schema_content": "\n {\n \"@context\": \"http://schema.org\",\n \"@type\": \"Brand\",\n \"logo\":
+    \"https://website.com/assets/logo.svg\",\n \"description\": \"{{ context.exports.data.item.open_graph_title }} — A
+    National Park is a protected natural area known for its scenic landscapes, diverse wildlife, and outdoor recreation
+    opportunities, promoting conservation and public enjoyment.\"\n }"
+    }
+    {% endparse_json %}
+    {% function dataadd = "locator/controller/categories/create", params: paramsadd %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if dataadd.errors %}
+        <p class="error"> {{ dataadd }}</p>
+        {% else %}
+        <p>{{ dataadd }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Update -->
+    {% parse_json paramsupdate %}
+    {
+    "status": "disabled",
+    "category_name": "API updated Category",
+    "slug": "api-updated-category",
+    "short_description": "123 A designated natural area protected for conservation, recreation, and public enjoyment,
+    featuring diverse landscapes, wildlife, and outdoor activities.\n",
+    "long_description": "<p>123 A National Park is a protected area set aside by a government to preserve its natural
+        beauty, wildlife, and cultural significance. These parks offer a wide range of outdoor activities, such as
+        hiking, camping, and wildlife observation, while promoting conservation efforts and sustainable tourism. With
+        diverse landscapes, from mountains and forests to lakes and deserts, National Parks provide a refuge for
+        biodiversity and a place for visitors to connect with nature.</p>\n",
+    "category_image":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/category/open_graph_image/de0ae92d-a098-47ac-9567-df560f1b555f/national-park-OG.jpg",
+    "is_sitemap_enabled": false,
+    "sitemap_priority": 0.1,
+    "sitemap_order": 10,
+    "sitemap_change_frequency": "weekly",
+    "is_visible_to_search_engines": false,
+    "canonical_url": "https://website.com/national-park-123",
+    "meta_title": "123 National Park – Explore Nature’s Beauty and Wildlife",
+    "meta_description": "123 Discover breathtaking landscapes, diverse wildlife, and outdoor adventures in protected
+    National Parks. Experience nature through hiking, camping, and conservation efforts.",
+    "open_graph_title": "123 National Park – Explore Nature’s Beauty and Wildlife",
+    "open_graph_description": "123 Discover breathtaking landscapes, diverse wildlife, and outdoor adventures in
+    protected National Parks. Experience nature through hiking, camping, and conservation efforts.",
+    "open_graph_url": "https://website.com/national-park-123",
+    "open_graph_site_name": "123 Website | Location Categories",
+    "open_graph_type": "website 123",
+    "open_graph_image":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/ins_databases/image_versions/new_field/de8a8c0e-86e8-4ad8-b012-9728b73dcdb6/amazon-ketchup.jpg",
+    "schema_content": "\n {\n \"@context\": \"http://schema.org\",\n \"@type\": \"Brand\",\n \"logo\":
+    \"https://website.com/assets/logo.svg\",\n \"description\": \"123 {{ context.exports.data.item.open_graph_title }} —
+    A National Park is a protected natural area known for its scenic landscapes, diverse wildlife, and outdoor
+    recreation opportunities, promoting conservation and public enjoyment.\"\n }"
+    }
+    {% endparse_json %}
+    {% function dataupdate = "locator/controller/categories/update", uuid: dataadd.uuid, params: paramsupdate %}
+    <div class="data-container">
+        <p>Update</p>
+        {% if dataupdate.errors %}
+        <p class="error"> {{ dataupdate }} | Locator Category UUID: {{dataadd.uuid}}</p>
+        {% else %}
+        <p>{{ dataupdate }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Delete -->
+    {% function datadelete = "locator/controller/categories/delete", uuid: dataadd.uuid %}
+    <div class="data-container">
+        <p>Delete</p>
+        {% if datadelete.errors %}
+        <p class="error"> {{ datadelete }} | Locator Category UUID: {{dataadd.uuid}}</p>
+        {% else %}
+        <p>{{ datadelete }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Hero Section -->
+    <section
+        class="flex flex-col items-center text-center py-20 px-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">Welcome to MyBrand</h2>
+        <p class="max-w-2xl mb-8 text-lg">We help you build amazing experiences with a simple and modern platform that
+            scales effortlessly.</p>
+        <a href="#signup" class="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg shadow hover:bg-gray-100">Get
+            Started</a>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-16 px-6 bg-white">
+        <h3 class="text-3xl font-bold text-center mb-12">Features</h3>
+        <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Fast</h4>
+                <p>Experience lightning-fast performance with our optimized platform.</p>
+            </div>
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Secure</h4>
+                <p>Your data is protected with industry-leading security practices.</p>
+            </div>
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Scalable</h4>
+                <p>Grow without limits. Our system scales as your business expands.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-16 px-6 bg-gray-100">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-3xl font-bold mb-6">About Us</h3>
+            <p class="text-lg">We are passionate about building tools that empower businesses and individuals. Our
+                mission is to simplify technology while keeping it powerful and accessible for everyone.</p>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-16 px-6 bg-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-3xl font-bold mb-6">Contact Us</h3>
+            <p class="mb-4">Have questions? Reach out and we’ll get back to you shortly.</p>
+            <a href="mailto:info@mybrand.com"
+                class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Email Us</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center bg-gray-900 text-gray-400">
+        <p>© 2025 MyBrand. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>
