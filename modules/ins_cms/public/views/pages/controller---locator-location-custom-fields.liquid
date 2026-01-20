@@ -1,8 +1,12 @@
 ---
 slug: controller---locator-location-custom-fields
+max_deep_level: 3
+authorization_policies:
 metadata: {
     page_name: "Controller - Locator Location Custom Fields",
+    created_by: "QA Insites",
     page_title: "Controller - Locator Location Custom Fields",
+    last_updated_by: "QA Insites",
 }
 --- 
 
@@ -59,7 +63,7 @@ metadata: {
     </nav>
 
     <!-- Get All -->
-    {% function datagetall = "locator/controller/custom-fields/get", type: "company" %}
+    {% function datagetall = "locator/controller/custom_fields/get", type: "company" %}
     <div class="data-container">
         <p>Get All</p>
         {% if datagetall.errors %}
@@ -78,7 +82,7 @@ metadata: {
     {% break %}
     {% endif %}
     {% endfor %}
-    {% function datadelete = "locator/controller/custom-fields/delete", type: "company", id: for_delete_id %}
+    {% function datadelete = "locator/controller/custom_fields/delete", type: "company", id: for_delete_id %}
     <div class="data-container">
         <p>Delete</p>
         {% if datadelete.errors %}
