@@ -1,8 +1,12 @@
 ---
 slug: controller---location-enquiries
+max_deep_level: 3
+authorization_policies:
 metadata: {
     page_name: "Controller - Location Enquiries",
+    created_by: "QA Insites",
     page_title: "Controller - Location Enquiries",
+    last_updated_by: "QA Insites",
 }
 --- 
 
@@ -62,8 +66,8 @@ metadata: {
     <!-- Get All -->
     {% parse_json paramsgetall %}
     {
-    "search_by": "location_name",
-    "keyword": "lai",
+    "search_by": "message",
+    "keyword": "location",
     "sort_by": "updated_at",
     "sort_order": "DESC",
     "size": 1,
