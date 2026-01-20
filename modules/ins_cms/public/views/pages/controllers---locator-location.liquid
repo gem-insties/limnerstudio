@@ -1,0 +1,616 @@
+---
+slug: controllers---locator-location
+metadata: {
+    page_name: "Controllers - Locator Location",
+    page_title: "Controllers - Locator Location",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller - Locator Locations</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+        width: fit-content;
+        line-break: anywhere;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center p-6 bg-white shadow">
+        <h1 class="text-2xl font-bold text-blue-600">MyBrand</h1>
+        <div>
+            <a href="#features" class="px-4 text-gray-700 hover:text-blue-600">Features</a>
+            <a href="#about" class="px-4 text-gray-700 hover:text-blue-600">About</a>
+            <a href="#contact" class="px-4 text-gray-700 hover:text-blue-600">Contact</a>
+            <a href="#signup" class="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Get All -->
+    {% parse_json paramsgetall %}
+    {
+    "search_by": "location_name",
+    "keyword": "lai",
+    "sort_by": "updated_at",
+    "sort_order": "DESC",
+    "size": 1,
+    "page": 1
+    }
+    {% endparse_json %}
+    {% function datagetall = "locator/controller/locations/list", params: paramsgetall %}
+    <div class="data-container">
+        <p>Get All</p>
+        {% if datagetall.errors %}
+        <p class="error"> {{ datagetall }}</p>
+        {% else %}
+        <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Get -->
+    {% function dataget = "locator/controller/locations/get", uuid: datagetall.results[0].uuid %}
+    <div class="data-container">
+        <p>Get</p>
+        {% if dataget.errors %}
+        <p class="error"> {{ dataget }} | Locator Location UUID: {{datagetall.results[0].uuid}}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+    "status": "disabled",
+    "location_name": "HTTP Added Location",
+    "slug": "http-added-location",
+    "category.uuid": "6f9017ff-cde4-45c6-afb3-f178151733b0",
+    "start_date": "2024-01-17T02:01:32.598Z",
+    "end_date": "2024-01-18T02:01:32.598Z",
+    "short_description": "<p>Lai Bakery and Cafe is your neighborhood sanctuary for artisanal pastries and premium
+        brews. Combining traditional baking techniques with modern flair, we offer a cozy atmosphere perfect for a
+        morning pick-me-up or a slow afternoon treat. From flaky, golden croissants to our signature custom cakes, every
+        bite is crafted with love and the finest ingredients.</p>\n",
+    "long_description": "<p>Welcome to Lai Bakery and Cafe, where the aroma of freshly baked bread and roasted coffee
+        beans creates a home away from home. Founded on a passion for authentic flavors and community connection, our
+        cafe is more than just a place to grab a snack—it’s a destination for food lovers and coffee enthusiasts
+        alike.<br></p>
+    <p>What Makes Us Special:<br></p>
+    <ul>
+        <li>Artisanal Craftsmanship: Our bakers start before dawn, hand-rolling dough and preparing small-batch pastries
+            to ensure peak freshness and texture.</li>
+        <li>Signature Sips: We partner with local roasters to bring you a curated coffee menu, featuring everything from
+            robust espressos to delicate, seasonal lattes.</li>
+        <li>A Space for Everyone: Whether you’re looking for a quiet corner to finish a book, a vibrant space to catch
+            up with friends, or a reliable spot for your daily caffeine fix, our warm, minimalist interior is designed
+            to inspire.</li>
+        <li>Custom Creations: Beyond our daily counter offerings, we specialize in bespoke cakes and dessert platters
+            that turn your special milestones into delicious memories.</li>
+    </ul>
+    <p>At Lai Bakery and Cafe, we believe that life’s best moments happen over a shared table. We invite you to step
+        inside, take a breath, and savor the simple joy of a perfect pastry.</p>\n",
+    "page_content": "The quick brown fox jumps over the lazy dog",
+    "location_image":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/location_image/ab4bef89-8fa9-46d9-bd4b-c13dc1a9a14f/national-park.jpg",
+    "pin_icon":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/pin_icon/d07d1a25-be78-44ca-b8ce-ce7ea3e5703f/pin.svg",
+    "address_1": "6811 Ayala Avenue",
+    "address_2": "asd",
+    "address_3": "qwe",
+    "city": "Makati City",
+    "county": "123",
+    "district": "rty",
+    "suburb": "cvx",
+    "state": "NCR",
+    "country": "Philippines",
+    "country_code": "PH",
+    "postcode": "1226",
+    "latitude": "14.5595879",
+    "longitude": "121.017166",
+    "geojson": {
+    "type": "Point",
+    "coordinates": [
+    121.017166,
+    14.5595879
+    ]
+    },
+    "phone_number": "9182281921",
+    "phone_country_code": "61",
+    "fax_number": "9102990922",
+    "fax_country_code": "61",
+    "email": "hello@laibakeryandcafe.com",
+    "website": "https://website.com",
+    "facebook_link": "http://facebook.com",
+    "twitter_link": "http://twitter.com",
+    "youtube_link": "http://youtube.com",
+    "linkedin_link": "http://linkedin.com",
+    "instagram_link": "https://www.instagram.com",
+    "snapchat_link": "http://snapchat.com",
+    "social_1_link": "http://sociallink1.com",
+    "social_2_link": "http://sociallink2.com",
+    "is_open_on_monday": false,
+    "monday_opening_time": "1:00 PM",
+    "monday_closing_time": "2:00 PM",
+    "monday_notes": "Closed (Deep cleaning & prep)",
+    "is_open_on_tuesday": true,
+    "tuesday_opening_time": "1:00 PM",
+    "tuesday_closing_time": "2:00 PM",
+    "tuesday_notes": "Our ovens are hot and the coffee is brewing six days a week!",
+    "is_open_on_wednesday": true,
+    "wednesday_opening_time": "1:00 PM",
+    "wednesday_closing_time": "2:00 PM",
+    "wednesday_notes": "Our ovens are hot and the coffee is brewing six days a week!",
+    "is_open_on_thursday": true,
+    "thursday_opening_time": "1:00 PM",
+    "thursday_closing_time": "2:00 PM",
+    "thursday_notes": "Our ovens are hot and the coffee is brewing six days a week!",
+    "is_open_on_friday": true,
+    "friday_opening_time": "1:00 PM",
+    "friday_closing_time": "2:00 PM",
+    "friday_notes": "Our ovens are hot and the coffee is brewing six days a week!",
+    "is_open_on_saturday": true,
+    "saturday_opening_time": "1:00 PM",
+    "saturday_closing_time": "2:00 PM",
+    "saturday_notes": "Our ovens are hot and the coffee is brewing six days a week!",
+    "is_open_on_sunday": true,
+    "sunday_opening_time": "1:00 PM",
+    "sunday_closing_time": "2:00 PM",
+    "sunday_notes": "Our ovens are hot and the coffee is brewing six days a week!",
+    "is_sitemap_enabled": true,
+    "sitemap_priority": 1.0,
+    "sitemap_order": 2,
+    "sitemap_change_frequency": "always",
+    "is_visible_to_search_engines": true,
+    "canonical_url": "https://www.website.com/locations/lai-bakery-and-cafe",
+    "meta_title": "Lai Bakery and Cafe",
+    "meta_description": "Lai Bakery and Cafe: Artisanal pastries, specialty coffee, and custom cakes in a cozy
+    neighborhood setting. Visit us for fresh bakes and the perfect brew today!",
+    "open_graph_title": "Lai Bakery and Cafe",
+    "open_graph_description": "Lai Bakery and Cafe: Artisanal pastries, specialty coffee, and custom cakes in a cozy
+    neighborhood setting. Visit us for fresh bakes and the perfect brew today!",
+    "open_graph_url": "https://www.google.com/",
+    "open_graph_site_name": "Location | Website",
+    "open_graph_type": "website",
+    "open_graph_image":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/open_graph_image/ea398280-4f60-4183-a5bc-fa7b7c699f7c/balamb.jpg",
+    "schema_content": "\n {\n \"@context\": \"http://schema.org\",\n \"@type\": \"Brand\",\n \"logo\":
+    \"https://website.com/assets/logo.svg\",\n \"description\": \"{{ context.exports.data.item.open_graph_title }} your
+    neighborhood sanctuary for artisanal pastries and premium brews. Combining traditional baking techniques with modern
+    flair, we offer a cozy atmosphere perfect for a morning pick-me-up or a slow afternoon treat. From flaky, golden
+    croissants to our signature custom cakes, every bite is crafted with love and the finest ingredients.\"\n }",
+    "image_1":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/image_1/75ed1c20-97ee-4159-8724-ef58dcaa37bf/1.png",
+    "image_2":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/open_graph_image/ea398280-4f60-4183-a5bc-fa7b7c699f7c/balamb.jpg",
+    "image_3":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/image_3/09d7ff23-e84e-4c5b-9957-626249e885a4/pencil.jpg",
+    "image_4":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/image_4/8ad68b97-29d8-4f6e-ae00-78961a5fc6cb/1.png",
+    "image_5":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/image_5/1957fe80-15b0-4375-8ed3-ab07e9757520/3.png",
+    "file_1":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/file_1/08d9b315-1e48-4764-8765-4e2d5f80438f/categories-import.csv",
+    "file_2":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/file_2/e5201644-e4f8-4eca-8123-489fb11c9e45/insites-categories-export-2026-01-19.csv",
+    "file_3":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/file_3/9a134936-cc36-4c24-ac6a-4bb2206fc97f/location-import.csv",
+    "file_4":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/file_4/a144937b-40ab-4820-aaf7-c69e5dad6946/insites-companies-addresses-export-2026-01-16.csv",
+    "file_5":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/file_4/a144937b-40ab-4820-aaf7-c69e5dad6946/insites-companies-addresses-export-2026-01-16.csv",
+    "gallery_1": [
+    "3d49a0b8-00c9-45a4-84b2-212b04b71558",
+    "d83b8df0-20cc-4122-bcd7-6da9fffe3e0d"
+    ],
+    "gallery_2": [
+    "8f438c80-95cf-4f96-b9bf-211575c66127",
+    "a4934b3d-14e6-453f-8e6a-51160a96cf0d"
+    ],
+    "is_faqs_displayed": true,
+    "faqs_section_heading": "Everything you need to know before you visit.",
+    "faqs_section_subheading": "Everything you need to know before you visit. Find answers to our most common questions
+    about pastries, pre-orders, and more.",
+    "system_field_uuids": [
+    "9bcde435-7ff5-4e79-a29f-f65e9c5ba91b",
+    "dfe21d63-f3b0-4212-97f0-5dba8136c8f9",
+    "dffe41f0-9520-4ce0-b904-784232e51b7d",
+    "f54eeef5-b2e7-45a3-b179-89557f4e1c36",
+    "0bdd6c8c-d867-4b01-a6c4-f223ffb45842",
+    "141a25df-2355-4310-a532-5cd6ba60094c",
+    "b0eb9af9-a8ba-40b6-814c-a8684b49849d",
+    "7c50599a-490f-4c76-8025-eca5cfb2b963",
+    "a34e450a-362d-4d65-9f6b-627b856243d2",
+    "d1659778-a67e-404c-8aac-6e036ffa9ea2",
+    "86efa17f-2021-4be7-bbee-164b19ac309d",
+    "ad7ecfa3-acaf-426b-a40d-6953cb3ca7b5"
+    ],
+    "custom_field.date___date": "2026-01-20",
+    "custom_field.time___time": "2000-01-01T13:00:00.000Z",
+    "custom_field.crm_contacts": "3f9cc667-a8cf-481b-b92c-1d5c7a6e0d49",
+    "custom_field.crm_companies": "d54177fa-3f99-4293-a3cd-55eff65b53ed",
+    "custom_field.string___code": "{\n \"type\": \"Point\",\n \"coordinates\": [100.0, 0.0]\n}",
+    "custom_field.string___html": "<p>Hello World</p>\n",
+    "custom_field.string___link":
+    "https://gem-alignment-instance.staging.oregon.platform-os.com/admin/insites#/pipeline/opportunities/add",
+    "custom_field.data_databases": "2984.0",
+    "custom_field.string___color": "#ffffff",
+    "custom_field.string___input": "Morbi ac ullamcorper mauris, cursus rhoncus augue. Duis ut convallis ante. Mauris
+    tempus nulla sodales purus convallis, id aliquam orci tempus. Integer pretium, sem at tincidunt condimentum, lacus
+    nisl sagittis ipsum, eu venenatis dolor diam vel diam.",
+    "custom_field.string___phone": "+61 912283910",
+    "custom_field.string___radio": "Option 1",
+    "custom_field.float___decimal": 3.14,
+    "custom_field.string___select": "Option 2",
+    "custom_field.array___checkbox": [
+    "Option 1"
+    ],
+    "custom_field.boolean___toggle": true,
+    "custom_field.ecommerce_orders": "0ce67b15-3da8-4c66-bfd7-4cadaf4dda52",
+    "custom_field.integer___number": 8,
+    "custom_field.locator_locations": "757645a5-ca5e-456c-8d40-e4ffb86e1d72",
+    "custom_field.string___markdown": "# Hello World",
+    "custom_field.ecommerce_products": "2c819ee6-bb8d-4a14-a138-f05973136dff",
+    "custom_field.string___multiline": "Hello\nWorld",
+    "custom_field.array___card_select": [
+    "Value 1"
+    ],
+    "custom_field.data_source___select": "6c8db4e5-2ff1-4410-abe9-7bab654ed1d2",
+    "custom_field.ecommerce_categories": "eaa25823-2d0b-4694-87eb-85b1e5290f75",
+    "custom_field.string___card_select": "Value 1",
+    "custom_field.array___file_multiple": [
+    "08d719b2-1067-4648-9e25-c83505279f29",
+    "8888a849-b347-49b8-9408-50002601fb8a"
+    ],
+    "custom_field.array___input_multiple": [
+    "Input 1",
+    "Input 2"
+    ],
+    "custom_field.array___select_multiple": [
+    "Option 1",
+    "Option 2"
+    ],
+    "custom_field.datetime___date_and_time": "2026-01-20T05:00:00.000Z",
+    "custom_field.data_source_multiple___select_multiple": [
+    "0c79a647-e5da-4485-b0a2-85b7d18142eb",
+    "8dc206d4-430d-4235-8de8-152d0fa35fe6"
+    ]
+    }
+    {% endparse_json %}
+    {% function dataadd = "locator/controller/locations/create", params: paramsadd %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if dataadd.errors %}
+        <p class="error"> {{ dataadd }}</p>
+        {% else %}
+        <p>{{ dataadd }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Update -->
+    {% parse_json paramsupdate %}
+    {
+    "status": "archived",
+    "location_name": "HTTP Updated Location",
+    "slug": "http-updated-location",
+    "category.uuid": "d98d8470-9a5c-4b8e-a485-aa2d075df89f",
+    "start_date": "2026-01-17T02:01:32.598Z",
+    "end_date": "2026-01-18T02:01:32.598Z",
+    "short_description": "<p>123 Lai Bakery and Cafe is your neighborhood sanctuary for artisanal pastries and premium
+        brews. Combining traditional baking techniques with modern flair, we offer a cozy atmosphere perfect for a
+        morning pick-me-up or a slow afternoon treat. From flaky, golden croissants to our signature custom cakes, every
+        bite is crafted with love and the finest ingredients.</p>\n",
+    "long_description": "<p>123 Welcome to Lai Bakery and Cafe, where the aroma of freshly baked bread and roasted
+        coffee beans creates a home away from home. Founded on a passion for authentic flavors and community connection,
+        our cafe is more than just a place to grab a snack—it’s a destination for food lovers and coffee enthusiasts
+        alike.<br></p>
+    <p>What Makes Us Special:<br></p>
+    <ul>
+        <li>Artisanal Craftsmanship: Our bakers start before dawn, hand-rolling dough and preparing small-batch pastries
+            to ensure peak freshness and texture.</li>
+        <li>Signature Sips: We partner with local roasters to bring you a curated coffee menu, featuring everything from
+            robust espressos to delicate, seasonal lattes.</li>
+        <li>A Space for Everyone: Whether you’re looking for a quiet corner to finish a book, a vibrant space to catch
+            up with friends, or a reliable spot for your daily caffeine fix, our warm, minimalist interior is designed
+            to inspire.</li>
+        <li>Custom Creations: Beyond our daily counter offerings, we specialize in bespoke cakes and dessert platters
+            that turn your special milestones into delicious memories.</li>
+    </ul>
+    <p>At Lai Bakery and Cafe, we believe that life’s best moments happen over a shared table. We invite you to step
+        inside, take a breath, and savor the simple joy of a perfect pastry.</p>\n",
+    "page_content": "132 The quick brown fox jumps over the lazy dog",
+    "location_image":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/location_image/ab4bef89-8fa9-46d9-bd4b-c13dc1a9a14f/national-park.jpg",
+    "pin_icon":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/pin_icon/d07d1a25-be78-44ca-b8ce-ce7ea3e5703f/pin.svg",
+    "address_1": "6811 Ayala Avenue",
+    "address_2": "asd",
+    "address_3": "qwe",
+    "city": "Makati City",
+    "county": "123",
+    "district": "rty",
+    "suburb": "cvx",
+    "state": "NCR",
+    "country": "Philippines",
+    "country_code": "PH",
+    "postcode": "1226",
+    "latitude": "14.5595879",
+    "longitude": "121.017166",
+    "geojson": {
+    "type": "Point",
+    "coordinates": [
+    121.017166,
+    14.5595879
+    ]
+    },
+    "phone_number": "9182281921",
+    "phone_country_code": "61",
+    "fax_number": "9102990922",
+    "fax_country_code": "61",
+    "email": "hello@laibakeryandcafe.com",
+    "website": "https://website.com",
+    "facebook_link": "http://facebook.com",
+    "twitter_link": "http://twitter.com",
+    "youtube_link": "http://youtube.com",
+    "linkedin_link": "http://linkedin.com",
+    "instagram_link": "https://www.instagram.com",
+    "snapchat_link": "http://snapchat.com",
+    "social_1_link": "http://sociallink1.com",
+    "social_2_link": "http://sociallink2.com",
+    "is_open_on_monday": false,
+    "monday_opening_time": "1:00 PM",
+    "monday_closing_time": "2:00 PM",
+    "monday_notes": "Closed (Deep cleaning & prep)",
+    "is_open_on_tuesday": true,
+    "tuesday_opening_time": "1:00 PM",
+    "tuesday_closing_time": "2:00 PM",
+    "tuesday_notes": "Our ovens are hot and the coffee is brewing six days a week!",
+    "is_open_on_wednesday": true,
+    "wednesday_opening_time": "1:00 PM",
+    "wednesday_closing_time": "2:00 PM",
+    "wednesday_notes": "Our ovens are hot and the coffee is brewing six days a week!",
+    "is_open_on_thursday": true,
+    "thursday_opening_time": "1:00 PM",
+    "thursday_closing_time": "2:00 PM",
+    "thursday_notes": "Our ovens are hot and the coffee is brewing six days a week!",
+    "is_open_on_friday": true,
+    "friday_opening_time": "1:00 PM",
+    "friday_closing_time": "2:00 PM",
+    "friday_notes": "Our ovens are hot and the coffee is brewing six days a week!",
+    "is_open_on_saturday": true,
+    "saturday_opening_time": "1:00 PM",
+    "saturday_closing_time": "2:00 PM",
+    "saturday_notes": "Our ovens are hot and the coffee is brewing six days a week!",
+    "is_open_on_sunday": true,
+    "sunday_opening_time": "1:00 PM",
+    "sunday_closing_time": "2:00 PM",
+    "sunday_notes": "Our ovens are hot and the coffee is brewing six days a week!",
+    "is_sitemap_enabled": true,
+    "sitemap_priority": 1.0,
+    "sitemap_order": 2,
+    "sitemap_change_frequency": "always",
+    "is_visible_to_search_engines": true,
+    "canonical_url": "https://www.website.com/locations/lai-bakery-and-cafe",
+    "meta_title": "Lai Bakery and Cafe",
+    "meta_description": "Lai Bakery and Cafe: Artisanal pastries, specialty coffee, and custom cakes in a cozy
+    neighborhood setting. Visit us for fresh bakes and the perfect brew today!",
+    "open_graph_title": "Lai Bakery and Cafe",
+    "open_graph_description": "Lai Bakery and Cafe: Artisanal pastries, specialty coffee, and custom cakes in a cozy
+    neighborhood setting. Visit us for fresh bakes and the perfect brew today!",
+    "open_graph_url": "https://www.google.com/",
+    "open_graph_site_name": "Location | Website",
+    "open_graph_type": "website",
+    "open_graph_image":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/open_graph_image/ea398280-4f60-4183-a5bc-fa7b7c699f7c/balamb.jpg",
+    "schema_content": "\n {\n \"@context\": \"http://schema.org\",\n \"@type\": \"Brand\",\n \"logo\":
+    \"https://website.com/assets/logo.svg\",\n \"description\": \"{{ context.exports.data.item.open_graph_title }} your
+    neighborhood sanctuary for artisanal pastries and premium brews. Combining traditional baking techniques with modern
+    flair, we offer a cozy atmosphere perfect for a morning pick-me-up or a slow afternoon treat. From flaky, golden
+    croissants to our signature custom cakes, every bite is crafted with love and the finest ingredients.\"\n }",
+    "image_1":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/image_1/75ed1c20-97ee-4159-8724-ef58dcaa37bf/1.png",
+    "image_2":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/open_graph_image/ea398280-4f60-4183-a5bc-fa7b7c699f7c/balamb.jpg",
+    "image_3":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/image_3/09d7ff23-e84e-4c5b-9957-626249e885a4/pencil.jpg",
+    "image_4":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/image_4/8ad68b97-29d8-4f6e-ae00-78961a5fc6cb/1.png",
+    "image_5":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/image_5/1957fe80-15b0-4375-8ed3-ab07e9757520/3.png",
+    "file_1":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/file_1/08d9b315-1e48-4764-8765-4e2d5f80438f/categories-import.csv",
+    "file_2":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/file_2/e5201644-e4f8-4eca-8123-489fb11c9e45/insites-categories-export-2026-01-19.csv",
+    "file_3":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/file_3/9a134936-cc36-4c24-ac6a-4bb2206fc97f/location-import.csv",
+    "file_4":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/file_4/a144937b-40ab-4820-aaf7-c69e5dad6946/insites-companies-addresses-export-2026-01-16.csv",
+    "file_5":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_locator/location/file_4/a144937b-40ab-4820-aaf7-c69e5dad6946/insites-companies-addresses-export-2026-01-16.csv",
+    "gallery_1": [
+    "3d49a0b8-00c9-45a4-84b2-212b04b71558",
+    "d83b8df0-20cc-4122-bcd7-6da9fffe3e0d"
+    ],
+    "gallery_2": [
+    "8f438c80-95cf-4f96-b9bf-211575c66127",
+    "a4934b3d-14e6-453f-8e6a-51160a96cf0d"
+    ],
+    "is_faqs_displayed": true,
+    "faqs_section_heading": "Everything you need to know before you visit.",
+    "faqs_section_subheading": "Everything you need to know before you visit. Find answers to our most common questions
+    about pastries, pre-orders, and more.",
+    "system_field_uuids": [
+    "9bcde435-7ff5-4e79-a29f-f65e9c5ba91b",
+    "dfe21d63-f3b0-4212-97f0-5dba8136c8f9",
+    "dffe41f0-9520-4ce0-b904-784232e51b7d",
+    "f54eeef5-b2e7-45a3-b179-89557f4e1c36",
+    "0bdd6c8c-d867-4b01-a6c4-f223ffb45842",
+    "141a25df-2355-4310-a532-5cd6ba60094c",
+    "b0eb9af9-a8ba-40b6-814c-a8684b49849d",
+    "7c50599a-490f-4c76-8025-eca5cfb2b963",
+    "a34e450a-362d-4d65-9f6b-627b856243d2",
+    "d1659778-a67e-404c-8aac-6e036ffa9ea2",
+    "86efa17f-2021-4be7-bbee-164b19ac309d",
+    "ad7ecfa3-acaf-426b-a40d-6953cb3ca7b5"
+    ],
+    "custom_field.date___date": "2026-01-20",
+    "custom_field.time___time": "2000-01-01T13:00:00.000Z",
+    "custom_field.crm_contacts": "3f9cc667-a8cf-481b-b92c-1d5c7a6e0d49",
+    "custom_field.crm_companies": "d54177fa-3f99-4293-a3cd-55eff65b53ed",
+    "custom_field.string___code": "{\n \"type\": \"Point\",\n \"coordinates\": [100.0, 0.0]\n}",
+    "custom_field.string___html": "<p>Hello World</p>\n",
+    "custom_field.string___link":
+    "https://gem-alignment-instance.staging.oregon.platform-os.com/admin/insites#/pipeline/opportunities/add",
+    "custom_field.data_databases": "2984.0",
+    "custom_field.string___color": "#ffffff",
+    "custom_field.string___input": "Morbi ac ullamcorper mauris, cursus rhoncus augue. Duis ut convallis ante. Mauris
+    tempus nulla sodales purus convallis, id aliquam orci tempus. Integer pretium, sem at tincidunt condimentum, lacus
+    nisl sagittis ipsum, eu venenatis dolor diam vel diam.",
+    "custom_field.string___phone": "+61 912283910",
+    "custom_field.string___radio": "Option 1",
+    "custom_field.float___decimal": 3.14,
+    "custom_field.string___select": "Option 2",
+    "custom_field.array___checkbox": [
+    "Option 1"
+    ],
+    "custom_field.boolean___toggle": true,
+    "custom_field.ecommerce_orders": "0ce67b15-3da8-4c66-bfd7-4cadaf4dda52",
+    "custom_field.integer___number": 8,
+    "custom_field.locator_locations": "757645a5-ca5e-456c-8d40-e4ffb86e1d72",
+    "custom_field.string___markdown": "# Hello World",
+    "custom_field.ecommerce_products": "2c819ee6-bb8d-4a14-a138-f05973136dff",
+    "custom_field.string___multiline": "Hello\nWorld",
+    "custom_field.array___card_select": [
+    "Value 1"
+    ],
+    "custom_field.data_source___select": "6c8db4e5-2ff1-4410-abe9-7bab654ed1d2",
+    "custom_field.ecommerce_categories": "eaa25823-2d0b-4694-87eb-85b1e5290f75",
+    "custom_field.string___card_select": "Value 1",
+    "custom_field.array___file_multiple": [
+    "08d719b2-1067-4648-9e25-c83505279f29",
+    "8888a849-b347-49b8-9408-50002601fb8a"
+    ],
+    "custom_field.array___input_multiple": [
+    "Input 1",
+    "Input 2"
+    ],
+    "custom_field.array___select_multiple": [
+    "Option 1",
+    "Option 2"
+    ],
+    "custom_field.datetime___date_and_time": "2026-01-20T05:00:00.000Z",
+    "custom_field.data_source_multiple___select_multiple": [
+    "0c79a647-e5da-4485-b0a2-85b7d18142eb",
+    "8dc206d4-430d-4235-8de8-152d0fa35fe6"
+    ]
+    }
+    {% endparse_json %}
+    {% function dataupdate = "locator/controller/locations/update", uuid: dataadd.uuid, params: paramsupdate %}
+    <div class="data-container">
+        <p>Update</p>
+        {% if dataupdate.errors %}
+        <p class="error"> {{ dataupdate }} | Locator Location UUID: {{dataadd.uuid}}</p>
+        {% else %}
+        <p>{{ dataupdate }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Delete -->
+    {% function datadelete = "locator/controller/locations/delete", uuid: dataadd.uuid %}
+    <div class="data-container">
+        <p>Delete</p>
+        {% if datadelete.errors %}
+        <p class="error"> {{ datadelete }} | Locator Location UUID: {{dataadd.uuid}}</p>
+        {% else %}
+        <p>{{ datadelete }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Hero Section -->
+    <section
+        class="flex flex-col items-center text-center py-20 px-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">Welcome to MyBrand</h2>
+        <p class="max-w-2xl mb-8 text-lg">We help you build amazing experiences with a simple and modern platform that
+            scales effortlessly.</p>
+        <a href="#signup" class="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg shadow hover:bg-gray-100">Get
+            Started</a>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-16 px-6 bg-white">
+        <h3 class="text-3xl font-bold text-center mb-12">Features</h3>
+        <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Fast</h4>
+                <p>Experience lightning-fast performance with our optimized platform.</p>
+            </div>
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Secure</h4>
+                <p>Your data is protected with industry-leading security practices.</p>
+            </div>
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Scalable</h4>
+                <p>Grow without limits. Our system scales as your business expands.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-16 px-6 bg-gray-100">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-3xl font-bold mb-6">About Us</h3>
+            <p class="text-lg">We are passionate about building tools that empower businesses and individuals. Our
+                mission is to simplify technology while keeping it powerful and accessible for everyone.</p>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-16 px-6 bg-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-3xl font-bold mb-6">Contact Us</h3>
+            <p class="mb-4">Have questions? Reach out and we’ll get back to you shortly.</p>
+            <a href="mailto:info@mybrand.com"
+                class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Email Us</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center bg-gray-900 text-gray-400">
+        <p>© 2025 MyBrand. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>
