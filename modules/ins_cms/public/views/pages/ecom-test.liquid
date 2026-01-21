@@ -1,10 +1,21 @@
 ---
 slug: ecom-test
 layout: modules/ins_cms/sample-workflow-layout.liquid
+max_deep_level: 3
+authorization_policies:
 metadata: {
     page_name: "ecom test",
+    created_by: "Ezekiel Mojica",
     page_title: "test",
+    last_updated_by: "Ezekiel Mojica",
 }
 --- 
 
-<p>{%- include 'modules/insites_ecommerce/seo', type: 'product', slug: 'total-price-value' -%}</p>
+<head>
+  {%- include 'modules/insites_ecommerce/seo', type: 'product', slug: 'total-price-value' -%}
+
+</head>
+
+<body>
+  test wawa
+</body>
