@@ -46,54 +46,49 @@ metadata: {
                 <tbody class="divide-y divide-gray-200">
                     <!-- Basic Information -->
                     <tr class="bg-gray-50">
-                        <td colspan="2" class="px-6 py-2 font-bold text-indigo-600 text-sm italic">Core Identification
+                        <td colspan="2" class="px-6 py-2 font-bold text-indigo-600 text-sm italic">System Fields
                         </td>
                     </tr>
                     <tr>
-                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">id</td>
-                        <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.item.id }}</td>
+                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">ID</td>
+                        <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.id }}</td>
                     </tr>
                     <tr>
-                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">uuid</td>
+                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">UUID</td>
                         <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.item.uuid }}</td>
                     </tr>
                     <tr>
-                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">status</td>
-                        <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.item.status }}</td>
+                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">Created At</td>
+                        <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.created_at }}</td>
                     </tr>
                     <tr>
-                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">location_name</td>
+                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">Updated At</td>
+                        <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.updated_at }}</td>
+                    </tr>
+
+                    <!-- Details Tab -->
+                    <tr class="bg-gray-50">
+                        <td colspan="2" class="px-6 py-2 font-bold text-indigo-600 text-sm italic">Details Tab</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">Location Name</td>
                         <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.item.location_name }}</td>
                     </tr>
                     <tr>
-                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">slug</td>
-                        <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.item.slug }}</td>
+                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">Location Slug</td>
+                        <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.item.location_slug }}</td>
                     </tr>
                     <tr>
-                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">category_uuid</td>
+                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">Category UUID</td>
                         <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.item.category_uuid }}</td>
                     </tr>
                     <tr>
-                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">start_date</td>
+                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">Start Date</td>
                         <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.item.start_date }}</td>
                     </tr>
                     <tr>
-                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">end_date</td>
+                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">End Date</td>
                         <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.item.end_date }}</td>
-                    </tr>
-
-                    <!-- Content -->
-                    <tr class="bg-gray-50">
-                        <td colspan="2" class="px-6 py-2 font-bold text-indigo-600 text-sm italic">Content &
-                            Descriptions</td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">short_description</td>
-                        <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.item.short_description }}</td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">long_description</td>
-                        <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.item.long_description }}</td>
                     </tr>
 
                     <!-- Address Information -->
