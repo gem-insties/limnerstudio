@@ -138,23 +138,23 @@ metadata: {
                     </tr>
                     <tr>
                         <td class="px-6 py-3 text-sm text-gray-600 font-medium">File 1</td>
-                        <td class="px-6 py-3 text-sm liquid-tag"><a href="{{ context.exports.data.item.file_1.url }}">{{ context.exports.data.item.file_1.file_name }}</a></td>
+                        <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.item.file_1 }}</td>
                     </tr>
                     <tr>
                         <td class="px-6 py-3 text-sm text-gray-600 font-medium">File 2</td>
-                        <td class="px-6 py-3 text-sm liquid-tag"><a href="{{ context.exports.data.item.file_2.url }}">{{ context.exports.data.item.file_2.file_name }}</a></td>
+                        <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.item.file_2 }}</td>
                     </tr>
                     <tr>
                         <td class="px-6 py-3 text-sm text-gray-600 font-medium">File 3</td>
-                        <td class="px-6 py-3 text-sm liquid-tag"><a href="{{ context.exports.data.item.file_3.url }}">{{ context.exports.data.item.file_3.file_name }}</a></td>
+                        <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.item.file_3 }}</td>
                     </tr>
                     <tr>
                         <td class="px-6 py-3 text-sm text-gray-600 font-medium">File 4</td>
-                        <td class="px-6 py-3 text-sm liquid-tag"><a href="{{ context.exports.data.item.file_4.url }}">{{ context.exports.data.item.file_4.file_name }}</a></td>
+                        <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.item.file_4 }}</td>
                     </tr>
                     <tr>
                         <td class="px-6 py-3 text-sm text-gray-600 font-medium">File 5</td>
-                        <td class="px-6 py-3 text-sm liquid-tag"><a href="{{ context.exports.data.item.file_5.url }}">{{ context.exports.data.item.file_5.file_name }}</a></td>
+                        <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.item.file_5 }} </td>
                     </tr>
 
                     <!-- Gallery Tab -->
@@ -163,21 +163,11 @@ metadata: {
                     </tr>
                     <tr>
                         <td class="px-6 py-3 text-sm text-gray-600 font-medium">Gallery 1</td>
-                        <td class="px-6 py-3 text-sm liquid-tag">
-                            {{ context.exports.data.item.gallery_1 }}
-                            {% assign gallery_1 = context.exports.data.item.gallery_1 | parse_json %}
-                            {{ gallery_1 }}
-                            {{ gallery_1.size }}
-                            {% if gallery_1.size > 0 %}
-                                <div class="gallery-container">
-                                    {% for item in gallery_1 %}
-                                        <a href="{{ item.id }}">{{ item.id }}</a>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                <p>No images found in the gallery.</p>
-                            {% endif %}
-                        </td>
+                        <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.item.gallery_1 }}</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">Gallery 2</td>
+                        <td class="px-6 py-3 text-sm liquid-tag">{{ context.exports.data.item.gallery_2 }}</td>
                     </tr>
 
                 </tbody>
