@@ -167,7 +167,7 @@ metadata: {
                             {% if context.exports.data.item.gallery_1.size > 0 %}
                                 <div class="gallery-container">
                                     {% for item in context.exports.data.item.gallery_1 %}
-                                        <a href="{{ context.exports.data.item.gallery_1.file.url }}">{{ context.exports.data.item.gallery_1.file.file_name }}</a>
+                                        <a href="{{ item.file.url }}">{{ item.file.file_name }}</a>
                                     {% endfor %}
                                 </div>
                             {% else %}
