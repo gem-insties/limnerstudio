@@ -164,10 +164,11 @@ metadata: {
                     <tr>
                         <td class="px-6 py-3 text-sm text-gray-600 font-medium">Gallery 1</td>
                         <td class="px-6 py-3 text-sm liquid-tag">
-                            {% assign gallery_1 = context.exports.data.item.gallery_1 %}
+                            {% assign gallery_1 = context.exports.data.item.gallery_1 | parse_json %}
+                            {{ gallery_1 | inspect }}
                             {% if gallery_1.size > 0 %}
                                 <div class="gallery-container">
-                                    {% for item in context.exports.data.item.gallery_1 %}
+                                    {% for item in gallery_1 %}
                                         <a href="{{ item.id }}">{{ item.id }}</a>
                                     {% endfor %}
                                 </div>
