@@ -166,11 +166,8 @@ metadata: {
                         <td class="px-6 py-3 text-sm liquid-tag">
                             {% if context.exports.data.item.gallery_1.size > 0 %}
                                 <div class="gallery-container">
-                                    {% for item in gallery_1 %}
-                                        <div class="gallery-item" id="item-{{ item.id }}">
-                                            <img src="{{ item.file.url }}" alt="{{ item.file.file_name }}">
-                                            <p>{{ item.file.file_name }}</p>
-                                        </div>
+                                    {% for item in context.exports.data.item.gallery_1 %}
+                                        <a href="{{ context.exports.data.item.gallery_1.file.url }}">{{ context.exports.data.item.gallery_1.file.file_name }}</a>
                                     {% endfor %}
                                 </div>
                             {% else %}
