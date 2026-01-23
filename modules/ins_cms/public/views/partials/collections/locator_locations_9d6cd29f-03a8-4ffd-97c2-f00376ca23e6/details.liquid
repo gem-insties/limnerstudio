@@ -164,7 +164,7 @@ metadata: {
                     <tr>
                         <td class="px-6 py-3 text-sm text-gray-600 font-medium">Gallery 1</td>
                         <td class="px-6 py-3 text-sm liquid-tag">
-                            {% if gallery_1.size > 0 %}
+                            {% if context.exports.data.item.gallery_1.size > 0 %}
                                 <div class="gallery-container">
                                     {% for item in gallery_1 %}
                                         <div class="gallery-item" id="item-{{ item.id }}">
