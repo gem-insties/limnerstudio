@@ -157,6 +157,28 @@ metadata: {
                         <td class="px-6 py-3 text-sm liquid-tag"><a href="{{ context.exports.data.item.file_5.url }}">{{ context.exports.data.item.file_5.file_name }}</a></td>
                     </tr>
 
+                    <!-- Gallery Tab -->
+                    <tr class="bg-gray-50">
+                        <td colspan="2" class="px-6 py-2 font-bold text-indigo-600 text-sm italic">Gallery Tab</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-3 text-sm text-gray-600 font-medium">Gallery 1</td>
+                        <td class="px-6 py-3 text-sm liquid-tag">
+                            {% if gallery_1.size > 0 %}
+                                <div class="gallery-container">
+                                    {% for item in gallery_1 %}
+                                        <div class="gallery-item" id="item-{{ item.id }}">
+                                            <img src="{{ item.file.url }}" alt="{{ item.file.file_name }}">
+                                            <p>{{ item.file.file_name }}</p>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p>No images found in the gallery.</p>
+                            {% endif %}
+                        </td>
+                    </tr>
+
                 </tbody>
             </table>
         </div>
