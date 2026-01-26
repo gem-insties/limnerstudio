@@ -75,14 +75,14 @@ metadata: {
 
     <!-- Delete -->
     {% assign json_data = datagetall | parse_json %}
-    {% assign for_delete_id = "" %}
+    {% assign for_delete_id = "19661420" %}
     {% for item in json_data.results %}
     {% if item.name == "delete_me" %}
     {% assign for_delete_id = item.id %}
     {% break %}
     {% endif %}
     {% endfor %}
-    {% function datadelete = "locator/controller/custom_fields/delete", id: 19661420 %}
+    {% function datadelete = "locator/controller/custom_fields/delete", id: for_delete_id %}
     <div class="data-container">
         <p>Delete</p>
         {% if datadelete.errors %}
