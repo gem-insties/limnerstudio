@@ -75,7 +75,7 @@ metadata: {
 
     <!-- Delete -->
     {% assign json_data = datagetall | parse_json %}
-    {% assign for_delete_id = "19661420" %}
+    {% assign for_delete_id = "" %}
     {% for item in json_data.results %}
     {% if item.name == "delete_me" %}
     {% assign for_delete_id = item.id %}
