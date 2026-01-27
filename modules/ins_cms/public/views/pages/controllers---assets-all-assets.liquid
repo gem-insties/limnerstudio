@@ -69,7 +69,7 @@ metadata: {
     {
     "tags" : "design",
     "page" : 1,
-    "per_page" : 50
+    "per_page" : 2
     }
     {% endparse_json %}
     {% function datagetall = "assets/controller/assets/list", params: paramsgetall %}
@@ -79,6 +79,30 @@ metadata: {
         <p class="error"> {{ datagetall }}</p>
         {% else %}
         <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Get -->
+    {% function dataget = "assets/controller/assets/get", id: datagetall.results[0].id %}
+    <div class="data-container">
+        <p>Get</p>
+        {% if dataget.errors %}
+        <p class="error"> {{ dataget }} | Locator Enquiries ID: {{datagetall.results[0].id}}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
+        {% endif %}
+    </div>
+
+
+
+    <!-- Delete -->
+    {% function datadelete = "assets/controller/assets/delete", id: dataadd.id %}
+    <div class="data-container">
+        <p>Delete</p>
+        {% if datadelete.errors %}
+        <p class="error"> {{ datadelete }} | Asset ID: {{dataadd.id}}</p>
+        {% else %}
+        <p>{{ datadelete }}</p>
         {% endif %}
     </div>
 
