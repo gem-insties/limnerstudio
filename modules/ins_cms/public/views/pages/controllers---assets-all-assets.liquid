@@ -82,18 +82,24 @@ metadata: {
         {% endif %}
     </div>
 
-    <!-- Get -->
-    {% function dataget = "assets/controller/assets/get", id: datagetall.results[0].id %}
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+    "name" : "modules/ins_assets/http-added.jpg",
+    "physical_file_path" : "modules/ins_assets/public/assets/http-added.jpg",
+    "url" : "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/ins_databases/image_versions/new_field/0844c9cb-1d55-4b23-9341-487310b0f1e5/pencil.jpg",
+    "is_overwrite" : false
+    }
+    {% endparse_json %}
+    {% function dataadd = "assets/controller/assets/create", params: paramsadd %}
     <div class="data-container">
-        <p>Get</p>
-        {% if dataget.errors %}
-        <p class="error"> {{ dataget }} | Locator Enquiries ID: {{datagetall.results[0].id}}</p>
+        <p>Add</p>
+        {% if dataadd.errors %}
+        <p class="error"> {{ dataadd }}</p>
         {% else %}
-        <p>{{ dataget }}</p>
+        <p>{{ dataadd }}</p>
         {% endif %}
     </div>
-
-
 
     <!-- Delete -->
     {% function datadelete = "assets/controller/assets/delete", id: dataadd.id %}
