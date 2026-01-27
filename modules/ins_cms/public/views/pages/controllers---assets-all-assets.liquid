@@ -63,36 +63,26 @@ metadata: {
             <a href="#signup" class="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Sign Up</a>
         </div>
     </nav>
-
-    <!-- Get All -->
-    {% parse_json paramsgetall %}
+  
+    <!-- Add -->
+    {% parse_json paramsadd %}
     {
-    "tags" : "design",
-    "page" : 1,
-    "per_page" : 2
+    "name" : "modules/ins_assets/http-added.jpg",
+    "physical_file_path" : "modules/ins_assets/public/assets/http-added.jpg",
+    "url" : "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/ins_databases/image_versions/new_field/0844c9cb-1d55-4b23-9341-487310b0f1e5/pencil.jpg",
+    "is_overwrite" : false
     }
     {% endparse_json %}
-    {% function datagetall = "assets/controller/assets/list", params: paramsgetall %}
+    {% function dataadd = "assets/controller/assets/create", params: paramsadd %}
     <div class="data-container">
-        <p>Get All</p>
-        {% if datagetall.errors %}
-        <p class="error"> {{ datagetall }}</p>
+        <p>Add</p>
+        {% if dataadd.errors %}
+        <p class="error"> {{ dataadd }}</p>
         {% else %}
-        <p>{{ datagetall }}</p>
+        <p>{{ dataadd }}</p>
         {% endif %}
     </div>
 
-    <!-- Get -->
-    {% function dataget = "assets/controller/assets/get", id: datagetall.results[0].id %}
-    <div class="data-container">
-        <p>Get</p>
-        {% if dataget.errors %}
-        <p class="error"> {{ dataget }} | Locator Enquiries ID: {{datagetall.results[0].id}}</p>
-        {% else %}
-        <p>{{ dataget }}</p>
-        {% endif %}
-    </div>
-  
     <!-- Hero Section -->
     <section
         class="flex flex-col items-center text-center py-20 px-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
