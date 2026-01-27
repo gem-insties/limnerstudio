@@ -1,9 +1,13 @@
 ---
 slug: controllers---assets-all-assets
 layout: modules/ins_cms/public/views/layouts/blank.liquid
+max_deep_level: 3
+authorization_policies:
 metadata: {
     page_name: "Controllers - Assets All Assets",
+    created_by: "QA Insites",
     page_title: "Controllers - Assets All Assets",
+    last_updated_by: "QA Insites",
 }
 --- 
 
@@ -75,47 +79,6 @@ metadata: {
         <p class="error"> {{ datagetall }}</p>
         {% else %}
         <p>{{ datagetall }}</p>
-        {% endif %}
-    </div>
-
-    <!-- Get -->
-    {% function dataget = "assets/controller/assets/get", id: datagetall.results[0].id %}
-    <div class="data-container">
-        <p>Get</p>
-        {% if dataget.errors %}
-        <p class="error"> {{ dataget }} | Locator Enquiries ID: {{datagetall.results[0].id}}</p>
-        {% else %}
-        <p>{{ dataget }}</p>
-        {% endif %}
-    </div>
-
-    <!-- Add -->
-    {% parse_json paramsadd %}
-    {
-    "name" : "modules/ins_assets/http-added.jpg",
-    "physical_file_path" : "modules/ins_assets/public/assets/http-added.jpg",
-    "url" : "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/ins_databases/image_versions/new_field/0844c9cb-1d55-4b23-9341-487310b0f1e5/pencil.jpg",
-    "is_overwrite" : false
-    }
-    {% endparse_json %}
-    {% function dataadd = "assets/controller/assets/create", params: paramsadd %}
-    <div class="data-container">
-        <p>Add</p>
-        {% if dataadd.errors %}
-        <p class="error"> {{ dataadd }}</p>
-        {% else %}
-        <p>{{ dataadd }}</p>
-        {% endif %}
-    </div>
-
-    <!-- Delete -->
-    {% function datadelete = "assets/controller/assets/delete", id: dataadd.id %}
-    <div class="data-container">
-        <p>Delete</p>
-        {% if datadelete.errors %}
-        <p class="error"> {{ datadelete }} | Asset ID: {{dataadd.id}}</p>
-        {% else %}
-        <p>{{ datadelete }}</p>
         {% endif %}
     </div>
 
