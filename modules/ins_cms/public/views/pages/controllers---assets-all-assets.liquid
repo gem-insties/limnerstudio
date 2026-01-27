@@ -82,6 +82,17 @@ metadata: {
         {% endif %}
     </div>
 
+    <!-- Get -->
+    {% function dataget = "assets/controller/assets/get", uuid: datagetall.results[0].id %}
+    <div class="data-container">
+        <p>Get</p>
+        {% if dataget.errors %}
+        <p class="error"> {{ dataget }} | Locator Enquiries ID: {{datagetall.results[0].id}}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
+        {% endif %}
+    </div>
+
     <!-- Add -->
     {% parse_json paramsadd %}
     {
@@ -102,7 +113,7 @@ metadata: {
     </div>
 
     <!-- Delete -->
-    {% function datadelete = "assets/controller/assets/delete", id: dataadd.id %}
+    {% function datadelete = "assets/controller/assets/delete", uuid: dataadd.id %}
     <div class="data-container">
         <p>Delete</p>
         {% if datadelete.errors %}
