@@ -64,14 +64,40 @@ metadata: {
         </div>
     </nav>
 
-    <!-- Get -->
-    {% function dataget = "assets/controller/assets/get", id: 31261044 %}
+    <!-- Get All -->
+    {% parse_json paramsgetall %}
+    {
+    "tags" : "design",
+    "page" : 1,
+    "per_page" : 2
+    }
+    {% endparse_json %}
+    {% function datagetall = "assets/controller/assets/list", params: paramsgetall %}
     <div class="data-container">
-        <p>Get</p>
-        {% if dataget.errors %}
-        <p class="error"> {{ dataget }} | Locator Enquiries ID: {{datagetall.results[0].id}}</p>
+        <p>Get All</p>
+        {% if datagetall.errors %}
+        <p class="error"> {{ datagetall }}</p>
         {% else %}
-        <p>{{ dataget }}</p>
+        <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+    "name" : "modules/ins_assets/http-added.jpg",
+    "physical_file_path" : "modules/ins_assets/public/assets/http-added.jpg",
+    "url" : "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/ins_databases/image_versions/new_field/0844c9cb-1d55-4b23-9341-487310b0f1e5/pencil.jpg",
+    "is_overwrite" : false
+    }
+    {% endparse_json %}
+    {% function dataadd = "assets/controller/assets/create", params: paramsadd %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if dataadd.errors %}
+        <p class="error"> {{ dataadd }}</p>
+        {% else %}
+        <p>{{ dataadd }}</p>
         {% endif %}
     </div>
 
