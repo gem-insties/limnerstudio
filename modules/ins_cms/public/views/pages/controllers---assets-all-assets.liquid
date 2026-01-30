@@ -88,7 +88,7 @@ metadata: {
     <div class="data-container">
         <p>Get</p>
         {% if dataget.errors %}
-        <p class="error"> {{ dataget }} | Locator Enquiries ID: {{datagetall.results[0].id}}</p>
+        <p class="error"> {{ dataget }} | Asset ID: {{datagetall.results[0].id}}</p>
         {% else %}
         <p>{{ dataget }}</p>
         {% endif %}
@@ -97,12 +97,10 @@ metadata: {
     <!-- Add -->
     {% parse_json paramsadd %}
     {
-    "name" : "modules/ins_assets/controller-added.jpg",
-    "physical_file_path" : "modules/ins_assets/controller-added.jpg",
+    "name" : "modules/ins_assets/http-added.jpg",
+    "physical_file_path" : "modules/ins_assets/public/assets/http-added.jpg",
     "url" :
     "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/ins_databases/image_versions/new_field/0844c9cb-1d55-4b23-9341-487310b0f1e5/pencil.jpg",
-"metadata.tags" : ["logo","product"],
-  
     "is_overwrite" : false
     }
     {% endparse_json %}
@@ -113,6 +111,17 @@ metadata: {
         <p class="error"> {{ dataadd }}</p>
         {% else %}
         <p>{{ dataadd }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Archive -->
+    {% function dataget = "assets/controller/assets/archive", uuid: dataadd.id %}
+    <div class="data-container">
+        <p>Get</p>
+        {% if dataget.errors %}
+        <p class="error"> {{ dataget }} | Asset ID: {{dataadd.id}}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
         {% endif %}
     </div>
 
