@@ -97,8 +97,8 @@ metadata: {
     <!-- Add -->
     {% parse_json paramsadd %}
     {
-    "name" : "modules/asset-tags/controller-added.jpg",
-    "physical_file_path" : "modules/asset-tags/controller-added.jpg",
+    "name" : "modules/asset-archive/controller-added.jpg",
+    "physical_file_path" : "modules/asset-archive/controller-added.jpg",
     "url" :
     "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/ins_databases/image_versions/new_field/39355871-977a-44ed-9665-02b79fcdf192/Asterisk.png",
     "metadata.tags" : ["2","1"]
@@ -115,7 +115,7 @@ metadata: {
     </div>
 
     <!-- Archive -->
-    {% function dataarchive = "assets/controller/assets/archive", uuid: "123" %}
+    {% function dataarchive = "assets/controller/assets/archive", uuid: dataadd.id %}
     <div class="data-container">
         <p>Archive</p>
         {% if dataarchive.errors %}
@@ -126,7 +126,7 @@ metadata: {
     </div>
 
     <!-- Delete -->
-    {% function datadelete = "assets/controller/assets/delete", uuid: "123" %}
+    {% function datadelete = "assets/controller/assets/delete", uuid: dataadd.id %}
     <div class="data-container">
         <p>Delete</p>
         {% if datadelete.errors %}
