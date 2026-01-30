@@ -7,7 +7,7 @@ metadata: {
     page_name: "Controllers - Assets All Assets",
     created_by: "QA Insites",
     page_title: "Controllers - Assets All Assets",
-    last_updated_by: "Ezekiel Mojica",
+    last_updated_by: "QA Insites",
 }
 --- 
 
@@ -115,18 +115,18 @@ metadata: {
     </div>
 
     <!-- Archive -->
-    {% function dataget = "assets/controller/assets/archive", uuid: dataadd.id %}
+    {% function dataarchive = "assets/controller/assets/archive", uuid: dataadd.id %}
     <div class="data-container">
-        <p>Get</p>
-        {% if dataget.errors %}
-        <p class="error"> {{ dataget }} | Asset ID: {{dataadd.id}}</p>
+        <p>Archive</p>
+        {% if dataarchive.errors %}
+        <p class="error"> {{ dataarchive }} | Asset ID: {{dataadd.id}}</p>
         {% else %}
-        <p>{{ dataget }}</p>
+        <p>{{ dataarchive }}</p>
         {% endif %}
     </div>
 
     <!-- Delete -->
-    {% function datadelete = "assets/controller/assets/delete", uuid: "123" %}
+    {% function datadelete = "assets/controller/assets/delete", uuid: dataadd.id %}
     <div class="data-container">
         <p>Delete</p>
         {% if datadelete.errors %}
