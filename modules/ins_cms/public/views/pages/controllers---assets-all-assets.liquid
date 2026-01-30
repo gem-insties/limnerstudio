@@ -97,11 +97,11 @@ metadata: {
     <!-- Add -->
     {% parse_json paramsadd %}
     {
-    "name" : "modules/ins_assets/http-added.jpg",
-    "physical_file_path" : "modules/ins_assets/public/assets/http-added.jpg",
+    "name" : "modules/asset-tags/controller-added.jpg",
+    "physical_file_path" : "modules/asset-tags/controller-added.jpg",
     "url" :
-    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/ins_databases/image_versions/new_field/0844c9cb-1d55-4b23-9341-487310b0f1e5/pencil.jpg",
-    "is_overwrite" : false
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/ins_databases/image_versions/new_field/be0f58ae-dda6-4f6c-b2f5-7c317c92484a/balamb.jpg",
+    "metadata.tags" : ["2","1"]
     }
     {% endparse_json %}
     {% function dataadd = "assets/controller/assets/create", params: paramsadd %}
@@ -115,7 +115,7 @@ metadata: {
     </div>
 
     <!-- Archive -->
-    {% function dataarchive = "assets/controller/assets/archive", uuid: dataadd.id %}
+    {% function dataarchive = "assets/controller/assets/archive", uuid: "123" %}
     <div class="data-container">
         <p>Archive</p>
         {% if dataarchive.errors %}
