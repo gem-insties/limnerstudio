@@ -1,9 +1,13 @@
 ---
 slug: controllers---assets-folders
 layout: modules/ins_cms/public/views/layouts/blank.liquid
+max_deep_level: 3
+authorization_policies:
 metadata: {
     page_name: "Controllers - Assets Folders",
+    created_by: "QA Insites",
     page_title: "Controllers - Assets Folders",
+    last_updated_by: "QA Insites",
 }
 --- 
 
@@ -78,11 +82,16 @@ metadata: {
     </div>
 
     <!-- Delete -->
-    {% function datadelete = "assets/controller/folders/delete", uuid: dataadd.id %}
+     {% parse_json paramsdelete %}
+    {
+    "folder": "modules/my_module/public/assets/images/1/"
+    }
+    {% endparse_json %}
+    {% function datadelete = "assets/controller/folders/delete", params: paramsdelete %}
     <div class="data-container">
         <p>Delete</p>
         {% if datadelete.errors %}
-        <p class="error"> {{ datadelete }} | Asset ID: {{dataadd.id}}</p>
+        <p class="error"> {{ datadelete }} | Asset ID: {{paramsdelete}}</p>
         {% else %}
         <p>{{ datadelete }}</p>
         {% endif %}
