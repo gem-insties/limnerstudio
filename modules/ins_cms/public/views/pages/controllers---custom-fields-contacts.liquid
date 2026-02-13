@@ -6,7 +6,7 @@ metadata: {
     page_name: "Controllers - Custom Fields Contacts",
     created_by: "Gem Villafuerte",
     page_title: "Controllers - Custom Fields Contacts",
-    last_updated_by: "Gem Villafuerte",
+    last_updated_by: "Mark Yusi",
 }
 --- 
 
@@ -81,6 +81,7 @@ metadata: {
     {% break %}
     {% endif %}
     {% endfor %}
+    {% function datadelete = "crm/controller/custom-fields/delete", type: "contact", id: for_delete_id %}
     <div class="data-container">
         <p>Delete</p>
         {% if datadelete.errors %}
