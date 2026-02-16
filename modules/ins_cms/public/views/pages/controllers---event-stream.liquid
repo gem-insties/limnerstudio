@@ -1,0 +1,170 @@
+---
+slug: controllers---event-stream
+max_deep_level: 3
+authorization_policies:
+metadata: {
+    page_name: "Controllers - Event Stream",
+    created_by: "Gem Villafuerte",
+    page_title: "Controllers - Event Stream",
+    last_updated_by: "Gem Villafuerte",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controllers - Event Stream</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center p-6 bg-white shadow">
+        <h1 class="text-2xl font-bold text-blue-600">MyBrand</h1>
+        <div>
+            <a href="#features" class="px-4 text-gray-700 hover:text-blue-600">Features</a>
+            <a href="#about" class="px-4 text-gray-700 hover:text-blue-600">About</a>
+            <a href="#contact" class="px-4 text-gray-700 hover:text-blue-600">Contact</a>
+            <a href="#signup" class="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Get All -->
+    {% parse_json params %}
+    {
+    "page": 1,
+    "per_page": 1
+    }
+    {% endparse_json %}
+    {% function data = "crm/controller/event-streams/list", params: params %}
+    <div class="data-container">
+        <p>List</p>
+        {% if data.errors %}
+        <p class="error"> {{ data }}</p>
+        {% else %}
+        <p>{{ data }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Create -->
+    {% parse_json createparams %}
+    {
+  "description": "This is a API added event stream item",
+  "log": {
+    "company_uuid": "ea7570fd-453c-4be8-a994-c2d0fde0205b",
+    "related_uuid": "ea7570fd-453c-4be8-a994-c2d0fde0205b",
+    "related_type": "company",
+    "data": {
+      "companyName": "Acme Technologies Inc.",
+      "businessType": "Corporation",
+      "industry": "Information Technology",
+      "address": "123 Main St, New York, NY",
+      "phoneNumber": "+1 (212) 555-0100",
+      "related_uuid": "ea7570fd-453c-4be8-a994-c2d0fde0205b",
+      "related_type": "company"
+    }
+  },
+  "details": "<table><caption>Basic Company Details<tr><th>Field<th>Value<tr><td>Company Name<td>Acme Technologies Inc.<tr><td>Business Type<td>Corporation<tr><td>Industry<td>Information Technology<tr><td>Address<td>123 Main St, New York, NY<tr><td>Phone Number<td>+1 (212) 555-0100</table>",
+  "font_icon": "icon-thumbs-up",
+  "font_icon_color": "yellow",
+  "datetime": "1749078000"
+}
+    {% endparse_json %}
+    {% function data3 = "crm/controller/event-streams/create", params: createparams %}
+    <div class="data-container">
+        <p>Create</p>
+        {% if data3.errors %}
+        <p class="error"> {{ data3 }}</p>
+        {% else %}
+        <p>{{ data3 }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Hero Section -->
+    <section
+        class="flex flex-col items-center text-center py-20 px-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">Welcome to MyBrand</h2>
+        <p class="max-w-2xl mb-8 text-lg">We help you build amazing experiences with a simple and modern platform that
+            scales effortlessly.</p>
+        <a href="#signup" class="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg shadow hover:bg-gray-100">Get
+            Started</a>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-16 px-6 bg-white">
+        <h3 class="text-3xl font-bold text-center mb-12">Features</h3>
+        <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Fast</h4>
+                <p>Experience lightning-fast performance with our optimized platform.</p>
+            </div>
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Secure</h4>
+                <p>Your data is protected with industry-leading security practices.</p>
+            </div>
+            <div class="p-6 shadow rounded-xl bg-gray-50">
+                <h4 class="text-xl font-semibold mb-2">Scalable</h4>
+                <p>Grow without limits. Our system scales as your business expands.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-16 px-6 bg-gray-100">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-3xl font-bold mb-6">About Us</h3>
+            <p class="text-lg">We are passionate about building tools that empower businesses and individuals. Our
+                mission is to simplify technology while keeping it powerful and accessible for everyone.</p>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-16 px-6 bg-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-3xl font-bold mb-6">Contact Us</h3>
+            <p class="mb-4">Have questions? Reach out and we’ll get back to you shortly.</p>
+            <a href="mailto:info@mybrand.com"
+                class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Email Us</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center bg-gray-900 text-gray-400">
+        <p>© 2025 MyBrand. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>
