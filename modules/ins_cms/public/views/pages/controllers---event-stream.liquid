@@ -6,7 +6,7 @@ metadata: {
     page_name: "Controllers - Event Stream",
     created_by: "Gem Villafuerte",
     page_title: "Controllers - Event Stream",
-    last_updated_by: "Gem Villafuerte",
+    last_updated_by: "QA Insites",
 }
 --- 
 
@@ -64,9 +64,9 @@ metadata: {
     <!-- Get All -->
     {% parse_json params %}
     {
-    "page": 1,
-    "per_page": 1
-    }
+  	"page" : 1,
+  	"per_page" : 10
+	}
     {% endparse_json %}
     {% function data = "crm/controller/event-streams/list", params: params %}
     <div class="data-container">
