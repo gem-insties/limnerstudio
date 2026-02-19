@@ -6,7 +6,7 @@ metadata: {
     page_name: "Controllers - Order Items",
     created_by: "Gem Villafuerte",
     page_title: "Controllers - Order Items",
-    last_updated_by: "QA Insites",
+    last_updated_by: "Steve Suyam",
 }
 --- 
 
@@ -97,7 +97,7 @@ metadata: {
     <!-- Add -->
     {% parse_json paramsadd %}
     {
-    "order.uuid": "274ade9d-9393-4c14-979a-c736df7cdf06",
+    "order.uuid": "26f50ab5-c2bc-437b-a9a6-41bb292aa34d",
     "product.uuid": "25292e74-b344-4c98-90e2-eb77bfded39d",
     "product_variant.uuid": "",
     "order_item_image":
@@ -129,7 +129,7 @@ metadata: {
     {% parse_json paramsaddmultiple %}
     [
     {
-    "order.uuid": "ecbb1e56-ba26-45d4-bc08-6f57d47b3774",
+    "order.uuid": "26f50ab5-c2bc-437b-a9a6-41bb292aa34d",
     "product.uuid": "b43300ed-9be3-46e8-9342-ef2e0907dd5e",
     "product_variant.uuid": "2024813d-3826-4b58-8f68-3d6488eb5c77",
     "order_item_image":
@@ -147,7 +147,7 @@ metadata: {
     "is_fixed_tax_amount": true
     },
     {
-    "order.uuid": "ecbb1e56-ba26-45d4-bc08-6f57d47b3774",
+    "order.uuid": "26f50ab5-c2bc-437b-a9a6-41bb292aa34d",
     "product.uuid": null,
     "product_variant.uuid": null,
     "order_item_image":
@@ -191,12 +191,12 @@ metadata: {
     "line_item_tax": 30000,
     "item_price": 500,
     "is_fixed_tax_amount": true,
-    "order.uuid": "ecbb1e56-ba26-45d4-bc08-6f57d47b3774",
+    "order.uuid": "26f50ab5-c2bc-437b-a9a6-41bb292aa34d",
     "product.uuid": "2c819ee6-bb8d-4a14-a138-f05973136dff",
     "product_variant.uuid": "6963f96f-97eb-45a7-aa0e-afc4dfb4639c"
     }
     {% endparse_json %}
-    {% function dataupdate = "ecommerce/controller/order_items/update", uuid: dataadd.uuid, params:paramsupdate %}
+    <!-- {% function dataupdate = "ecommerce/controller/order_items/update", uuid: dataadd.uuid, params:paramsupdate %} -->
     <div class="data-container">
         <p>Update</p>
         {% if dataupdate.errors %}
@@ -207,9 +207,9 @@ metadata: {
     </div>
 
     <!-- Delete -->
-    {% function datadelete1 = "ecommerce/controller/order_items/delete", uuid: dataadd.uuid %}
-    {% function datadelete2 = "ecommerce/controller/order_items/delete", uuid: dataaddmultiple[0].uuid %}
-    {% function datadelete3 = "ecommerce/controller/order_items/delete", uuid: dataaddmultiple[1].uuid %}
+    <!-- {% function datadelete1 = "ecommerce/controller/order_items/delete", uuid: dataadd.uuid %} -->
+    <!-- {% function datadelete2 = "ecommerce/controller/order_items/delete", uuid: dataaddmultiple[0].uuid %} -->
+    <!-- {% function datadelete3 = "ecommerce/controller/order_items/delete", uuid: dataaddmultiple[1].uuid %} -->
     <div class="data-container">
         <p>Delete 1</p>
         {% if datadelete1.errors %}
