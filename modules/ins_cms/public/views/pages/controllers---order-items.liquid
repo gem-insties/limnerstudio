@@ -6,7 +6,7 @@ metadata: {
     page_name: "Controllers - Order Items",
     created_by: "Gem Villafuerte",
     page_title: "Controllers - Order Items",
-    last_updated_by: "Steve Suyam",
+    last_updated_by: "Gem QA 2",
 }
 --- 
 
@@ -196,7 +196,6 @@ metadata: {
     "product_variant.uuid": "6963f96f-97eb-45a7-aa0e-afc4dfb4639c"
     }
     {% endparse_json %}
-    <!-- {% function dataupdate = "ecommerce/controller/order_items/update", uuid: dataadd.uuid, params:paramsupdate %} -->
     <div class="data-container">
         <p>Update</p>
         {% if dataupdate.errors %}
@@ -207,9 +206,6 @@ metadata: {
     </div>
 
     <!-- Delete -->
-    <!-- {% function datadelete1 = "ecommerce/controller/order_items/delete", uuid: dataadd.uuid %} -->
-    <!-- {% function datadelete2 = "ecommerce/controller/order_items/delete", uuid: dataaddmultiple[0].uuid %} -->
-    <!-- {% function datadelete3 = "ecommerce/controller/order_items/delete", uuid: dataaddmultiple[1].uuid %} -->
     <div class="data-container">
         <p>Delete 1</p>
         {% if datadelete1.errors %}
