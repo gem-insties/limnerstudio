@@ -6,7 +6,7 @@ metadata: {
     created_by: "QA Console",
     page_title: "Website | {{ context.exports.data.item.product_name }}",
     sitemap_order: "76",
-    last_updated_by: "QA Insites",
+    last_updated_by: "Gem Villafuerte",
     open_graph_image: "{}",
     sitemap_priority: ".76",
     is_sitemap_enabled: "true",
@@ -15,6 +15,5 @@ metadata: {
 }
 ---
 
-<!-- CMS SEO fields -->
-{%- include 'modules/insites_ecommerce/seo' -%}
+{%- include 'modules/insites_ecommerce/seo', type: 'product', slug: {{ context.exports.data.item.slug }} -%}
 <p>Product Name: {{ context.exports.data.item.product_name }}</p>
