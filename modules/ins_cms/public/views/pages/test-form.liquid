@@ -1,0 +1,16 @@
+---
+slug: test-form
+layout: modules/ins_cms/public/views/layouts/form-layout.liquid
+max_deep_level: 1
+authorization_policies:
+metadata: {
+    page_name: "Test Form",
+    page_title: "Test Form",
+    last_updated_by: "Mark Yusi",
+}
+--- 
+
+{%- include_form 'modules/ins_forms/email_notifications' -%}
+
+{{ context.flash.notice }}
+{{ context.flash.notice }}
