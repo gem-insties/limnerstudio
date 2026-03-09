@@ -13,6 +13,7 @@ metadata: {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
     <!-- Ecommerce SEO fields -->
+  	{% assign current_url = context.location.pathname %}
   	{% assign slug = current_url | split: '/ecommerce-products/' | last %}
 	{% if current_url contains '/ecommerce-products.html' %}
     	{%- include 'modules/insites_cms/seo' -%}
