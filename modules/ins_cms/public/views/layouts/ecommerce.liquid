@@ -13,7 +13,12 @@ metadata: {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
     <!-- Ecommerce SEO fields -->
-    {%- include 'modules/insites_ecommerce/seo', type: 'product', slug: '{{ context.exports.data.item.slug }}' -%}
+  	{% assign current_url = context.location.pathname %}
+    {% if current_url == '/ecommerce-products' %}
+        {%- include 'modules/insites_cms/seo' -%}
+    {% else %}
+        {%- include 'modules/insites_ecommerce/seo', type: 'product', slug: '{{ context.exports.data.item.slug }}' -%}
+    {% endif %}
     
  	<!-- IMPORT GLOBALS -->
   	{%- include "modules/insites_cms/globals" -%}
