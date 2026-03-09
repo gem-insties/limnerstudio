@@ -14,7 +14,7 @@ metadata: {
   
     <!-- Ecommerce SEO fields -->
   	{% assign current_url = context.location.pathname %}
-    {% if current_url == '/ecommerce-products' %}
+    {% if current_url contains '/ecommerce-products.html' %}
         {%- include 'modules/insites_cms/seo' -%}
     {% else %}
   		<!-- Ecommerce Product Details -->
