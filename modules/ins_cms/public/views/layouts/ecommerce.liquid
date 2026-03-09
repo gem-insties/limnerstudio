@@ -17,6 +17,7 @@ metadata: {
     {% if current_url == '/ecommerce-products' %}
         {%- include 'modules/insites_cms/seo' -%}
     {% else %}
+  		<!-- Ecommerce Product Details -->
         {%- include 'modules/insites_ecommerce/seo', type: 'product' -%}
     {% endif %}
     
