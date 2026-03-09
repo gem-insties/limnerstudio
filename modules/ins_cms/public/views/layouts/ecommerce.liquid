@@ -17,7 +17,7 @@ metadata: {
     {% if current_url == '/ecommerce-products' %}
         {%- include 'modules/insites_cms/seo' -%}
     {% else %}
-        {%- include 'modules/insites_ecommerce/seo', type: 'product', slug: '{{ context.exports.data.item.slug }}' -%}
+        {%- include 'modules/insites_ecommerce/seo', type: 'product' -%}
     {% endif %}
     
  	<!-- IMPORT GLOBALS -->
