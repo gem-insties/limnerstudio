@@ -1,0 +1,35 @@
+---
+metadata: {
+    layout_name: "Ecommerce Categories",
+}
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <!-- Ecommerce SEO fields -->
+  	{% assign current_url = context.location.pathname %}
+  	{% assign slug = current_url | split: '/ecommerce-categories/' | last %}
+	{% if current_url contains '/ecommerce-categories.html' or current_url == '/ecommerce-categories' %}
+    	{%- include 'modules/insites_cms/seo' -%}
+	{% else %}
+    	<!-- Ecommerce Product Details -->
+    	{%- include 'modules/insites_ecommerce/seo', type: 'categories', slug: slug -%}
+	{% endif %}
+    
+ 	<!-- IMPORT GLOBALS -->
+  	{%- include "modules/insites_cms/globals" -%}
+  
+  	<!-- Foundation CDN -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/css/foundation.min.css" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/js/foundation.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <h1>Layout Content</h1>
+  {{ context.exports.data.item.slug }}
+  	{{ content_for_layout }}
+</body>
+</html>
