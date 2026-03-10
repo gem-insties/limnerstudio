@@ -1,6 +1,8 @@
 ---
 metadata: {
+    created_by: "QA Insites",
     layout_name: "Ecommerce Categories",
+    last_updated_by: "QA Insites",
 }
 ---
 
@@ -17,7 +19,7 @@ metadata: {
     	{%- include 'modules/insites_cms/seo' -%}
 	{% else %}
     	<!-- Ecommerce Product Details -->
-    	{%- include 'modules/insites_ecommerce/seo', type: 'categories', slug: slug -%}
+    	{%- include 'modules/insites_ecommerce/seo', type: 'category', slug: slug -%}
 	{% endif %}
     
  	<!-- IMPORT GLOBALS -->
