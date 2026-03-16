@@ -207,7 +207,9 @@ metadata: {
     </div>
 
     <!-- Delete -->
-    
+    {% function datadelete1 = "ecommerce/controller/order_items/delete", uuid: dataadd.uuid %}
+    {% function datadelete2 = "ecommerce/controller/order_items/delete", uuid: dataaddmultiple[0].uuid %}
+    {% function datadelete3 = "ecommerce/controller/order_items/delete", uuid: dataaddmultiple[1].uuid %}
     <div class="data-container">
         <p>Delete 1</p>
         {% if datadelete1.errors %}
