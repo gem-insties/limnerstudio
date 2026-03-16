@@ -195,7 +195,7 @@ metadata: {
     "product_variant.uuid": "6963f96f-97eb-45a7-aa0e-afc4dfb4639c"
     }
     {% endparse_json %}
-    {% function dataupdate = "ecommerce/controller/order_items/update", uuid: dataadd.uuid, params:paramsupdate %}
+    {% function dataupdate = "ecommerce/controller/order_items/update", uuid: , params:paramsupdate %}
     <div class="data-container">
         <p>Update</p>
         {% if dataupdate.errors %}
