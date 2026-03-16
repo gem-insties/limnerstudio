@@ -97,22 +97,23 @@ metadata: {
     <!-- Add -->
     {% parse_json paramsadd %}
     {
-    "order_item_image": "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_ecommerce/product/product_image/175334d3-8051-4680-af2f-9646da463b18/product_2.jpg",
-    "order_item_name": "Controller Added Custom Item",
-    "sku": "CONTROLLER-ADDED-SKU-CUSTOM-ITEM",
+    "order.uuid": "26f50ab5-c2bc-437b-a9a6-41bb292aa34d",
+    "product.uuid": "25292e74-b344-4c98-90e2-eb77bfded39d",
+    "product_variant.uuid": "",
+    "order_item_image":
+    "https://cdn.staging.oregon.platform-os.com/instances/8697/property_uploads/modules/insites_ecommerce/product/product_image/175334d3-8051-4680-af2f-9646da463b18/product_2.jpg",
+    "order_item_name": "API Added",
+    "sku": "API-ADDED-SKU",
     "quantity": 10,
     "unit_price": 20,
-    "unit_price_includes_tax": true,
+    "unit_price_includes_tax": false,
     "tax_amount": 30,
-    "is_fixed_tax_amount": false,
-    "item_price": 15.38462,
-    "item_tax": 4.61539,
-    "line_item_total": 200.0001,
-    "line_item_tax": 46.15,
-    "order.uuid": "dfc23cf5-c6a2-401a-97dc-cef58a8c7a3f",
-    "product.uuid": null,
-    "product_variant.uuid": null
-}
+    "is_fixed_tax_amount": true,
+    "item_price": 50,
+    "item_tax": 30,
+    "line_item_total": 500,
+    "line_item_tax": 300
+    }
     {% endparse_json %}
     {% function dataadd = "ecommerce/controller/order_items/create", params: paramsadd %}
     <div class="data-container">
@@ -195,7 +196,7 @@ metadata: {
     "product_variant.uuid": "6963f96f-97eb-45a7-aa0e-afc4dfb4639c"
     }
     {% endparse_json %}
-    {% function dataupdate = "ecommerce/controller/order_items/update", uuid: , params:paramsupdate %}
+    {% function dataupdate = "ecommerce/controller/order_items/update", uuid: dataadd.uuid, params:paramsupdate %}
     <div class="data-container">
         <p>Update</p>
         {% if dataupdate.errors %}
@@ -207,8 +208,6 @@ metadata: {
 
     <!-- Delete -->
     
-    {% function datadelete2 = "ecommerce/controller/order_items/delete", uuid: dataaddmultiple[0].uuid %}
-    {% function datadelete3 = "ecommerce/controller/order_items/delete", uuid: dataaddmultiple[1].uuid %}
     <div class="data-container">
         <p>Delete 1</p>
         {% if datadelete1.errors %}
