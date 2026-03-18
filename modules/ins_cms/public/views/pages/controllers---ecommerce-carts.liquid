@@ -142,9 +142,18 @@ metadata: {
     </div>
 	
   	<!-- Cart Item Add Multiple -->
-  	{% function cart_item = "ecommerce/controller/cart_items/get", uuid: "9e882307-1094-4e3d-bec9-3a65099612b8" %}
-  <p>{{ cart_item }}</p>
-  
+  	{% parse_json get_params %}
+      {
+        "contact_uuid" : "d6b076fa-1692-4d8e-94f3-f25b4f539f91",
+        "page" : 1,
+        "size" : 10,
+        "field" : "",
+        "searchKeyword" : ""
+      }
+      {% endparse_json %}
+
+      {% function get_list = "ecommerce/controller/cart_items/list", params: get_params %}
+  <p>{{ get_list }}</p>
   
     <!-- Hero Section -->
     <section
