@@ -1,8 +1,12 @@
 ---
 slug: controllers-ecommerce-carts
+max_deep_level: 3
+authorization_policies:
 metadata: {
     page_name: "Controllers - Ecommerce Carts",
+    created_by: "QA Insites",
     page_title: "Controller - Ecommerce Carts",
+    last_updated_by: "QA Insites",
 }
 --- 
 
@@ -136,7 +140,26 @@ metadata: {
         <p>{{ datadelete }}</p>
         {% endif %}
     </div>
+	
+  	<!-- Cart Item Add Multiple -->
+  	{% parse_json params %}
+      [
+        {
+         "cart_uuid" : "51eb497f-8b1a-43eb-937f-b99975d930aa",
+         "product_uuid" : "25292e74-b344-4c98-90e2-eb77bfded39d",
+         "product_variant_uuid" : null,
+         "quantity" : 2
+        },
+        {
+         "cart_uuid" : "51eb497f-8b1a-43eb-937f-b99975d930aa",
+         "product_uuid" : "073074fb-a1a9-4321-a5e1-ab0b0b8cfbf2",
+         "product_variant_uuid" : "",
+         "quantity" : 1
+        }
+      ]
+      {% endparse_json %}
 
+      {% function data = "ecommerce/controller/cart_items/add_bulk", params: params %}
     <!-- Hero Section -->
     <section
         class="flex flex-col items-center text-center py-20 px-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
