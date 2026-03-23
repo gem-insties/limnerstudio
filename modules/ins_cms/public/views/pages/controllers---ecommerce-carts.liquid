@@ -6,7 +6,7 @@ metadata: {
     page_name: "Controllers - Ecommerce Carts",
     created_by: "QA Insites",
     page_title: "Controller - Ecommerce Carts",
-    last_updated_by: "Steve Suyam",
+    last_updated_by: "QA Insites",
 }
 --- 
 
@@ -84,11 +84,11 @@ metadata: {
     </div>
 
     <!-- Get -->
-    {% function dataget = "ecommerce/controller/cart/get", uuid: datagetall.results[0].contact.uuid %}
+    {% function dataget = "ecommerce/controller/cart/get", uuid: datagetall.results[0].contact_uuid %}
     <div class="data-container">
         <p>Get</p>
         {% if dataget.errors %}
-        <p class="error"> {{ dataget }} | Cart UUID: {{datagetall.results[0].uuid}}</p>
+        <p class="error"> {{ dataget }} | Contact UUID: {{datagetall.results[0].uuid}}</p>
         {% else %}
         <p>{{ dataget }}</p>
         {% endif %}
