@@ -84,7 +84,7 @@ metadata: {
     </div>
 
     <!-- Get -->
-    {% function dataget = "ecommerce/controller/cart/get", uuid: datagetall.results[0].uuid %}
+    {% function dataget = "ecommerce/controller/cart/get", uuid: datagetall.results[0].contact.uuid %}
     <div class="data-container">
         <p>Get</p>
         {% if dataget.errors %}
@@ -140,8 +140,7 @@ metadata: {
         <p>{{ datadelete }}</p>
         {% endif %}
     </div>
-	
-  
+
     <!-- Hero Section -->
     <section
         class="flex flex-col items-center text-center py-20 px-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
