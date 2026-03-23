@@ -33,6 +33,7 @@ metadata: {
     .data-container p {
         font-weight: 600;
         margin-bottom: 8px;
+        width: fit-content;
     }
 
     .data-container p~p {
@@ -64,8 +65,8 @@ metadata: {
     <!-- Get All -->
     {% parse_json paramsgetall %}
     {
-    "search_by": "product.product_name",
-    "keyword": "variant",
+    "search_by": "product_sku",
+    "keyword": "00",
     "sort_by": "updated_at",
     "sort_order": "DESC",
     "size": 1,
