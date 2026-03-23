@@ -88,7 +88,7 @@ metadata: {
     <div class="data-container">
         <p>Get</p>
         {% if dataget.errors %}
-        <p class="error"> {{ dataget }} | Contact UUID: {{datagetall.results[0].uuid}}</p>
+        <p class="error"> {{ dataget }} | Contact UUID: {{datagetall.results[0].contact_uuid}}</p>
         {% else %}
         <p>{{ dataget }}</p>
         {% endif %}
