@@ -84,7 +84,7 @@ metadata: {
     </div>
 
     <!-- Get -->
-    {% function dataget = "ecommerce/controller/cart/get", uuid: datagetall.results[0].contact_uuid %}
+    {% function dataget = "ecommerce/controller/cart/get", uuid: datagetall.results[0].uuid %}
     <div class="data-container">
         <p>Get</p>
         {% if dataget.errors %}
