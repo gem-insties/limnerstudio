@@ -6,7 +6,7 @@ metadata: {
     page_name: "Controllers - Ecommerce Carts",
     created_by: "QA Insites",
     page_title: "Controller - Ecommerce Carts",
-    last_updated_by: "QA Insites",
+    last_updated_by: "Steve Suyam",
 }
 --- 
 
@@ -141,6 +141,22 @@ metadata: {
         {% endif %}
     </div>
 
+  
+  
+  <!-- Cart Item -->
+  {% parse_json cart_item %}
+{
+  "cart_uuid" : "c8c252a6-92d6-4d53-9ce8-0904335b76ae",
+  "product_uuid" : "25292e74-b344-4c98-90e2-eb77bfded39d",
+  "product_variant_uuid" : "",
+  "quantity" : 2
+}
+{% endparse_json %}
+
+{% function data = "ecommerce/controller/cart_items/create", params: cart_item %}
+  <div class="data-container">
+        <p>{{ cart_item }}</p>
+    </div>
     <!-- Hero Section -->
     <section
         class="flex flex-col items-center text-center py-20 px-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
