@@ -74,7 +74,7 @@ metadata: {
         "page": 1
     }
     {% endparse_json %}
-    {% function datagetall = "pipeline/controller/pipeline-stages/list", params: paramsgetall %}
+    {% function datagetall = "pipeline/controller/stages/list", params: paramsgetall %}
     <div class="data-container">
         <p>Get All</p>
         {% if datagetall.errors %}
@@ -95,7 +95,7 @@ metadata: {
         "stage_weighting": 99
     }
     {% endparse_json %}
-    {% function dataadd = "pipeline/controller/pipeline-stages/create", params: paramsadd %}
+    {% function dataadd = "pipeline/controller/stages/create", params: paramsadd %}
     <div class="data-container">
         <p>Add</p>
         {% if dataadd.errors %}
@@ -115,7 +115,7 @@ metadata: {
         "stage_weighting": 98
     }
     {% endparse_json %}
-    {% function dataupdate = "pipeline/controller/pipeline-stages/update", uuid: dataadd.uuid, params: paramsupdate %}
+    {% function dataupdate = "pipeline/controller/stages/update", uuid: dataadd.uuid, params: paramsupdate %}
     <div class="data-container">
         <p>Update</p>
         {% if dataupdate.errors %}
@@ -126,7 +126,7 @@ metadata: {
     </div>
 
     <!-- Delete -->
-    {% function datadelete = "pipeline/controller/pipeline-stages/delete", uuid: dataadd.uuid %}
+    {% function datadelete = "pipeline/controller/stages/delete", uuid: dataadd.uuid %}
     <div class="data-container">
         <p>Delete</p>
         {% if datadelete.errors %}
