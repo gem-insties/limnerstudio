@@ -1,10 +1,14 @@
 ---
 slug: controller---pipelines-pipeline
 searchable: true
+max_deep_level: 3
+authorization_policies:
 metadata: {
-    is_visible_to_search_engines: "true",
     page_name: "Controller - Pipelines Pipeline",
+    created_by: "QA Insites",
     page_title: "Controller - Pipelines Pipeline",
+    last_updated_by: "QA Insites",
+    is_visible_to_search_engines: "true",
 }
 --- 
 
@@ -71,7 +75,7 @@ metadata: {
     "page": 1
     }
     {% endparse_json %}
-    {% function datagetall = "ecommerce/controller/cart/list", params: paramsgetall %}
+    {% function datagetall = "pipeline/controller/pipelines/list", params: paramsgetall %}
     <div class="data-container">
         <p>Get All</p>
         {% if datagetall.errors %}
@@ -82,7 +86,7 @@ metadata: {
     </div>
 
     <!-- Get -->
-    {% function dataget = "ecommerce/controller/cart/get", uuid: datagetall.results[0].uuid %}
+    {% function dataget = "pipeline/controller/pipelines/get", uuid: datagetall.results[0].uuid %}
     <div class="data-container">
         <p>Get</p>
         {% if dataget.errors %}
@@ -95,12 +99,16 @@ metadata: {
     <!-- Add -->
     {% parse_json paramsadd %}
     {
-    "contact.uuid": "4e42d7b7-0543-4996-b851-0297f71953f0",
-    "company.uuid": "d54177fa-3f99-4293-a3cd-55eff65b53ed",
-    "session_id": "1738"
+    "name": "[QA TEST] Controller Pipeline",
+    "status": "active",
+    "sales_target_value": 100000,
+    "sales_target_start_date": "2026-01-01",
+    "sales_target_end_date": "2026-12-31",
+    "is_won_reason_required": false,
+    "is_lost_reason_required": false
     }
     {% endparse_json %}
-    {% function dataadd = "ecommerce/controller/cart/create", params: paramsadd %}
+    {% function dataadd = "pipeline/controller/pipelines/create", params: paramsadd %}
     <div class="data-container">
         <p>Add</p>
         {% if dataadd.errors %}
@@ -113,12 +121,13 @@ metadata: {
     <!-- Update -->
     {% parse_json paramsupdate %}
     {
-    "contact.uuid": "45415a4f-9f63-4dec-a42b-a546e397045c",
-    "company.uuid": "ea7570fd-453c-4be8-a994-c2d0fde0205b",
-    "session_id": "619"
+    "name": "[QA TEST] Controller Pipeline Updated",
+    "sales_target_value": 200000,
+    "is_won_reason_required": true,
+    "is_lost_reason_required": true
     }
     {% endparse_json %}
-    {% function dataupdate = "ecommerce/controller/cart/update", uuid: dataadd.uuid, params:paramsupdate %}
+    {% function dataupdate = "pipeline/controller/pipelines/update", uuid: dataadd.uuid, params:paramsupdate %}
     <div class="data-container">
         <p>Update</p>
         {% if dataupdate.errors %}
@@ -129,7 +138,7 @@ metadata: {
     </div>
 
     <!-- Delete -->
-    {% function datadelete = "ecommerce/controller/cart/delete", uuid: dataadd.uuid %}
+    {% function datadelete = "pipeline/controller/pipelines/delete", uuid: dataadd.uuid %}
     <div class="data-container">
         <p>Delete</p>
         {% if datadelete.errors %}
