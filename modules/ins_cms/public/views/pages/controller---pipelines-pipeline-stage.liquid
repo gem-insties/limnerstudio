@@ -1,10 +1,14 @@
 ---
 slug: controller---pipelines-pipeline-stage
 searchable: true
+max_deep_level: 3
+authorization_policies:
 metadata: {
-    is_visible_to_search_engines: "true",
     page_name: "Controller - Pipelines Pipeline Stage",
+    created_by: "QA Insites",
     page_title: "Controller - Pipelines Pipeline Stage",
+    last_updated_by: "QA Insites",
+    is_visible_to_search_engines: "true",
 }
 --- 
 
@@ -85,7 +89,10 @@ metadata: {
     {
         "pipeline_uuid": "{{ datapipelines.results[0].uuid }}",
         "name": "[QA TEST] Controller Stage",
-        "probability": 50
+        "background_colour": "F0E6FF",
+        "font_colour": "000000",
+        "empty_message": "No opportunities in this stage",
+        "stage_weighting": 99
     }
     {% endparse_json %}
     {% function dataadd = "pipeline/controller/pipeline-stages/create", params: paramsadd %}
@@ -102,7 +109,10 @@ metadata: {
     {% parse_json paramsupdate %}
     {
         "name": "[QA TEST] Controller Stage Updated",
-        "probability": 75
+        "background_colour": "E8F4F8",
+        "font_colour": "003366",
+        "empty_message": "No opportunities here yet",
+        "stage_weighting": 98
     }
     {% endparse_json %}
     {% function dataupdate = "pipeline/controller/pipeline-stages/update", uuid: dataadd.uuid, params: paramsupdate %}
