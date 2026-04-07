@@ -1,0 +1,157 @@
+---
+slug: controller---pipelines-opportunity
+searchable: true
+metadata: {
+    is_visible_to_search_engines: "true",
+    page_name: "Controller - Pipelines Opportunity",
+    page_title: "Controller - Pipelines Opportunity",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller - Opportunities</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+        width: fit-content;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+
+    <!-- Get Pipeline + Stage (for UUIDs) -->
+    {% parse_json paramsgetpipelines %}
+    {
+        "sort_by": "updated_at",
+        "sort_order": "DESC",
+        "size": 1,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function datapipelines = "pipeline/controller/pipelines/list", params: paramsgetpipelines %}
+
+    {% parse_json paramsgetstages %}
+    {
+        "pipeline_uuid": "{{ datapipelines.results[0].uuid }}",
+        "size": 1,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function datastages = "pipeline/controller/pipeline-stages/list", params: paramsgetstages %}
+
+    <!-- Get All -->
+    {% parse_json paramsgetall %}
+    {
+        "sort_by": "updated_at",
+        "sort_order": "DESC",
+        "size": 10,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function datagetall = "pipeline/controller/opportunities/list", params: paramsgetall %}
+    <div class="data-container">
+        <p>Get All</p>
+        {% if datagetall.errors %}
+        <p class="error">{{ datagetall }}</p>
+        {% else %}
+        <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Get Single -->
+    {% function dataget = "pipeline/controller/opportunities/get", uuid: datagetall.results[0].uuid %}
+    <div class="data-container">
+        <p>Get Single</p>
+        {% if dataget.errors %}
+        <p class="error">{{ dataget }} | Opportunity UUID: {{ datagetall.results[0].uuid }}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+        "name": "[QA TEST] Controller Opportunity",
+        "pipeline.uuid": "{{ datapipelines.results[0].uuid }}",
+        "stage.uuid": "{{ datastages.results[0].uuid }}",
+        "value": 5000,
+        "probability": 50,
+        "status": "open"
+    }
+    {% endparse_json %}
+    {% function dataadd = "pipeline/controller/opportunities/create", params: paramsadd %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if dataadd.errors %}
+        <p class="error">{{ dataadd }}</p>
+        {% else %}
+        <p>{{ dataadd }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Update -->
+    {% parse_json paramsupdate %}
+    {
+        "name": "[QA TEST] Controller Opportunity Updated",
+        "pipeline.uuid": "{{ datapipelines.results[0].uuid }}",
+        "stage.uuid": "{{ datastages.results[0].uuid }}",
+        "value": 10000,
+        "probability": 75,
+        "status": "open"
+    }
+    {% endparse_json %}
+    {% function dataupdate = "pipeline/controller/opportunities/update", uuid: dataadd.uuid, params: paramsupdate %}
+    <div class="data-container">
+        <p>Update</p>
+        {% if dataupdate.errors %}
+        <p class="error">{{ dataupdate }} | Opportunity UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ dataupdate }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Delete -->
+    {% function datadelete = "pipeline/controller/opportunities/delete", uuid: dataadd.uuid %}
+    <div class="data-container">
+        <p>Delete</p>
+        {% if datadelete.errors %}
+        <p class="error">{{ datadelete }} | Opportunity UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ datadelete }}</p>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
