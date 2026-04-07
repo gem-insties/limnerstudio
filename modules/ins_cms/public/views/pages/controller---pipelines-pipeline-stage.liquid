@@ -1,0 +1,131 @@
+---
+slug: controller---pipelines-pipeline-stage
+searchable: true
+metadata: {
+    is_visible_to_search_engines: "true",
+    page_name: "Controller - Pipelines Pipeline Stage",
+    page_title: "Controller - Pipelines Pipeline Stage",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller - Pipeline Stages</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+        width: fit-content;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+
+    <!-- Get Pipeline (for UUID) -->
+    {% parse_json paramsgetpipelines %}
+    {
+        "sort_by": "updated_at",
+        "sort_order": "DESC",
+        "size": 1,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function datapipelines = "pipeline/controller/pipelines/list", params: paramsgetpipelines %}
+
+    <!-- Get All -->
+    {% parse_json paramsgetall %}
+    {
+        "pipeline_uuid": "{{ datapipelines.results[0].uuid }}",
+        "sort_by": "updated_at",
+        "sort_order": "DESC",
+        "size": 10,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function datagetall = "pipeline/controller/pipeline-stages/list", params: paramsgetall %}
+    <div class="data-container">
+        <p>Get All</p>
+        {% if datagetall.errors %}
+        <p class="error">{{ datagetall }}</p>
+        {% else %}
+        <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+        "pipeline_uuid": "{{ datapipelines.results[0].uuid }}",
+        "name": "[QA TEST] Controller Stage",
+        "probability": 50
+    }
+    {% endparse_json %}
+    {% function dataadd = "pipeline/controller/pipeline-stages/create", params: paramsadd %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if dataadd.errors %}
+        <p class="error">{{ dataadd }}</p>
+        {% else %}
+        <p>{{ dataadd }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Update -->
+    {% parse_json paramsupdate %}
+    {
+        "name": "[QA TEST] Controller Stage Updated",
+        "probability": 75
+    }
+    {% endparse_json %}
+    {% function dataupdate = "pipeline/controller/pipeline-stages/update", uuid: dataadd.uuid, params: paramsupdate %}
+    <div class="data-container">
+        <p>Update</p>
+        {% if dataupdate.errors %}
+        <p class="error">{{ dataupdate }} | Stage UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ dataupdate }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Delete -->
+    {% function datadelete = "pipeline/controller/pipeline-stages/delete", uuid: dataadd.uuid %}
+    <div class="data-container">
+        <p>Delete</p>
+        {% if datadelete.errors %}
+        <p class="error">{{ datadelete }} | Stage UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ datadelete }}</p>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
