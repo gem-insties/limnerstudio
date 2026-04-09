@@ -1,10 +1,14 @@
 ---
 slug: controller---pipelines-opportunity
 searchable: true
+max_deep_level: 3
+authorization_policies:
 metadata: {
-    is_visible_to_search_engines: "true",
     page_name: "Controller - Pipelines Opportunity",
+    created_by: "QA Insites",
     page_title: "Controller - Pipelines Opportunity",
+    last_updated_by: "QA Insites",
+    is_visible_to_search_engines: "true",
 }
 --- 
 
@@ -49,26 +53,6 @@ metadata: {
 
 <body>
 
-    <!-- Get Pipeline + Stage (for UUIDs) -->
-    {% parse_json paramsgetpipelines %}
-    {
-        "sort_by": "updated_at",
-        "sort_order": "DESC",
-        "size": 1,
-        "page": 1
-    }
-    {% endparse_json %}
-    {% function datapipelines = "pipeline/controller/pipelines/list", params: paramsgetpipelines %}
-
-    {% parse_json paramsgetstages %}
-    {
-        "pipeline_uuid": "{{ datapipelines.results[0].uuid }}",
-        "size": 1,
-        "page": 1
-    }
-    {% endparse_json %}
-    {% function datastages = "pipeline/controller/pipeline-stages/list", params: paramsgetstages %}
-
     <!-- Get All -->
     {% parse_json paramsgetall %}
     {
@@ -103,8 +87,8 @@ metadata: {
     {% parse_json paramsadd %}
     {
         "name": "[QA TEST] Controller Opportunity",
-        "pipeline.uuid": "{{ datapipelines.results[0].uuid }}",
-        "stage.uuid": "{{ datastages.results[0].uuid }}",
+        "pipeline.uuid": "50ceca57-81cc-4265-9258-4cfb14f2ceff",
+        "stage.uuid": "de46435e-b98d-488a-a002-b54f21ec5af3",
         "value": 5000,
         "probability": 50,
         "status": "open"
@@ -124,8 +108,8 @@ metadata: {
     {% parse_json paramsupdate %}
     {
         "name": "[QA TEST] Controller Opportunity Updated",
-        "pipeline.uuid": "{{ datapipelines.results[0].uuid }}",
-        "stage.uuid": "{{ datastages.results[0].uuid }}",
+        "pipeline.uuid": "50ceca57-81cc-4265-9258-4cfb14f2ceff",
+        "stage.uuid": "de46435e-b98d-488a-a002-b54f21ec5af3",
         "value": 10000,
         "probability": 75,
         "status": "open"
