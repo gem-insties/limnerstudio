@@ -18,7 +18,7 @@ metadata: {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controller - Pipeline Stages</title>
+    <title>Controller - Pipelines</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -53,35 +53,16 @@ metadata: {
 
 <body>
 
-    <!-- Get Pipeline (for UUID) -->
-    {% parse_json paramsgetpipelines %}
-    {
-        "sort_by": "updated_at",
-        "sort_order": "DESC",
-        "size": 1,
-        "page": 1
-    }
-    {% endparse_json %}
-    {% function datapipelines = "pipeline/controller/pipelines/list", params: paramsgetpipelines %}
-   
-    {% assign json_data = datapipelines | parse_json %}
-    {% assign pipelineuuid = "" %}
-    {% for item in json_data.results %}
-    {% assign pipelineuuid = item.uuid %}
-    {% break %}
-    {% endfor %}
-
     <!-- Get All -->
     {% parse_json paramsgetall %}
     {
-        "pipeline_uuid": "{{ pipelineuuid }}",
         "sort_by": "updated_at",
         "sort_order": "DESC",
         "size": 10,
         "page": 1
     }
     {% endparse_json %}
-    {% function datagetall = "pipeline/controller/stages/list", params: paramsgetall %}
+    {% function datagetall = "pipeline/controller/pipelines/list", params: paramsgetall %}
     <div class="data-container">
         <p>Get All</p>
         {% if datagetall.errors %}
@@ -91,18 +72,30 @@ metadata: {
         {% endif %}
     </div>
 
+    <!-- Get Single -->
+    {% function dataget = "pipeline/controller/pipelines/get", uuid: datagetall.results[0].uuid %}
+    <div class="data-container">
+        <p>Get Single</p>
+        {% if dataget.errors %}
+        <p class="error">{{ dataget }} | Pipeline UUID: {{ datagetall.results[0].uuid }}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
+        {% endif %}
+    </div>
+
     <!-- Add -->
     {% parse_json paramsadd %}
     {
-        "pipeline_uuid": "{{ pipelineuuid }}",
-        "name": "[QA TEST] Controller Stage",
-        "background_colour": "F0E6FF",
-        "font_colour": "000000",
-        "empty_message": "No opportunities in this stage",
-        "stage_weighting": 99
+        "name": "[QA TEST] Controller Pipeline",
+        "status": "active",
+        "sales_target_value": 100000,
+        "sales_target_start_date": "2026-01-01",
+        "sales_target_end_date": "2026-12-31",
+        "is_won_reason_required": false,
+        "is_lost_reason_required": false
     }
     {% endparse_json %}
-    {% function dataadd = "pipeline/controller/stages/create", params: paramsadd %}
+    {% function dataadd = "pipeline/controller/pipelines/create", params: paramsadd %}
     <div class="data-container">
         <p>Add</p>
         {% if dataadd.errors %}
@@ -115,29 +108,31 @@ metadata: {
     <!-- Update -->
     {% parse_json paramsupdate %}
     {
-        "name": "[QA TEST] Controller Stage Updated",
-        "background_colour": "E8F4F8",
-        "font_colour": "003366",
-        "empty_message": "No opportunities here yet",
-        "stage_weighting": 98
+        "name": "[QA TEST] Controller Pipeline Updated",
+        "status": "active",
+        "sales_target_value": 200000,
+        "sales_target_start_date": "2026-07-01",
+        "sales_target_end_date": "2026-12-31",
+        "is_won_reason_required": true,
+        "is_lost_reason_required": true
     }
     {% endparse_json %}
-    {% function dataupdate = "pipeline/controller/stages/update", uuid: dataadd.uuid, params: paramsupdate %}
+    {% function dataupdate = "pipeline/controller/pipelines/update", uuid: dataadd.uuid, params: paramsupdate %}
     <div class="data-container">
         <p>Update</p>
         {% if dataupdate.errors %}
-        <p class="error">{{ dataupdate }} | Stage UUID: {{ dataadd.uuid }}</p>
+        <p class="error">{{ dataupdate }} | Pipeline UUID: {{ dataadd.uuid }}</p>
         {% else %}
         <p>{{ dataupdate }}</p>
         {% endif %}
     </div>
 
     <!-- Delete -->
-    {% function datadelete = "pipeline/controller/stages/delete", uuid: dataadd.uuid %}
+    {% function datadelete = "pipeline/controller/pipelines/delete", uuid: dataadd.uuid %}
     <div class="data-container">
         <p>Delete</p>
         {% if datadelete.errors %}
-        <p class="error">{{ datadelete }} | Stage UUID: {{ dataadd.uuid }}</p>
+        <p class="error">{{ datadelete }} | Pipeline UUID: {{ dataadd.uuid }}</p>
         {% else %}
         <p>{{ datadelete }}</p>
         {% endif %}
