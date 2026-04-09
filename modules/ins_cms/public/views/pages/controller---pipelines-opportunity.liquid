@@ -86,13 +86,25 @@ metadata: {
     <!-- Add -->
     {% parse_json paramsadd %}
     {
-        "name": "[QA TEST] Controller Opportunity",
-        "pipeline.uuid": "50ceca57-81cc-4265-9258-4cfb14f2ceff",
-        "stage.uuid": "de46435e-b98d-488a-a002-b54f21ec5af3",
-        "value": 5000,
-        "probability": 50,
-        "status": "open"
-    }
+    "name": "API Added Opportunity",
+    "status": "lost",
+    "probability": "80",
+    "value": "128000",
+    "target_conversion_date": "2026-02-19",
+    "database_item_id": "21917",
+    "order.uuid": "6178d013-ff83-4cf4-b4f6-5cad4cb6bce8",
+    "pipeline.uuid": "50ceca57-81cc-4265-9258-4cfb14f2ceff",
+    "stage.uuid": "de46435e-b98d-488a-a002-b54f21ec5af3",
+    "owner.uuid": "293e40af-52fa-4b8f-a622-4bfa8359aa9c",
+    "contact.uuid": "c8f68d2f-e898-4057-95b9-73ffba0a813d",
+    "company.uuid": "3abfe776-4d6a-441c-8df6-9de2320050b4",
+    "division.uuid": "5cfbfcde-063b-4658-9bc7-825b36d830b9",
+    "lead_source.uuid": "83d14aab-05e1-4245-a30d-e2e429002b7b",
+    "lead_referred_by.uuid": "87015dd1-7924-450c-b771-76f6a33f99f0",
+    "won_reason_uuid": "8162fe01-3361-4183-9f83-7bfcc8ff81d7",
+    "lost_reason_uuid": "c8e8798d-1d68-4e71-a250-a3229234c267",
+    "custom_field.custom_field_for_api_testing": "Custom Field Add Value"
+}
     {% endparse_json %}
     {% function dataadd = "pipeline/controller/opportunities/create", params: paramsadd %}
     <div class="data-container">
