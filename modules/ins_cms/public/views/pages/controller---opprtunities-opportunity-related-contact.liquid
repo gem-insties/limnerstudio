@@ -1,10 +1,14 @@
 ---
 slug: controller---opprtunities-opportunity-related-contact
 searchable: true
+max_deep_level: 3
+authorization_policies:
 metadata: {
-    is_visible_to_search_engines: "true",
     page_name: "Controller - Opprtunities Opportunity Related Contact",
+    created_by: "QA Insites",
     page_title: "Controller - Opprtunities Opportunity Related Contact",
+    last_updated_by: "QA Insites",
+    is_visible_to_search_engines: "true",
 }
 --- 
 
@@ -65,6 +69,23 @@ metadata: {
         <p class="error">{{ datagetall }}</p>
         {% else %}
         <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+        "contact.uuid": "c8f68d2f-e898-4057-95b9-73ffba0a813d",
+        "relationship": "API Added Opportunity Related Contact"
+    }
+    {% endparse_json %}
+    {% function dataadd = "pipeline/controller/related-contacts/create", opportunity_uuid: b1856d9a-754f-4ee1-8d85-586da28ccbbc, params: paramsadd %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if dataadd.errors %}
+        <p class="error">{{ dataadd }}</p>
+        {% else %}
+        <p>{{ dataadd }}</p>
         {% endif %}
     </div>
 
