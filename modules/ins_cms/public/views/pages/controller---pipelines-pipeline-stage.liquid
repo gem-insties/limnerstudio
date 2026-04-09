@@ -63,11 +63,20 @@ metadata: {
     }
     {% endparse_json %}
     {% function datapipelines = "pipeline/controller/pipelines/list", params: paramsgetpipelines %}
+   
+    {% assign json_data = datapipelines | parse_json %}
+    {% assign pipelineuuid = "" %}
+    {% for item in json_data.results %}
+    {% assign pipelineuuid = item.uuid %}
+    {% break %}
+    {% endfor %}
+
+    {{pipelineuuid}}
 
     <!-- Get All -->
     {% parse_json paramsgetall %}
     {
-        "pipeline_uuid": "{{ datapipelines.results[0].uuid }}",
+        "pipeline_uuid": "{{ pipelineuuid }}",
         "sort_by": "updated_at",
         "sort_order": "DESC",
         "size": 10,
@@ -87,7 +96,7 @@ metadata: {
     <!-- Add -->
     {% parse_json paramsadd %}
     {
-        "pipeline_uuid": "{{ datapipelines.results[0].uuid }}",
+        "pipeline_uuid": "{{ pipelineuuid }}",
         "name": "[QA TEST] Controller Stage",
         "background_colour": "F0E6FF",
         "font_colour": "000000",
