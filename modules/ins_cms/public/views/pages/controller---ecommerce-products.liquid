@@ -1,10 +1,14 @@
 ---
 slug: controller---ecommerce-products
 searchable: true
+max_deep_level: 3
+authorization_policies:
 metadata: {
-    is_visible_to_search_engines: "true",
     page_name: "Controller - Ecommerce Products",
+    created_by: "Gem Villafuerte",
     page_title: "Controller - Ecommerce Products",
+    last_updated_by: "Gem Villafuerte",
+    is_visible_to_search_engines: "true",
 }
 --- 
 
@@ -58,7 +62,7 @@ metadata: {
         "page": 1
     }
     {% endparse_json %}
-    {% function datacategories = "ecommerce/controller/categories/list", params: paramscategorieslist %}
+    {% function datacategories = "ecommerce/controller/category/list", params: paramscategorieslist %}
 
     <!-- Get All -->
     {% parse_json paramsgetall %}
