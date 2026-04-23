@@ -1,0 +1,201 @@
+---
+slug: controller---ecommerce-products
+searchable: true
+metadata: {
+    is_visible_to_search_engines: "true",
+    page_name: "Controller - Ecommerce Products",
+    page_title: "Controller - Ecommerce Products",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller - Products</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+        width: fit-content;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+
+    <!-- Get All Categories (silent — for category_uuids) -->
+    {% parse_json paramscategorieslist %}
+    {
+        "sort_by": "updated_at",
+        "sort_order": "DESC",
+        "size": 1,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function datacategories = "ecommerce/controller/categories/list", params: paramscategorieslist %}
+
+    <!-- Get All -->
+    {% parse_json paramsgetall %}
+    {
+        "sort_by": "updated_at",
+        "sort_order": "DESC",
+        "size": 10,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function datagetall = "ecommerce/controller/product/list", params: paramsgetall %}
+    <div class="data-container">
+        <p>Get All</p>
+        {% if datagetall.message or datagetall.errors %}
+        <p class="error">{{ datagetall }}</p>
+        {% else %}
+        <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Get Single -->
+    {% function dataget = "ecommerce/controller/product/get", uuid: datagetall.results[0].uuid %}
+    <div class="data-container">
+        <p>Get Single</p>
+        {% if dataget.message or dataget.errors %}
+        <p class="error">{{ dataget }} | Product UUID: {{ datagetall.results[0].uuid }}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+        "product_name": "[QA TEST] Controller Product",
+        "product_slug": "qa-test-controller-product",
+        "sku": "QA-CTRL-001",
+        "category_uuids": ["{{ datacategories.results[0].uuid }}"],
+        "warranty_info": "[QA TEST] 1-year warranty",
+        "is_featured": true,
+        "is_subscription": false,
+        "unit_label": "piece",
+        "short_description": "[QA TEST] Controller product short description",
+        "long_description": "[QA TEST] Controller product long description",
+        "keywords": ["qa", "test", "controller"],
+        "stock_level": 100,
+        "is_tax_included": true,
+        "tax_amount": 5.0,
+        "regular_price": 99.99,
+        "compare_at_price": 129.99,
+        "cost_price": 50.00,
+        "sale_price": 79.99,
+        "is_on_sale": true,
+        "is_sale_price_tax_included": true,
+        "is_fixed_tax_amount": false,
+        "total_price": 99.99,
+        "width": 10.5,
+        "length": 20.5,
+        "height": 5.5,
+        "weight": 2.5,
+        "is_free_shipping": false,
+        "freight_amount": 15.0,
+        "shipping_width": 12.0,
+        "shipping_length": 22.0,
+        "shipping_height": 7.0,
+        "shipping_weight": 3.0,
+        "meta_title": "[QA TEST] Controller Product",
+        "meta_description": "[QA TEST] Controller product meta description",
+        "canonical_url": "https://example.com/qa-test-controller",
+        "is_visible_to_search_engines": true,
+        "open_graph_title": "[QA TEST] Controller Product OG",
+        "open_graph_description": "[QA TEST] OG description",
+        "open_graph_url": "https://example.com/qa-test-controller",
+        "open_graph_type": "website",
+        "open_graph_site_name": "QA Site",
+        "is_use_meta_title": false,
+        "is_use_meta_description": false,
+        "is_sitemap_enabled": true,
+        "sitemap_priority": "0.5",
+        "sitemap_order": 1,
+        "sitemap_change_frequency": "weekly",
+        "schema_content": "<script>{}</script>",
+        "status": "enabled",
+        "product_weighting": 10,
+        "is_product_variant_enabled": false,
+        "brand_name": "[QA TEST] Controller Brand"
+    }
+    {% endparse_json %}
+    {% function dataadd = "ecommerce/controller/product/create", params: paramsadd %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if dataadd.message or dataadd.errors %}
+        <p class="error">{{ dataadd }}</p>
+        {% else %}
+        <p>{{ dataadd }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Update -->
+    {% parse_json paramsupdate %}
+    {
+        "product_name": "[QA TEST] Controller Product Updated",
+        "sku": "QA-CTRL-001-UPD",
+        "warranty_info": "[QA TEST] 2-year warranty",
+        "is_featured": false,
+        "stock_level": 200,
+        "tax_amount": 7.5,
+        "regular_price": 109.99,
+        "sale_price": 89.99,
+        "short_description": "[QA TEST] Controller product short description updated",
+        "keywords": ["qa", "test", "controller", "updated"],
+        "width": 11.0,
+        "brand_name": "[QA TEST] Controller Brand Updated",
+        "status": "disabled"
+    }
+    {% endparse_json %}
+    {% function dataupdate = "ecommerce/controller/product/update", uuid: dataadd.uuid, params: paramsupdate %}
+    <div class="data-container">
+        <p>Update</p>
+        {% if dataupdate.message or dataupdate.errors %}
+        <p class="error">{{ dataupdate }} | Product UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ dataupdate }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Delete -->
+    {% function datadelete = "ecommerce/controller/product/delete", uuid: dataadd.uuid %}
+    <div class="data-container">
+        <p>Delete</p>
+        {% if datadelete.message or datadelete.errors %}
+        <p class="error">{{ datadelete }} | Product UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ datadelete }}</p>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
