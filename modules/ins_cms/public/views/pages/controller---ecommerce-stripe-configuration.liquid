@@ -1,0 +1,86 @@
+---
+slug: controller---ecommerce-stripe-configuration
+searchable: true
+metadata: {
+    is_visible_to_search_engines: "true",
+    page_name: "Controller - Ecommerce Stripe Configuration",
+    page_title: "Controller - Ecommerce Stripe Configuration",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller - Stripe Configuration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+        width: fit-content;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+
+    <!-- Get -->
+    {% function dataget = "ecommerce/controller/stripe/get" %}
+    <div class="data-container">
+        <p>Get</p>
+        {% if dataget.message or dataget.errors %}
+        <p class="error">{{ dataget }}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Update -->
+    {% parse_json paramsupdate %}
+    {
+        "sandbox_account_id": "acct_1QATESTsandbox",
+        "sandbox_pk_key": "pk_test_[QA TEST] controller sandbox pk",
+        "sandbox_sk_key": "sk_test_[QA TEST] controller sandbox sk",
+        "production_account_id": "acct_1QATESTproduction",
+        "production_pk_key": "pk_live_[QA TEST] controller production pk",
+        "production_sk_key": "sk_live_[QA TEST] controller production sk"
+    }
+    {% endparse_json %}
+    {% function dataupdate = "ecommerce/controller/stripe/update", params: paramsupdate %}
+    <div class="data-container">
+        <p>Update</p>
+        {% if dataupdate.message or dataupdate.errors %}
+        <p class="error">{{ dataupdate }}</p>
+        {% else %}
+        <p>{{ dataupdate }}</p>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
