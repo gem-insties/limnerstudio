@@ -1,10 +1,14 @@
 ---
 slug: controller---ecommerce-stripe-configuration
 searchable: true
+max_deep_level: 3
+authorization_policies:
 metadata: {
-    is_visible_to_search_engines: "true",
     page_name: "Controller - Ecommerce Stripe Configuration",
+    created_by: "QA Insites",
     page_title: "Controller - Ecommerce Stripe Configuration",
+    last_updated_by: "QA Insites",
+    is_visible_to_search_engines: "true",
 }
 --- 
 
@@ -78,6 +82,17 @@ metadata: {
         <p class="error">{{ dataupdate }}</p>
         {% else %}
         <p>{{ dataupdate }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Restore — write the initial Get values back so the test leaves no state behind -->
+    {% function datarestore = "ecommerce/controller/stripe/update", params: dataget %}
+    <div class="data-container">
+        <p>Restore</p>
+        {% if datarestore.message or datarestore.errors %}
+        <p class="error">{{ datarestore }}</p>
+        {% else %}
+        <p>{{ datarestore }}</p>
         {% endif %}
     </div>
 
