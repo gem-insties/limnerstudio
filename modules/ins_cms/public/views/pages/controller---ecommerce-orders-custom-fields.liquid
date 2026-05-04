@@ -1,0 +1,84 @@
+---
+slug: controller---ecommerce-orders-custom-fields
+searchable: true
+metadata: {
+    is_visible_to_search_engines: "true",
+    page_name: "Controller - Ecommerce Orders Custom Fields",
+    page_title: "Controller - Ecommerce Orders Custom Fields",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller - Order Custom Fields</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+        width: fit-content;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+
+    <!-- Get All -->
+    {% function datagetall = "ecommerce/controller/custom_field/list", type: "order" %}
+    <div class="data-container">
+        <p>Get All</p>
+        {% if datagetall.message or datagetall.errors %}
+        <p class="error">{{ datagetall }}</p>
+        {% else %}
+        <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Delete (delete_me field only) -->
+    {% assign json_data = datagetall | parse_json %}
+    {% assign for_delete_id = "" %}
+    {% for item in json_data.results %}
+    {% if item.name == "delete_me" %}
+    {% assign for_delete_id = item.id %}
+    {% break %}
+    {% endif %}
+    {% endfor %}
+    {% function datadelete = "ecommerce/controller/custom_field/delete", type: "order", id: for_delete_id %}
+    <div class="data-container">
+        <p>Delete (delete_me field only)</p>
+        {% if datadelete.message or datadelete.errors %}
+        <p class="error">{{ datadelete }} | ID: {{ for_delete_id }}</p>
+        {% else %}
+        <p>{{ datadelete }}</p>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
