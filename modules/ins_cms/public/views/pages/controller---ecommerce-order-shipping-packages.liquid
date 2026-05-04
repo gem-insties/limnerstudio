@@ -1,0 +1,161 @@
+---
+slug: controller---ecommerce-order-shipping-packages
+searchable: true
+metadata: {
+    is_visible_to_search_engines: "true",
+    page_name: "Controller - Ecommerce Order Shipping Packages",
+    page_title: "Controller - Ecommerce Order Shipping Packages",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller - Order Shipping Packages</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+        width: fit-content;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+
+    <!-- Get All Orders (silent — for order.uuid) -->
+    {% parse_json paramsorderslist %}
+    {
+        "sort_by": "updated_at",
+        "sort_order": "DESC",
+        "size": 1,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function dataorders = "ecommerce/controller/order/list", params: paramsorderslist %}
+
+    <!-- Get All Freight Suppliers (silent — for freight_supplier.uuid) -->
+    {% parse_json paramsfreightlist %}
+    {
+        "sort_by": "updated_at",
+        "sort_order": "DESC",
+        "size": 1,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function datafreight = "ecommerce/controller/freight_supplier/list", params: paramsfreightlist %}
+
+    <!-- Get All -->
+    {% parse_json paramsgetall %}
+    {
+        "sort_by": "updated_at",
+        "sort_order": "DESC",
+        "size": 10,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function datagetall = "ecommerce/controller/order_shipping_packages/list", params: paramsgetall %}
+    <div class="data-container">
+        <p>Get All</p>
+        {% if datagetall.message or datagetall.errors %}
+        <p class="error">{{ datagetall }}</p>
+        {% else %}
+        <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Get Single -->
+    {% function dataget = "ecommerce/controller/order_shipping_packages/get", uuid: datagetall.results[0].uuid %}
+    <div class="data-container">
+        <p>Get Single</p>
+        {% if dataget.message or dataget.errors %}
+        <p class="error">{{ dataget }} | Order Shipping Package UUID: {{ datagetall.results[0].uuid }}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+        "order.uuid": "{{ dataorders.results[0].uuid }}",
+        "shipping_package_name": "[QA TEST] Controller Package 1",
+        "shipping_package_status": "ready_for_dispatch",
+        "shipping_items_uuids": [],
+        "shipping_package_fee": 5.0,
+        "freight_supplier.uuid": "{{ datafreight.results[0].uuid }}",
+        "freight_supplier_name": "[QA TEST] Controller Freight Co",
+        "freight_method": "Standard",
+        "freight_option": "Insurance",
+        "freight_tracking_code": "[QA TEST] QA-OSP-001"
+    }
+    {% endparse_json %}
+    {% function dataadd = "ecommerce/controller/order_shipping_packages/create", params: paramsadd %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if dataadd.message or dataadd.errors %}
+        <p class="error">{{ dataadd }}</p>
+        {% else %}
+        <p>{{ dataadd }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Update -->
+    {% parse_json paramsupdate %}
+    {
+        "shipping_package_status": "shipped",
+        "shipping_package_dispatch_date": "2026-04-27T09:00:00Z",
+        "freight_tracking_code": "[QA TEST] QA-OSP-001-UPD",
+        "freight_supplier_name": "[QA TEST] Controller Freight Co Updated"
+    }
+    {% endparse_json %}
+    {% function dataupdate = "ecommerce/controller/order_shipping_packages/update", uuid: dataadd.uuid, params: paramsupdate %}
+    <div class="data-container">
+        <p>Update</p>
+        {% if dataupdate.message or dataupdate.errors %}
+        <p class="error">{{ dataupdate }} | Order Shipping Package UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ dataupdate }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Delete -->
+    {% function datadelete = "ecommerce/controller/order_shipping_packages/delete", uuid: dataadd.uuid %}
+    <div class="data-container">
+        <p>Delete</p>
+        {% if datadelete.message or datadelete.errors %}
+        <p class="error">{{ datadelete }} | Order Shipping Package UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ datadelete }}</p>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
