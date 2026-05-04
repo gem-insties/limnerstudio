@@ -6,7 +6,7 @@ metadata: {
     page_name: "Controllers - Discounts",
     created_by: "Gem Villafuerte",
     page_title: "Controllers - Discounts",
-    last_updated_by: "Steve Suyam",
+    last_updated_by: "Gem Villafuerte",
 }
 --- 
 
@@ -82,11 +82,12 @@ metadata: {
     </div>
 
     <!-- Get By Code -->
-    {% function datagetbycode = "ecommerce/controller/discount/by_code", discount_code: datagetall.results[0].discount_code %}
+    {% assign discount_with_code = datagetall.results | where: "discount_code" | first %}
+    {% function datagetbycode = "ecommerce/controller/discount/by_code", discount_code: discount_with_code.discount_code %}
     <div class="data-container">
         <p>Get By Code</p>
         {% if datagetbycode.message or datagetbycode.errors %}
-        <p class="error">{{ datagetbycode }} | Discount Code: {{ datagetall.results[0].discount_code }}</p>
+        <p class="error">{{ datagetbycode }} | Discount Code: {{ discount_with_code.discount_code }}</p>
         {% else %}
         <p>{{ datagetbycode }}</p>
         {% endif %}
