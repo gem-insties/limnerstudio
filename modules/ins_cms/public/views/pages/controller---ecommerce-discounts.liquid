@@ -1,10 +1,14 @@
 ---
 slug: controller---ecommerce-discounts
 searchable: true
+max_deep_level: 3
+authorization_policies:
 metadata: {
-    is_visible_to_search_engines: "true",
     page_name: "Controller - Ecommerce Discounts",
+    created_by: "Gem Villafuerte",
     page_title: "Controller - Ecommerce Discounts",
+    last_updated_by: "Gem Villafuerte",
+    is_visible_to_search_engines: "true",
 }
 --- 
 
@@ -80,11 +84,12 @@ metadata: {
     </div>
 
     <!-- Get By Code -->
-    {% function datagetbycode = "ecommerce/controller/discount/by_code", discount_code: datagetall.results[0].discount_code %}
+    {% assign discount_with_code = datagetall.results | where: "discount_code" | first %}
+    {% function datagetbycode = "ecommerce/controller/discount/by_code", discount_code: discount_with_code.discount_code %}
     <div class="data-container">
         <p>Get By Code</p>
         {% if datagetbycode.message or datagetbycode.errors %}
-        <p class="error">{{ datagetbycode }} | Discount Code: {{ datagetall.results[0].discount_code }}</p>
+        <p class="error">{{ datagetbycode }} | Discount Code: {{ discount_with_code.discount_code }}</p>
         {% else %}
         <p>{{ datagetbycode }}</p>
         {% endif %}
