@@ -1,0 +1,155 @@
+---
+slug: controller---ecommerce-discounts
+searchable: true
+metadata: {
+    is_visible_to_search_engines: "true",
+    page_name: "Controller - Ecommerce Discounts",
+    page_title: "Controller - Ecommerce Discounts",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller - Discounts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+        width: fit-content;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+
+    <!-- Get All -->
+    {% parse_json paramsgetall %}
+    {
+        "sort_by": "updated_at",
+        "sort_order": "DESC",
+        "size": 10,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function datagetall = "ecommerce/controller/discount/list", params: paramsgetall %}
+    <div class="data-container">
+        <p>Get All</p>
+        {% if datagetall.message or datagetall.errors %}
+        <p class="error">{{ datagetall }}</p>
+        {% else %}
+        <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Get Single -->
+    {% function dataget = "ecommerce/controller/discount/get", uuid: datagetall.results[0].uuid %}
+    <div class="data-container">
+        <p>Get Single</p>
+        {% if dataget.message or dataget.errors %}
+        <p class="error">{{ dataget }} | Discount UUID: {{ datagetall.results[0].uuid }}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Get By Code -->
+    {% function datagetbycode = "ecommerce/controller/discount/by_code", discount_code: datagetall.results[0].discount_code %}
+    <div class="data-container">
+        <p>Get By Code</p>
+        {% if datagetbycode.message or datagetbycode.errors %}
+        <p class="error">{{ datagetbycode }} | Discount Code: {{ datagetall.results[0].discount_code }}</p>
+        {% else %}
+        <p>{{ datagetbycode }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+        "discount_name": "[QA TEST] Controller Discount",
+        "status": "active",
+        "discount_code": "QACTRL10",
+        "usage_limit": 100,
+        "discount_type": "percentage",
+        "discount_value": 10.0,
+        "usage_limit_per_user": 1,
+        "minimum_cart_value": 50.0,
+        "applicable_to": "all_orders",
+        "is_applicable_to_all_products": true,
+        "is_applicable_to_all_categories": true,
+        "category_uuids": [],
+        "product_uuids": [],
+        "event_uuids": []
+    }
+    {% endparse_json %}
+    {% function dataadd = "ecommerce/controller/discount/create", params: paramsadd %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if dataadd.message or dataadd.errors %}
+        <p class="error">{{ dataadd }}</p>
+        {% else %}
+        <p>{{ dataadd }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Update -->
+    {% parse_json paramsupdate %}
+    {
+        "discount_name": "[QA TEST] Controller Discount Updated",
+        "status": "inactive",
+        "usage_limit": 200,
+        "discount_value": 12.5,
+        "minimum_cart_value": 75.0
+    }
+    {% endparse_json %}
+    {% function dataupdate = "ecommerce/controller/discount/update", uuid: dataadd.uuid, params: paramsupdate %}
+    <div class="data-container">
+        <p>Update</p>
+        {% if dataupdate.message or dataupdate.errors %}
+        <p class="error">{{ dataupdate }} | Discount UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ dataupdate }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Delete -->
+    {% function datadelete = "ecommerce/controller/discount/delete", uuid: dataadd.uuid %}
+    <div class="data-container">
+        <p>Delete</p>
+        {% if datadelete.message or datadelete.errors %}
+        <p class="error">{{ datadelete }} | Discount UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ datadelete }}</p>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
