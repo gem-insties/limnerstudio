@@ -1,0 +1,164 @@
+---
+slug: controller---ecommerce-quotes
+searchable: true
+metadata: {
+    is_visible_to_search_engines: "true",
+    page_name: "Controller - Ecommerce Quotes",
+    page_title: "Controller - Ecommerce Quotes",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller - Quotes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+        width: fit-content;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+
+    <!-- Get All Companies (silent — for quote_company.uuid) -->
+    {% parse_json paramscompanieslist %}
+    {
+        "sort_by": "updated_at",
+        "sort_order": "DESC",
+        "size": 1,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function datacompanies = "crm/controller/companies/list", params: paramscompanieslist %}
+
+    <!-- Get All -->
+    {% parse_json paramsgetall %}
+    {
+        "sort_by": "quote_date_time",
+        "sort_order": "DESC",
+        "size": 10,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function datagetall = "ecommerce/controller/quote/list", params: paramsgetall %}
+    <div class="data-container">
+        <p>Get All</p>
+        {% if datagetall.message or datagetall.errors %}
+        <p class="error">{{ datagetall }}</p>
+        {% else %}
+        <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Get Single -->
+    {% function dataget = "ecommerce/controller/quote/get", uuid: datagetall.results[0].uuid %}
+    <div class="data-container">
+        <p>Get Single</p>
+        {% if dataget.message or dataget.errors %}
+        <p class="error">{{ dataget }} | Quote UUID: {{ datagetall.results[0].uuid }}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+        "quote_number": "[QA TEST] QT-CTRL-001",
+        "quote_reference": "[QA TEST] ClientPO-CTRL-001",
+        "quote_date": "2026-04-27",
+        "quote_date_time": "2026-04-27T09:30:00Z",
+        "quote_status": "Draft",
+        "currency": "USD",
+        "is_scheduled": false,
+        "is_recurring": false,
+        "subtotal_amount": 1500.75,
+        "total_tax_amount": 150.08,
+        "total_shipping_amount": 75.0,
+        "total_discount_amount": 50.0,
+        "quote_total": 1675.83,
+        "processing_fee": 100,
+        "quote_company.uuid": "{{ datacompanies.results[0].uuid }}",
+        "is_use_crm_billing_address": false,
+        "billing_address_label": "[QA TEST] Billing Address",
+        "billing_address_1": "100 QA Quote St",
+        "billing_city": "Quoteville",
+        "billing_country_code": "US",
+        "billing_postcode": "12345",
+        "is_use_crm_shipping_address": true,
+        "shipping_address_label": "[QA TEST] Shipping Address",
+        "notes": "[QA TEST] Controller quote notes"
+    }
+    {% endparse_json %}
+    {% function dataadd = "ecommerce/controller/quote/create", params: paramsadd %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if dataadd.message or dataadd.errors %}
+        <p class="error">{{ dataadd }}</p>
+        {% else %}
+        <p>{{ dataadd }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Update -->
+    {% parse_json paramsupdate %}
+    {
+        "quote_status": "Sent",
+        "quote_total": 1775.83,
+        "total_discount_amount": 25.0,
+        "notes": "[QA TEST] Controller quote notes updated"
+    }
+    {% endparse_json %}
+    {% function dataupdate = "ecommerce/controller/quote/update", uuid: dataadd.uuid, params: paramsupdate %}
+    <div class="data-container">
+        <p>Update</p>
+        {% if dataupdate.message or dataupdate.errors %}
+        <p class="error">{{ dataupdate }} | Quote UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ dataupdate }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Delete -->
+    {% function datadelete = "ecommerce/controller/quote/delete", uuid: dataadd.uuid %}
+    <div class="data-container">
+        <p>Delete</p>
+        {% if datadelete.message or datadelete.errors %}
+        <p class="error">{{ datadelete }} | Quote UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ datadelete }}</p>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
