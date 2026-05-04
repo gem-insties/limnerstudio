@@ -1,0 +1,132 @@
+---
+slug: controller---ecommerce-freight-suppliers
+searchable: true
+metadata: {
+    is_visible_to_search_engines: "true",
+    page_name: "Controller - Ecommerce Freight Suppliers",
+    page_title: "Controller - Ecommerce Freight Suppliers",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller - Freight Suppliers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+        width: fit-content;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+
+    <!-- Get All -->
+    {% parse_json paramsgetall %}
+    {
+        "sort_by": "updated_at",
+        "sort_order": "DESC",
+        "size": 10,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function datagetall = "ecommerce/controller/freight_supplier/list", params: paramsgetall %}
+    <div class="data-container">
+        <p>Get All</p>
+        {% if datagetall.message or datagetall.errors %}
+        <p class="error">{{ datagetall }}</p>
+        {% else %}
+        <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Get Single -->
+    {% function dataget = "ecommerce/controller/freight_supplier/get", uuid: datagetall.results[0].uuid %}
+    <div class="data-container">
+        <p>Get Single</p>
+        {% if dataget.message or dataget.errors %}
+        <p class="error">{{ dataget }} | Freight Supplier UUID: {{ datagetall.results[0].uuid }}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+        "freight_supplier_name": "[QA TEST] Controller Freight Co",
+        "freight_methods": ["Standard Ground", "Express Air", "Overnight Priority"],
+        "tracking_link": "https://qa-test-freight.example.com/track?id={tracking_code}",
+        "freight_options": ["Insurance", "Signature on Delivery"]
+    }
+    {% endparse_json %}
+    {% function dataadd = "ecommerce/controller/freight_supplier/create", params: paramsadd %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if dataadd.message or dataadd.errors %}
+        <p class="error">{{ dataadd }}</p>
+        {% else %}
+        <p>{{ dataadd }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Update -->
+    {% parse_json paramsupdate %}
+    {
+        "freight_supplier_name": "[QA TEST] Controller Freight Co Updated",
+        "freight_methods": ["Standard Ground", "Express Air", "Overnight Priority", "Sea Freight"],
+        "freight_options": ["Insurance", "Signature on Delivery", "Saturday Delivery"]
+    }
+    {% endparse_json %}
+    {% function dataupdate = "ecommerce/controller/freight_supplier/update", uuid: dataadd.uuid, params: paramsupdate %}
+    <div class="data-container">
+        <p>Update</p>
+        {% if dataupdate.message or dataupdate.errors %}
+        <p class="error">{{ dataupdate }} | Freight Supplier UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ dataupdate }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Delete -->
+    {% function datadelete = "ecommerce/controller/freight_supplier/delete", uuid: dataadd.uuid %}
+    <div class="data-container">
+        <p>Delete</p>
+        {% if datadelete.message or datadelete.errors %}
+        <p class="error">{{ datadelete }} | Freight Supplier UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ datadelete }}</p>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
