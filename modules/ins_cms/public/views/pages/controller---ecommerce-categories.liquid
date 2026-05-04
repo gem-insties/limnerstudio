@@ -1,0 +1,153 @@
+---
+slug: controller---ecommerce-categories
+searchable: true
+metadata: {
+    is_visible_to_search_engines: "true",
+    page_name: "Controller - Ecommerce Categories",
+    page_title: "Controller - Ecommerce Categories",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller - Categories</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+        width: fit-content;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+
+    <!-- Get All -->
+    {% parse_json paramsgetall %}
+    {
+        "sort_by": "updated_at",
+        "sort_order": "DESC",
+        "size": 10,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function datagetall = "ecommerce/controller/category/list", params: paramsgetall %}
+    <div class="data-container">
+        <p>Get All</p>
+        {% if datagetall.message or datagetall.errors %}
+        <p class="error">{{ datagetall }}</p>
+        {% else %}
+        <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Get Single -->
+    {% function dataget = "ecommerce/controller/category/get", uuid: datagetall.results[0].uuid %}
+    <div class="data-container">
+        <p>Get Single</p>
+        {% if dataget.message or dataget.errors %}
+        <p class="error">{{ dataget }} | Category UUID: {{ datagetall.results[0].uuid }}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+        "category_name": "[QA TEST] Controller Category",
+        "category_slug": "qa-test-controller-category",
+        "category_title": "[QA TEST] Controller Category Title",
+        "category_heading": "[QA TEST] Controller Category Heading",
+        "short_description": "[QA TEST] Controller category short description",
+        "long_description": "[QA TEST] Controller category long description",
+        "meta_title": "[QA TEST] Controller Category Meta Title",
+        "meta_description": "[QA TEST] Controller category meta description",
+        "canonical_url": "https://example.com/qa-test-controller-category",
+        "is_visible_to_search_engines": true,
+        "open_graph_title": "[QA TEST] Controller Category OG",
+        "open_graph_description": "[QA TEST] OG description",
+        "open_graph_url": "https://example.com/qa-test-controller-category",
+        "open_graph_type": "product.group",
+        "open_graph_site_name": "QA Site",
+        "is_use_meta_title": false,
+        "is_use_meta_description": false,
+        "is_sitemap_enabled": true,
+        "sitemap_priority": "0.5",
+        "sitemap_order": 1,
+        "sitemap_change_frequency": "weekly",
+        "status": "published",
+        "category_weighting": 10
+    }
+    {% endparse_json %}
+    {% function dataadd = "ecommerce/controller/category/create", params: paramsadd %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if dataadd.message or dataadd.errors %}
+        <p class="error">{{ dataadd }}</p>
+        {% else %}
+        <p>{{ dataadd }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Update -->
+    {% parse_json paramsupdate %}
+    {
+        "category_name": "[QA TEST] Controller Category Updated",
+        "short_description": "[QA TEST] Controller category short description updated",
+        "meta_title": "[QA TEST] Controller Category Meta Title Updated",
+        "status": "draft",
+        "category_weighting": 20
+    }
+    {% endparse_json %}
+    {% function dataupdate = "ecommerce/controller/category/update", uuid: dataadd.uuid, params: paramsupdate %}
+    <div class="data-container">
+        <p>Update</p>
+        {% if dataupdate.message or dataupdate.errors %}
+        <p class="error">{{ dataupdate }} | Category UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ dataupdate }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Delete -->
+    {% function datadelete = "ecommerce/controller/category/delete", uuid: dataadd.uuid %}
+    <div class="data-container">
+        <p>Delete</p>
+        {% if datadelete.message or datadelete.errors %}
+        <p class="error">{{ datadelete }} | Category UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ datadelete }}</p>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
