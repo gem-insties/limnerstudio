@@ -1,0 +1,168 @@
+---
+slug: controller---ecommerce-order-items
+searchable: true
+metadata: {
+    is_visible_to_search_engines: "true",
+    page_name: "Controller - Ecommerce Order Items",
+    page_title: "Controller - Ecommerce Order Items",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller - Order Items</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+        width: fit-content;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+
+    <!-- Get All Orders (silent — for order.uuid) -->
+    {% parse_json paramsorderslist %}
+    {
+        "sort_by": "updated_at",
+        "sort_order": "DESC",
+        "size": 1,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function dataorders = "ecommerce/controller/order/list", params: paramsorderslist %}
+
+    <!-- Get All Products (silent — for product.uuid) -->
+    {% parse_json paramsproductslist %}
+    {
+        "sort_by": "updated_at",
+        "sort_order": "DESC",
+        "size": 1,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function dataproducts = "ecommerce/controller/product/list", params: paramsproductslist %}
+
+    <!-- Get All -->
+    {% parse_json paramsgetall %}
+    {
+        "sort_by": "updated_at",
+        "sort_order": "DESC",
+        "size": 10,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function datagetall = "ecommerce/controller/order_items/list", params: paramsgetall %}
+    <div class="data-container">
+        <p>Get All</p>
+        {% if datagetall.message or datagetall.errors %}
+        <p class="error">{{ datagetall }}</p>
+        {% else %}
+        <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Get Single -->
+    {% function dataget = "ecommerce/controller/order_items/get", uuid: datagetall.results[0].uuid %}
+    <div class="data-container">
+        <p>Get Single</p>
+        {% if dataget.message or dataget.errors %}
+        <p class="error">{{ dataget }} | Order Item UUID: {{ datagetall.results[0].uuid }}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+        "order.uuid": "{{ dataorders.results[0].uuid }}",
+        "product.uuid": "{{ dataproducts.results[0].uuid }}",
+        "order_item_name": "[QA TEST] Controller Order Item",
+        "sku": "QA-CTRL-OI-001",
+        "quantity": 2,
+        "unit_price": 35.0,
+        "unit_price_includes_tax": false,
+        "item_tax": 3.5,
+        "tax_amount": 7.0,
+        "line_item_total": 70.0,
+        "line_item_tax": 7.0,
+        "item_price": 35.0,
+        "is_fixed_tax_amount": false
+    }
+    {% endparse_json %}
+    {% function dataadd = "ecommerce/controller/order_items/create", params: paramsadd %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if dataadd.message or dataadd.errors %}
+        <p class="error">{{ dataadd }}</p>
+        {% else %}
+        <p>{{ dataadd }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Update -->
+    {% parse_json paramsupdate %}
+    {
+        "order_item_name": "[QA TEST] Controller Order Item Updated",
+        "quantity": 3,
+        "unit_price": 32.5,
+        "item_price": 32.5,
+        "tax_amount": 9.75,
+        "item_tax": 3.25,
+        "line_item_total": 97.5,
+        "line_item_tax": 9.75
+    }
+    {% endparse_json %}
+    {% function dataupdate = "ecommerce/controller/order_items/update", uuid: dataadd.uuid, params: paramsupdate %}
+    <div class="data-container">
+        <p>Update</p>
+        {% if dataupdate.message or dataupdate.errors %}
+        <p class="error">{{ dataupdate }} | Order Item UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ dataupdate }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Delete -->
+    {% function datadelete = "ecommerce/controller/order_items/delete", uuid: dataadd.uuid %}
+    <div class="data-container">
+        <p>Delete</p>
+        {% if datadelete.message or datadelete.errors %}
+        <p class="error">{{ datadelete }} | Order Item UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ datadelete }}</p>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
