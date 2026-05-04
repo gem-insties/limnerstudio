@@ -1,0 +1,151 @@
+---
+slug: controller---ecommerce-cart-items
+searchable: true
+metadata: {
+    is_visible_to_search_engines: "true",
+    page_name: "Controller - Ecommerce Cart Items",
+    page_title: "Controller - Ecommerce Cart Items",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller - Cart Items</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+        width: fit-content;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+
+    <!-- Get All Carts (silent — for cart_uuid) -->
+    {% parse_json paramscartslist %}
+    {
+        "sort_by": "updated_at",
+        "sort_order": "DESC",
+        "size": 1,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function datacarts = "ecommerce/controller/cart/list", params: paramscartslist %}
+
+    <!-- Get All Products (silent — for product_uuid) -->
+    {% parse_json paramsproductslist %}
+    {
+        "sort_by": "updated_at",
+        "sort_order": "DESC",
+        "size": 1,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function dataproducts = "ecommerce/controller/product/list", params: paramsproductslist %}
+
+    <!-- Get All -->
+    {% parse_json paramsgetall %}
+    {
+        "cart_uuid": "{{ datacarts.results[0].uuid }}",
+        "page": 1,
+        "size": 10
+    }
+    {% endparse_json %}
+    {% function datagetall = "ecommerce/controller/cart_items/list", params: paramsgetall %}
+    <div class="data-container">
+        <p>Get All</p>
+        {% if datagetall.message or datagetall.errors %}
+        <p class="error">{{ datagetall }} | Cart UUID: {{ datacarts.results[0].uuid }}</p>
+        {% else %}
+        <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Get Single -->
+    {% function dataget = "ecommerce/controller/cart_items/get", uuid: datagetall.results[0].uuid %}
+    <div class="data-container">
+        <p>Get Single</p>
+        {% if dataget.message or dataget.errors %}
+        <p class="error">{{ dataget }} | Cart Item UUID: {{ datagetall.results[0].uuid }}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+        "cart_uuid": "{{ datacarts.results[0].uuid }}",
+        "product_uuid": "{{ dataproducts.results[0].uuid }}",
+        "quantity": 2
+    }
+    {% endparse_json %}
+    {% function dataadd = "ecommerce/controller/cart_items/create", params: paramsadd %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if dataadd.message or dataadd.errors %}
+        <p class="error">{{ dataadd }}</p>
+        {% else %}
+        <p>{{ dataadd }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Update -->
+    {% parse_json paramsupdate %}
+    {
+        "quantity": 5,
+        "product_uuid": "{{ dataproducts.results[0].uuid }}"
+    }
+    {% endparse_json %}
+    {% function dataupdate = "ecommerce/controller/cart_items/update", uuid: dataadd.uuid, params: paramsupdate %}
+    <div class="data-container">
+        <p>Update</p>
+        {% if dataupdate.message or dataupdate.errors %}
+        <p class="error">{{ dataupdate }} | Cart Item UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ dataupdate }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Delete -->
+    {% function datadelete = "ecommerce/controller/cart_items/delete", uuid: dataadd.uuid %}
+    <div class="data-container">
+        <p>Delete</p>
+        {% if datadelete.message or datadelete.errors %}
+        <p class="error">{{ datadelete }} | Cart Item UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ datadelete }}</p>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
