@@ -1,0 +1,67 @@
+---
+slug: controller-testing
+searchable: true
+metadata: {
+    is_visible_to_search_engines: "true",
+    page_name: "Controller Testing",
+    page_title: "Controller Testing",
+}
+--- 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller - Opportunities</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+        width: fit-content;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+
+
+    <!-- Get Single -->
+    {% function dataget1 = "pipeline/controller/opportunities/get", uuid: b1856d9a-754f-4ee1-8d85-586da28ccbbc %}
+    <div class="data-container">
+        <p>Get Single</p>
+        {% if dataget1.message or dataget.errors %}
+        <p class="error">{{ dataget1 }} | Opportunity UUID: {{ datagetall.results[0].uuid }}</p>
+        {% else %}
+        <p>{{ dataget1 }}</p>
+        {% endif %}
+    </div>
+
+
+</body>
+
+</html>
