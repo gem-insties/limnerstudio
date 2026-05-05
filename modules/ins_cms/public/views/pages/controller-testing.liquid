@@ -1,10 +1,14 @@
 ---
 slug: controller-testing
 searchable: true
+max_deep_level: 3
+authorization_policies:
 metadata: {
-    is_visible_to_search_engines: "true",
     page_name: "Controller Testing",
+    created_by: "QA Insites",
     page_title: "Controller Testing",
+    last_updated_by: "QA Insites",
+    is_visible_to_search_engines: "true",
 }
 --- 
 
@@ -51,7 +55,7 @@ metadata: {
 
 
     <!-- Get Single -->
-    {% function dataget1 = "pipeline/controller/opportunities/get", uuid: b1856d9a-754f-4ee1-8d85-586da28ccbbc %}
+    {% function dataget1 = "pipeline/controller/opportunities/get", uuid: "b1856d9a-754f-4ee1-8d85-586da28ccbbc" %}
     <div class="data-container">
         <p>Get Single</p>
         {% if dataget1.message or dataget.errors %}
