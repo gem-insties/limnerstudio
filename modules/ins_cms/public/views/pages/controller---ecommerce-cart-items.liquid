@@ -79,6 +79,8 @@ metadata: {
     {% parse_json paramsgetall %}
     {
         "cart_uuid": "{{ datacarts.results[0].uuid }}",
+  		"sort_by": "updated_at",
+        "sort_order": "DESC",
         "page": 1,
         "size": 2
     }
