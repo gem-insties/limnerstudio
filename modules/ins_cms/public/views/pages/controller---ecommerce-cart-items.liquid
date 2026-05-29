@@ -7,7 +7,7 @@ metadata: {
     page_name: "Controller - Ecommerce Cart Items",
     created_by: "Gem Villafuerte",
     page_title: "Controller - Ecommerce Cart Items",
-    last_updated_by: "Gem Villafuerte",
+    last_updated_by: "QA Insites",
     is_visible_to_search_engines: "true",
 }
 --- 
@@ -129,7 +129,7 @@ metadata: {
         "product_uuid": "{{ dataproducts.results[0].uuid }}"
     }
     {% endparse_json %}
-    {% function dataupdate = "ecommerce/controller/cart_items/update", uuid: dataadd.uuid, params: paramsupdate %}
+    {% function dataupdate = "ecommerce/controller/cart_items/update", uuid: "dataadd.uuid", params: paramsupdate %}
     <div class="data-container">
         <p>Update</p>
         {% if dataupdate.message or dataupdate.errors %}
@@ -140,7 +140,7 @@ metadata: {
     </div>
 
     <!-- Delete -->
-    {% function datadelete = "ecommerce/controller/cart_items/delete", uuid: dataadd.uuid %}
+    {% function datadelete = "ecommerce/controller/cart_items/delete", uuid: "dataadd.uuid" %}
     <div class="data-container">
         <p>Delete</p>
         {% if datadelete.message or datadelete.errors %}
