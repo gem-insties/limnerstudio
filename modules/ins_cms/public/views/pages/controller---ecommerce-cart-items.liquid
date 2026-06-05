@@ -79,13 +79,11 @@ metadata: {
     {% parse_json paramsgetall %}
     {
         "cart_uuid": "{{ datacarts.results[0].uuid }}",
-  		"sort_by": "updated_at",
-        "sort_order": "DESC",
         "page": 1,
-        "size": 2
+        "size": 10
     }
     {% endparse_json %}
-    {% function datagetall = "ecommerce/controller/cart_items/list1", params: paramsgetall %}
+    {% function datagetall = "ecommerce/controller/cart_items/list", params: paramsgetall %}
     <div class="data-container">
         <p>Get All</p>
         {% if datagetall.message or datagetall.errors %}
@@ -151,6 +149,40 @@ metadata: {
         <p>{{ datadelete }}</p>
         {% endif %}
     </div>
+
+    <!-- Add Multiple (bulk) -->
+    <!-- NOTE: controller is on the temporary name "add_bulk1" (per the live doc's Example Controller Request). -->
+    <!-- Change to "ecommerce/controller/cart_items/add_bulk" once the controller is reverted. -->
+    {% parse_json paramsaddbulk %}
+    [
+        {
+            "cart_uuid": "{{ datacarts.results[0].uuid }}",
+            "product_uuid": "{{ dataproducts.results[0].uuid }}",
+            "quantity": 2
+        },
+        {
+            "cart_uuid": "{{ datacarts.results[0].uuid }}",
+            "product_uuid": "{{ dataproducts.results[0].uuid }}",
+            "quantity": 3
+        }
+    ]
+    {% endparse_json %}
+    {% function dataaddbulk = "ecommerce/controller/cart_items/add_bulk1", params: paramsaddbulk %}
+    <div class="data-container">
+        <p>Add Multiple (bulk)</p>
+        {% if dataaddbulk.message or dataaddbulk.errors %}
+        <p class="error">{{ dataaddbulk }}</p>
+        {% else %}
+        <p>{{ dataaddbulk }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Cleanup bulk-created items (so repeated page loads don't accumulate records) -->
+    {% for item in dataaddbulk %}
+    {% if item.uuid %}
+    {% function datadeletebulk = "ecommerce/controller/cart_items/delete", uuid: item.uuid %}
+    {% endif %}
+    {% endfor %}
 
 </body>
 
