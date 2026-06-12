@@ -151,6 +151,8 @@ metadata: {
     </div>
 
     <!-- Add Multiple (bulk) -->
+    <!-- NOTE: controller is on the temporary name "add_bulk1" (per the live doc's Example Controller Request). -->
+    <!-- Change to "ecommerce/controller/cart_items/add_bulk" once the controller is reverted. -->
     {% parse_json paramsaddbulk %}
     [
         {
@@ -165,7 +167,7 @@ metadata: {
         }
     ]
     {% endparse_json %}
-    {% function dataaddbulk = "ecommerce/controller/cart_items/add_bulk", params: paramsaddbulk %}
+    {% function dataaddbulk = "ecommerce/controller/cart_items/add_bulk1", params: paramsaddbulk %}
     <div class="data-container">
         <p>Add Multiple (bulk)</p>
         {% if dataaddbulk.message or dataaddbulk.errors %}
