@@ -126,6 +126,7 @@ metadata: {
     {% parse_json paramsupdate %}
     {
         "quantity": 5,
+  		"cart_uuid": "{{ datacarts.results[0].uuid }}",
         "product_uuid": "{{ dataproducts.results[0].uuid }}"
     }
     {% endparse_json %}
