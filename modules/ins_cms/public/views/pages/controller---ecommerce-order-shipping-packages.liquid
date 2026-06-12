@@ -1,10 +1,14 @@
 ---
 slug: controller---ecommerce-order-shipping-packages
 searchable: true
+max_deep_level: 3
+authorization_policies:
 metadata: {
-    is_visible_to_search_engines: "true",
     page_name: "Controller - Ecommerce Order Shipping Packages",
+    created_by: "Gem Villafuerte",
     page_title: "Controller - Ecommerce Order Shipping Packages",
+    last_updated_by: "Gem Villafuerte",
+    is_visible_to_search_engines: "true",
 }
 --- 
 
@@ -106,7 +110,7 @@ metadata: {
     {
         "order.uuid": "{{ dataorders.results[0].uuid }}",
         "shipping_package_name": "[QA TEST] Controller Package 1",
-        "shipping_package_status": "ready_for_dispatch",
+        "shipping_package_status": "in_transit",
         "shipping_items_uuids": [],
         "shipping_package_fee": 5.0,
         "freight_supplier.uuid": "{{ datafreight.results[0].uuid }}",
