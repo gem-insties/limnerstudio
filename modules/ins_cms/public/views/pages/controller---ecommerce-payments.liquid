@@ -7,7 +7,7 @@ metadata: {
     page_name: "Controller - Ecommerce Payments",
     created_by: "Gem Villafuerte",
     page_title: "Controller - Ecommerce Payments",
-    last_updated_by: "Gem Villafuerte",
+    last_updated_by: "QA Insites",
     is_visible_to_search_engines: "true",
 }
 --- 
@@ -131,7 +131,7 @@ metadata: {
         "notes": "[QA TEST] Controller payment notes updated - refund processed"
     }
     {% endparse_json %}
-    {% function dataupdate = "ecommerce/controller/payment/update", uuid: dataadd.uuid, params: paramsupdate %}
+    {% function dataupdate = "ecommerce/controller/payment/update1", uuid: dataadd.uuid, params: paramsupdate %}
     <div class="data-container">
         <p>Update</p>
         {% if dataupdate.message or dataupdate.errors %}
