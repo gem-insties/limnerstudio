@@ -1,10 +1,14 @@
 ---
 slug: controller---ecommerce-payments
 searchable: true
+max_deep_level: 3
+authorization_policies:
 metadata: {
-    is_visible_to_search_engines: "true",
     page_name: "Controller - Ecommerce Payments",
+    created_by: "Gem Villafuerte",
     page_title: "Controller - Ecommerce Payments",
+    last_updated_by: "Gem Villafuerte",
+    is_visible_to_search_engines: "true",
 }
 --- 
 
@@ -94,8 +98,8 @@ metadata: {
     {% parse_json paramsadd %}
     {
         "order.uuid": "{{ dataorders.results[0].uuid }}",
-        "source": "manual",
-        "status": "Paid",
+        "source": "credit_card",
+        "status": "paid",
         "amount": 275.0,
         "notes": "[QA TEST] Controller payment notes",
         "date_time": "2026-04-27T10:00:00Z",
@@ -122,7 +126,7 @@ metadata: {
     <!-- Update -->
     {% parse_json paramsupdate %}
     {
-        "status": "Refunded",
+        "status": "refunded",
         "amount": -275.0,
         "notes": "[QA TEST] Controller payment notes updated - refund processed"
     }
