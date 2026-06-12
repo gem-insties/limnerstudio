@@ -1,10 +1,14 @@
 ---
 slug: controller---ecommerce-quotes
 searchable: true
+max_deep_level: 3
+authorization_policies:
 metadata: {
-    is_visible_to_search_engines: "true",
     page_name: "Controller - Ecommerce Quotes",
+    created_by: "Gem Villafuerte",
     page_title: "Controller - Ecommerce Quotes",
+    last_updated_by: "Gem Villafuerte",
+    is_visible_to_search_engines: "true",
 }
 --- 
 
@@ -97,7 +101,7 @@ metadata: {
         "quote_reference": "[QA TEST] ClientPO-CTRL-001",
         "quote_date": "2026-04-27",
         "quote_date_time": "2026-04-27T09:30:00Z",
-        "quote_status": "Draft",
+        "quote_status": "open",
         "currency": "USD",
         "is_scheduled": false,
         "is_recurring": false,
@@ -132,7 +136,7 @@ metadata: {
     <!-- Update -->
     {% parse_json paramsupdate %}
     {
-        "quote_status": "Sent",
+        "quote_status": "open",
         "quote_total": 1775.83,
         "total_discount_amount": 25.0,
         "notes": "[QA TEST] Controller quote notes updated"
