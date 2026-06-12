@@ -50,30 +50,18 @@ metadata: {
         border-radius: 4px;
     }
 </style>
-
 <body>
-
-    <!-- Get All Orders (silent — for order.uuid) -->
-    {% parse_json paramsorderslist %}
-    {
-        "sort_by": "updated_at",
-        "sort_order": "DESC",
-        "size": 1,
-        "page": 1
-    }
-    {% endparse_json %}
-    {% function dataorders = "ecommerce/controller/order/list", params: paramsorderslist %}
 
     <!-- Get All -->
     {% parse_json paramsgetall %}
     {
-        "sort_by": "date_time",
+        "sort_by": "updated_at",
         "sort_order": "DESC",
         "size": 10,
         "page": 1
     }
     {% endparse_json %}
-    {% function datagetall = "ecommerce/controller/payment/list", params: paramsgetall %}
+    {% function datagetall = "ecommerce/controller/cart/list", params: paramsgetall %}
     <div class="data-container">
         <p>Get All</p>
         {% if datagetall.message or datagetall.errors %}
@@ -84,11 +72,11 @@ metadata: {
     </div>
 
     <!-- Get Single -->
-    {% function dataget = "ecommerce/controller/payment/get", uuid: datagetall.results[0].uuid %}
+    {% function dataget = "ecommerce/controller/cart/get", uuid: datagetall.results[0].uuid %}
     <div class="data-container">
         <p>Get Single</p>
         {% if dataget.message or dataget.errors %}
-        <p class="error">{{ dataget }} | Payment UUID: {{ datagetall.results[0].uuid }}</p>
+        <p class="error">{{ dataget }} | Cart UUID: {{ datagetall.results[0].uuid }}</p>
         {% else %}
         <p>{{ dataget }}</p>
         {% endif %}
@@ -97,23 +85,10 @@ metadata: {
     <!-- Add -->
     {% parse_json paramsadd %}
     {
-        "order.uuid": "{{ dataorders.results[0].uuid }}",
-        "source": "credit_card",
-        "status": "paid",
-        "amount": 275.0,
-        "notes": "[QA TEST] Controller payment notes",
-        "date_time": "2026-04-27T10:00:00Z",
-        "payment_gateway_name": "[QA TEST] Manual Gateway",
-        "payment_gateway_details": "{\"reference\":\"QA-CTRL-PAY-001\"}",
-        "card_last_four_digits": "4242",
-        "card_brand": "Visa",
-        "card_expiry_month": "12",
-        "card_expiry_year": "2028",
-        "currency": "USD",
-        "payment_method_name": "[QA TEST] Credit Card"
+        "session_id": "[QA TEST] qa-controller-session-001"
     }
     {% endparse_json %}
-    {% function dataadd = "ecommerce/controller/payment/create", params: paramsadd %}
+    {% function dataadd = "ecommerce/controller/cart/create", params: paramsadd %}
     <div class="data-container">
         <p>Add</p>
         {% if dataadd.message or dataadd.errors %}
@@ -126,27 +101,25 @@ metadata: {
     <!-- Update -->
     {% parse_json paramsupdate %}
     {
-        "status": "refunded",
-        "amount": -275.0,
-        "notes": "[QA TEST] Controller payment notes updated - refund processed"
+        "session_id": "[QA TEST] qa-controller-session-001-updated"
     }
     {% endparse_json %}
-    {% function dataupdate = "ecommerce/controller/payment/update", uuid: dataadd.uuid, params: paramsupdate %}
+    {% function dataupdate = "ecommerce/controller/cart/update", uuid: dataadd.uuid, params: paramsupdate %}
     <div class="data-container">
         <p>Update</p>
         {% if dataupdate.message or dataupdate.errors %}
-        <p class="error">{{ dataupdate }} | Payment UUID: {{ dataadd.uuid }}</p>
+        <p class="error">{{ dataupdate }} | Cart UUID: {{ dataadd.uuid }}</p>
         {% else %}
         <p>{{ dataupdate }}</p>
         {% endif %}
     </div>
 
     <!-- Delete -->
-    {% function datadelete = "ecommerce/controller/payment/delete", uuid: dataadd.uuid %}
+    {% function datadelete = "ecommerce/controller/cart/delete", uuid: dataadd.uuid %}
     <div class="data-container">
         <p>Delete</p>
         {% if datadelete.message or datadelete.errors %}
-        <p class="error">{{ datadelete }} | Payment UUID: {{ dataadd.uuid }}</p>
+        <p class="error">{{ datadelete }} | Cart UUID: {{ dataadd.uuid }}</p>
         {% else %}
         <p>{{ datadelete }}</p>
         {% endif %}
