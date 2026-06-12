@@ -1,10 +1,14 @@
 ---
 slug: controller---ecommerce-quote-shipping-package
 searchable: true
+max_deep_level: 3
+authorization_policies:
 metadata: {
-    is_visible_to_search_engines: "true",
     page_name: "Controller - Ecommerce Quote Shipping Package",
+    created_by: "Gem Villafuerte",
     page_title: "Controller - Ecommerce Quote Shipping Package",
+    last_updated_by: "Gem Villafuerte",
+    is_visible_to_search_engines: "true",
 }
 --- 
 
@@ -106,7 +110,7 @@ metadata: {
     {
         "quote.uuid": "{{ dataquotes.results[0].uuid }}",
         "shipping_package_name": "[QA TEST] Controller Quote Shipment",
-        "shipping_package_status": "pending_fulfillment",
+        "shipping_package_status": "processing",
         "shipping_items_uuids": [],
         "shipping_package_fee": 15.0,
         "freight_supplier.uuid": "{{ datafreight.results[0].uuid }}",
@@ -129,7 +133,7 @@ metadata: {
     <!-- Update -->
     {% parse_json paramsupdate %}
     {
-        "shipping_package_status": "shipped",
+        "shipping_package_status": "delivered",
         "shipping_package_dispatch_date": "2026-04-27T09:00:00Z",
         "freight_tracking_code": "[QA TEST] QA-QSP-001-UPD",
         "freight_supplier_name": "[QA TEST] Controller Freight Co Updated"
