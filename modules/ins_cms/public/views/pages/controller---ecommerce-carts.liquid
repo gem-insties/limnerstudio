@@ -82,8 +82,24 @@ metadata: {
         <p>{{ dataget }}</p>
         {% endif %}
     </div>
-  
-  <!-- Update -->
+
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+        "session_id": "[QA TEST] qa-controller-session-001"
+    }
+    {% endparse_json %}
+    {% function dataadd = "ecommerce/controller/cart/create", params: paramsadd %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if dataadd.message or dataadd.errors %}
+        <p class="error">{{ dataadd }}</p>
+        {% else %}
+        <p>{{ dataadd }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Update -->
     {% parse_json paramsupdate %}
     {
         "session_id": "[QA TEST] qa-controller-session-001-updated"
