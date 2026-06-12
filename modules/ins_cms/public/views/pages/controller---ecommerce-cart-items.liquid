@@ -83,9 +83,7 @@ metadata: {
         "size": 10
     }
     {% endparse_json %}
-    <!-- NOTE: controller is on the temporary name "list1" (the API + this page route through it; -->
-    <!-- the legacy "list" returns the wrapped { items: {...} } shape). Revert to "list" when TW#26290112 lands. -->
-    {% function datagetall = "ecommerce/controller/cart_items/list1", params: paramsgetall %}
+    {% function datagetall = "ecommerce/controller/cart_items/list", params: paramsgetall %}
     <div class="data-container">
         <p>Get All</p>
         {% if datagetall.message or datagetall.errors %}
@@ -178,26 +176,24 @@ metadata: {
         <p>{{ datadelete }}</p>
         {% endif %}
     </div>
-    {% function datadelete1 = "ecommerce/controller/cart_items/delete", uuid: dataaddbulk.results[0].uuid %}
+    {% function datadelete1 = "ecommerce/controller/cart_items/delete", uuid: dataaddbulk[0].uuid %}
     <div class="data-container">
-        <p>Delete</p>
+        <p>Delete Bulk 1</p>
         {% if datadelete1.message or datadelete1.errors %}
-        <p class="error">{{ datadelete1 }} | Cart Item UUID: {{ dataaddbulk.results[0].uuid }}</p>
+        <p class="error">{{ datadelete1 }} | Cart Item UUID: {{ dataaddbulk[0].uuid }}</p>
         {% else %}
         <p>{{ datadelete1 }}</p>
         {% endif %}
     </div>
-    {% function datadelete2 = "ecommerce/controller/cart_items/delete", uuid: dataaddbulk.results[1].uuid %}
+    {% function datadelete2 = "ecommerce/controller/cart_items/delete", uuid: dataaddbulk[1].uuid %}
     <div class="data-container">
-        <p>Delete</p>
+        <p>Delete Bulk 2</p>
         {% if datadelete2.message or datadelete2.errors %}
-        <p class="error">{{ datadelete2 }} | Cart Item UUID: {{ dataaddbulk.results[1].uuid }}</p>
+        <p class="error">{{ datadelete2 }} | Cart Item UUID: {{ dataaddbulk[1].uuid }}</p>
         {% else %}
         <p>{{ datadelete2 }}</p>
         {% endif %}
     </div>
-
-    
 
 </body>
 
