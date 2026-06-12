@@ -7,7 +7,7 @@ metadata: {
     page_name: "Controller - Ecommerce Cart Items",
     created_by: "Gem Villafuerte",
     page_title: "Controller - Ecommerce Cart Items",
-    last_updated_by: "QA Insites",
+    last_updated_by: "Gem Villafuerte",
     is_visible_to_search_engines: "true",
 }
 --- 
@@ -83,9 +83,7 @@ metadata: {
         "size": 10
     }
     {% endparse_json %}
-    <!-- NOTE: controller is on the temporary name "list1" (the API + this page route through it; -->
-    <!-- the legacy "list" returns the wrapped { items: {...} } shape). Revert to "list" when TW#26290112 lands. -->
-    {% function datagetall = "ecommerce/controller/cart_items/list1", params: paramsgetall %}
+    {% function datagetall = "ecommerce/controller/cart_items/list", params: paramsgetall %}
     <div class="data-container">
         <p>Get All</p>
         {% if datagetall.message or datagetall.errors %}
@@ -153,8 +151,6 @@ metadata: {
     </div>
 
     <!-- Add Multiple (bulk) -->
-    <!-- NOTE: controller is on the temporary name "add_bulk1" (per the live doc's Example Controller Request). -->
-    <!-- Change to "ecommerce/controller/cart_items/add_bulk" once the controller is reverted. -->
     {% parse_json paramsaddbulk %}
     [
         {
@@ -169,7 +165,7 @@ metadata: {
         }
     ]
     {% endparse_json %}
-    {% function dataaddbulk = "ecommerce/controller/cart_items/add_bulk1", params: paramsaddbulk %}
+    {% function dataaddbulk = "ecommerce/controller/cart_items/add_bulk", params: paramsaddbulk %}
     <div class="data-container">
         <p>Add Multiple (bulk)</p>
         {% if dataaddbulk.message or dataaddbulk.errors %}
