@@ -115,17 +115,6 @@ metadata: {
         {% endif %}
     </div>
 
-    <!-- Delete -->
-    {% function datadelete = "ecommerce/controller/cart/delete", uuid: dataadd.uuid %}
-    <div class="data-container">
-        <p>Delete</p>
-        {% if datadelete.message or datadelete.errors %}
-        <p class="error">{{ datadelete }} | Cart UUID: {{ dataadd.uuid }}</p>
-        {% else %}
-        <p>{{ datadelete }}</p>
-        {% endif %}
-    </div>
-
 </body>
 
 </html>
