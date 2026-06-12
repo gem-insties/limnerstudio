@@ -2,11 +2,130 @@
 slug: controller---ecommerce-carts
 searchable: true
 max_deep_level: 3
+authorization_policies:
 metadata: {
-    is_visible_to_search_engines: "true",
     page_name: "Controller - Ecommerce Carts",
+    created_by: "Steve Suyam",
     page_title: "Controller - Ecommerce Carts",
+    last_updated_by: "Steve Suyam",
+    is_visible_to_search_engines: "true",
 }
 --- 
 
-<p>Controller - Carts<br>    <br><br><br><br><br><br><br>    <br>    {% parse_json paramsgetall %}<br>    {<br>        "sort_by": "updated_at",<br>        "sort_order": "DESC",<br>        "size": 10,<br>        "page": 1<br>    }<br>    {% endparse_json %}<br>    {% function datagetall = "ecommerce/controller/cart/list", params: paramsgetall %}<br>    <br>        Get All<br><br><br>        {% if datagetall.message or datagetall.errors %}<br>        {{ datagetall }}<br><br><br>        {% else %}<br>        {{ datagetall }}<br><br><br>        {% endif %}<br>    <br><br><br>    <br>    {% function dataget = "ecommerce/controller/cart/get", uuid: datagetall.results[0].uuid %}<br>    <br>        Get Single<br><br><br>        {% if dataget.message or dataget.errors %}<br>        {{ dataget }} | Cart UUID: {{ datagetall.results[0].uuid }}<br><br><br>        {% else %}<br>        {{ dataget }}<br><br><br>        {% endif %}<br>    <br><br><br>    <br>    {% parse_json paramsadd %}<br>    {<br>        "session_id": "[QA TEST] qa-controller-session-001"<br>    }<br>    {% endparse_json %}<br>    {% function dataadd = "ecommerce/controller/cart/create", params: paramsadd %}<br>    <br>        Add<br><br><br>        {% if dataadd.message or dataadd.errors %}<br>        {{ dataadd }}<br><br><br>        {% else %}<br>        {{ dataadd }}<br><br><br>        {% endif %}<br>    <br><br><br>    <br>    {% parse_json paramsupdate %}<br>    {<br>        "session_id": "[QA TEST] qa-controller-session-001-updated"<br>    }<br>    {% endparse_json %}<br>    {% function dataupdate = "ecommerce/controller/cart/update", uuid: dataadd.uuid, params: paramsupdate %}<br>    <br>        Update<br><br><br>        {% if dataupdate.message or dataupdate.errors %}<br>        {{ dataupdate }} | Cart UUID: {{ dataadd.uuid }}<br><br><br>        {% else %}<br>        {{ dataupdate }}<br><br><br>        {% endif %}<br>    <br><br><br>    <br>    {% function datadelete = "ecommerce/controller/cart/delete", uuid: dataadd.uuid %}<br>    <br>        Delete<br><br><br>        {% if datadelete.message or datadelete.errors %}<br>        {{ datadelete }} | Cart UUID: {{ dataadd.uuid }}<br><br><br>        {% else %}<br>        {{ datadelete }}<br><br><br>        {% endif %}</p>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller - Carts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    .data-container {
+        padding: 24px;
+    }
+
+    .data-container+.data-container {
+        margin-top: 24px;
+    }
+
+    .data-container p {
+        font-weight: 600;
+        margin-bottom: 8px;
+        width: fit-content;
+    }
+
+    .data-container p~p {
+        font-weight: 400;
+        max-width: 100%;
+        margin-bottom: 0px;
+    }
+
+    p.error {
+        background-color: rgba(247, 104, 104, 0.134);
+        color: red;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+
+    <!-- Get All -->
+    {% parse_json paramsgetall %}
+    {
+        "sort_by": "updated_at",
+        "sort_order": "DESC",
+        "size": 10,
+        "page": 1
+    }
+    {% endparse_json %}
+    {% function datagetall = "ecommerce/controller/cart/list", params: paramsgetall %}
+    <div class="data-container">
+        <p>Get All</p>
+        {% if datagetall.message or datagetall.errors %}
+        <p class="error">{{ datagetall }}</p>
+        {% else %}
+        <p>{{ datagetall }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Get Single -->
+    {% function dataget = "ecommerce/controller/cart/get", uuid: datagetall.results[0].uuid %}
+    <div class="data-container">
+        <p>Get Single</p>
+        {% if dataget.message or dataget.errors %}
+        <p class="error">{{ dataget }} | Cart UUID: {{ datagetall.results[0].uuid }}</p>
+        {% else %}
+        <p>{{ dataget }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Add -->
+    {% parse_json paramsadd %}
+    {
+        "session_id": "[QA TEST] qa-controller-session-001"
+    }
+    {% endparse_json %}
+    {% function dataadd = "ecommerce/controller/cart/create", params: paramsadd %}
+    <div class="data-container">
+        <p>Add</p>
+        {% if dataadd.message or dataadd.errors %}
+        <p class="error">{{ dataadd }}</p>
+        {% else %}
+        <p>{{ dataadd }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Update -->
+    {% parse_json paramsupdate %}
+    {
+        "session_id": "[QA TEST] qa-controller-session-001-updated"
+    }
+    {% endparse_json %}
+    {% function dataupdate = "ecommerce/controller/cart/update", uuid: dataadd.uuid, params: paramsupdate %}
+    <div class="data-container">
+        <p>Update</p>
+        {% if dataupdate.message or dataupdate.errors %}
+        <p class="error">{{ dataupdate }} | Cart UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ dataupdate }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Delete -->
+    {% function datadelete = "ecommerce/controller/cart/delete", uuid: dataadd.uuid %}
+    <div class="data-container">
+        <p>Delete</p>
+        {% if datadelete.message or datadelete.errors %}
+        <p class="error">{{ datadelete }} | Cart UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ datadelete }}</p>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
