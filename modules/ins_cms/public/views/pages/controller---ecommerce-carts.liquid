@@ -82,6 +82,33 @@ metadata: {
         <p>{{ dataget }}</p>
         {% endif %}
     </div>
+  
+  <!-- Update -->
+    {% parse_json paramsupdate %}
+    {
+        "session_id": "[QA TEST] qa-controller-session-001-updated"
+    }
+    {% endparse_json %}
+    {% function dataupdate = "ecommerce/controller/cart/update", uuid: dataadd.uuid, params: paramsupdate %}
+    <div class="data-container">
+        <p>Update</p>
+        {% if dataupdate.message or dataupdate.errors %}
+        <p class="error">{{ dataupdate }} | Cart UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ dataupdate }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Delete -->
+    {% function datadelete = "ecommerce/controller/cart/delete", uuid: dataadd.uuid %}
+    <div class="data-container">
+        <p>Delete</p>
+        {% if datadelete.message or datadelete.errors %}
+        <p class="error">{{ datadelete }} | Cart UUID: {{ dataadd.uuid }}</p>
+        {% else %}
+        <p>{{ datadelete }}</p>
+        {% endif %}
+    </div>
 
 </body>
 
