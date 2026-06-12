@@ -99,22 +99,6 @@ metadata: {
         {% endif %}
     </div>
 
-    <!-- Update -->
-    {% parse_json paramsupdate %}
-    {
-        "session_id": "[QA TEST] qa-controller-session-001-updated"
-    }
-    {% endparse_json %}
-    {% function dataupdate = "ecommerce/controller/cart/update", uuid: dataadd.uuid, params: paramsupdate %}
-    <div class="data-container">
-        <p>Update</p>
-        {% if dataupdate.message or dataupdate.errors %}
-        <p class="error">{{ dataupdate }} | Cart UUID: {{ dataadd.uuid }}</p>
-        {% else %}
-        <p>{{ dataupdate }}</p>
-        {% endif %}
-    </div>
-
 </body>
 
 </html>
