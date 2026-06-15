@@ -87,7 +87,7 @@ metadata: {
     <div class="data-container">
         <p>Get All</p>
         {% if datagetall.message or datagetall.errors %}
-        <p class="error">{{ datagetall }} | Cart UUID: {{ datacarts.results[0].uuid }}</p>
+        <p class="error">{{ datagetall }} | Cart UUID: {{ datacarts.items.results[0].uuid }}</p>
         {% else %}
         <p>{{ datagetall }}</p>
         {% endif %}
