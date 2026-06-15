@@ -7,7 +7,7 @@ metadata: {
     page_name: "Controller - Ecommerce Cart Items",
     created_by: "Gem Villafuerte",
     page_title: "Controller - Ecommerce Cart Items",
-    last_updated_by: "Gem Villafuerte",
+    last_updated_by: "QA Insites",
     is_visible_to_search_engines: "true",
 }
 --- 
@@ -83,7 +83,7 @@ metadata: {
         "size": 10
     }
     {% endparse_json %}
-    {% function datagetall = "ecommerce/controller/cart_items/list1", params: paramsgetall %}
+    {% function datagetall = "ecommerce/controller/cart_items/list", params: paramsgetall %}
     <div class="data-container">
         <p>Get All</p>
         {% if datagetall.message or datagetall.errors %}
