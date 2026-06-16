@@ -94,11 +94,11 @@ metadata: {
     </div>
 
     <!-- Get Single -->
-    {% function dataget = "ecommerce/controller/cart_items/get", uuid: datagetall.items.results[0].uuid %}
+    {% function dataget = "ecommerce/controller/cart_items/get", uuid: datagetall.results[0].uuid %}
     <div class="data-container">
         <p>Get Single</p>
         {% if dataget.message or dataget.errors %}
-        <p class="error">{{ dataget }} | Cart Item UUID: {{ datagetall.items.results[0].uuid }}</p>
+        <p class="error">{{ dataget }} | Cart Item UUID: {{ datagetall.results[0].uuid }}</p>
         {% else %}
         <p>{{ dataget }}</p>
         {% endif %}
@@ -122,9 +122,6 @@ metadata: {
         {% endif %}
     </div>
 
-    <!-- Add Multiple (bulk) -->
-    <!-- NOTE: controller is on the temporary name "add_bulk1" (per the live doc's Example Controller Request). -->
-    <!-- Change to "ecommerce/controller/cart_items/add_bulk" once the controller is reverted. -->
     {% parse_json paramsaddbulk %}
     [
         {
@@ -139,7 +136,7 @@ metadata: {
         }
     ]
     {% endparse_json %}
-    {% function dataaddbulk = "ecommerce/controller/cart_items/add_bulk", params: paramsaddbulk %}
+    {% function dataaddbulk = "ecommerce/controller/cart_items/add_bulk1", params: paramsaddbulk %}
     <div class="data-container">
         <p>Add Multiple (bulk)</p>
         {% if dataaddbulk.message or dataaddbulk.errors %}
